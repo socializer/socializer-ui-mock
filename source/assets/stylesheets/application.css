@@ -2,3 +2,17 @@
 *= require_self
 *= require_tree .
 */
+
+body {
+  padding-top: 70px;
+}
+
+.toolbar {
+  top: 30px !important;
+}
+
+footer {
+  border-top: 1px solid #CCCCCC;
+  margin-top: 25px;
+  padding: 25px 0 26px;
+}
