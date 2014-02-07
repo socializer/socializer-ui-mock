@@ -9,7 +9,7 @@
     <!-- Use title if it's in the page YAML frontmatter -->
     <title>Home - Socializer</title>
 
-    <link href="./assets/stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/assets/stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
   </head>
 
   <body>
@@ -340,6 +340,23 @@
       </footer>
 
       <section class='media-comments'>
+        <p>
+          3 comments <span class='fa fa-angle-down'></span>
+        </p>
+
+        <div class='media'>
+          <a href='#' class='pull-left'>
+            <img alt='32x32' data-src='holder.js/32x32/acs' class='media-object'>
+          </a>
+          <div class='media-body'>
+            <h1 class='media-heading'>Media heading</h1>
+            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio,
+            vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
+            congue felis in faucibus.
+          </div>
+        </div>
+        <br>
+
         <div class='row'>
           <!-- Add a comment -->
           <form action=''>
@@ -595,7 +612,7 @@
 
 
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
-    <script src="./assets/javascripts/application.js" type="text/javascript"></script>
+    <script src="/assets/javascripts/application.js" type="text/javascript"></script>
     <script>
       Holder.add_theme('acs', { background: '#ccc', foreground: '#999', size: 12 })
       Holder.add_theme('dark', {background: '#000', foreground: '#aaa', size: 11, font: 'Monaco'})
