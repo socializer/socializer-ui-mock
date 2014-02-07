@@ -43,45 +43,7 @@ article footer p {
 }
 
 
-
-
-.activity,
-.media {
-  margin-top: 15px;
-}
-.activity:first-child,
-.media:first-child {
-    margin-top: 0px;
-}
-.activity-footer,
-.media-body-footer {
-  margin: 10px -15px 5px;
-  padding: 5px 15px 1px;
-  border-top: 1px solid #ccc;
-}
-.activity-attachment,
-.media-body-attachment {
-  border-top: 1px solid #ccc;
-  padding-top: 10px;
-}
-/*.activity-body {
-  padding: 2px 0;
-}*/
-.activity-body footer,
-.media-body footer {
-  margin: 10px -15px 5px;
-  padding: 5px 15px 1px;
-  border-top: 1px solid #ccc;
-}
-.activity-comments,
-.media-comments {
-  margin: 0 -15px;
-  padding: 9px;
-  background-color: #F1F1F1;
-  border-top: 1px solid #E5E5E5;
-  box-shadow: none;
-}
-
+/* consider using the panel styles and adding an arrow to that */
 .activity-arrow-left {
   border: 1px solid #ccc;
   padding: 0 15px 0;
@@ -106,14 +68,6 @@ article footer p {
 }
 
 
-
-.media,
-.media-body {
-  overflow: visible !important;
-}
-.media-body {
-  display: table-cell;
-}
 
 .navbar-avatar {
   margin-bottom: -3px;
