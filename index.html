@@ -1,0 +1,604 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+
+    <!-- Always force latest IE rendering engine or request Chrome Frame -->
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title>Home - Socializer</title>
+
+    <link href="/assets/stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <nav class='navbar navbar-default navbar-fixed-top' role='navigation'>
+      <div class='container'>
+        <div class='row'>
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class='navbar-header col-md-2'>
+            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='#bs-example-navbar-collapse-1'>
+              <span class='sr-only'>Toggle navigation</span>
+              <span class='icon-bar'></span>
+              <span class='icon-bar'></span>
+              <span class='icon-bar'></span>
+            </button>
+            <a class='navbar-brand' href='#'>Socializer</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
+            <div class='col-md-7'>
+              <form class='navbar-form' role='search' style='margin-left: -30px;'>
+                <div class='input-group col-md-8'>
+                  <input class='form-control' type='search' placeholder='Search'>
+                  <span class='input-group-btn'>
+                    <button class='btn btn-primary' type='submit'><span class='fa fa-search'></span></button>
+                  </span>
+                </div>
+              </form>
+
+              <!-- <form class='navbar-form' role='search' style='margin-left: -30px;'>
+                <div class='form-group'>
+                  <input type='text' class='form-control' placeholder='Search'>
+                </div>
+                <button type='submit' class='btn btn-primary'><span class='fa fa-search'></span></button>
+              </form> -->
+
+            </div>
+            <ul class='nav navbar-nav navbar-right'>
+              <li class='dropdown'>
+                <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
+                  <img class='navbar-avatar' alt='24x24' data-src='holder.js/24x24/acs'>
+                  Joe User
+                  <b class='fa fa-angle-down'></b>
+                </a>
+                <ul class='dropdown-menu'>
+                  <li><a href='#'>Action</a></li>
+                  <li><a href='#'>Another action</a></li>
+                  <li><a href='#'>Something else here</a></li>
+                  <li class='divider'></li>
+                  <li><a href='#'>Separated link</a></li>
+                </ul>
+              </li>
+              <li class='dropdown'>
+                <a href='#' class='dropdown-toggle' data-toggle='dropdown'><span style="font-size: 100%" class="label label-danger">3</span> <b class='fa fa-angle-down'></b></a>
+                <ul class='dropdown-menu'>
+                  <li><a href='#'>Action</a></li>
+                  <li><a href='#'>Another action</a></li>
+                  <li><a href='#'>Something else here</a></li>
+                  <li class='divider'></li>
+                  <li><a href='#'>Separated link</a></li>
+                </ul>
+              </li>
+              <li class='dropdown'>
+                <a href='#' class='dropdown-toggle' data-toggle='dropdown'><span class='fa fa-cog'></span> <b class='fa fa-angle-down'></b></a>
+                <ul class='dropdown-menu'>
+                  <li><a href='#'>Action</a></li>
+                  <li><a href='#'>Another action</a></li>
+                  <li><a href='#'>Something else here</a></li>
+                  <li class='divider'></li>
+                  <li><a href='#'>Separated link</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <!-- Create a topbar class and mixin navbar navbar-toolbar navbar-default navbar-fixed-top -->
+    <nav class='toolbar navbar navbar-toolbar navbar-default navbar-fixed-top' role='navigation'>
+      <div class='container'>
+        <div class='row'>
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class='navbar-header col-md-2'>
+            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.bs-example-toolbar-collapse-1'>
+              <span class='sr-only'>Toggle navigation</span>
+              <span class='icon-bar'></span>
+              <span class='icon-bar'></span>
+              <span class='icon-bar'></span>
+            </button>
+            <a href='#' class='navbar-brand'><span class='fa fa-home fa-fw'></span>Home</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class='collapse navbar-collapse bs-example-toolbar-collapse-1'>
+            <ul class='nav navbar-nav'>
+              <li class='active'><a href='#'>All</a></li>
+              <li><a href='#'>Friends</a></li>
+              <li><a href='#'>Family</a></li>
+              <li><a href='#'>Acquaintances</a></li>
+              <li class='dropdown'>
+                <a href='#' class='dropdown-toggle' data-toggle='dropdown'>More <b class='fa fa-angle-down'></b></a>
+                <ul class='dropdown-menu'>
+                  <li><a href='#'>Action</a></li>
+                  <li><a href='#'>Another action</a></li>
+                  <li><a href='#'>Something else here</a></li>
+                  <li class='divider'></li>
+                  <li><a href='#'>Separated link</a></li>
+                  <li class='divider'></li>
+                  <li><a href='#'>One more separated link</a></li>
+                </ul>
+                <li><a href='#'>Explore</a></li>
+              </li>
+            </ul>
+            <ul class='nav navbar-nav navbar-right'>
+              <li><a href='#'>Link</a></li>
+              <li class='dropdown'>
+                <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Dropdown <b class='caret'></b></a>
+                <ul class='dropdown-menu'>
+                  <li><a href='#'>Action</a></li>
+                  <li><a href='#'>Another action</a></li>
+                  <li><a href='#'>Something else here</a></li>
+                  <li class='divider'></li>
+                  <li><a href='#'>Separated link</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </nav><!-- /.navbar-toolbar -->
+
+    <!-- Content -->
+    <div class='container'>
+      <div class='row'>
+        <!-- Move to a partial -->
+        <aside class='col-md-2'>
+          <ul class='list-group'>
+            <li class='list-group-item active'><a href='#'><span class='fa fa-home fa-fw'></span> Home</a></li>
+            <li class='list-group-item'><a href='#'><span class='fa fa-user fa-fw'></span> Profile</a></li>
+            <li class='list-group-item'><a href='#'><span class='fa fa-circle-o fa-fw'></span> Circles</a></li>
+            <li class='list-group-item'><a href='#'><span class='fa fa-group fa-fw'></span> Groups</a></li>
+            <li class='list-group-item'><a href='#'><span class='fa fa-picture-o fa-fw'></span> Albums</a></li>
+            <li class='list-group-item'><a href='#'><span class='fa fa-calendar fa-fw'></span> Events</a></li>
+            <li class='list-group-header'>Another list header</li>
+            <li class='list-group-item'>
+              <span class='collapse-caret collapsed dropdown-toggle' data-toggle='collapse' data-target='#profile'></span>
+              <div class='list-group-item-wrapper'>
+                <div class='dropdown pull-right'>
+                  <a href='#' class='dropdown-toggle' data-toggle='dropdown'><span class='caret'></span></a>
+                  <ul role='menu' class='dropdown-menu'>
+                    <li><a href='#'>Action</a></li>
+                    <li><a href='#'>Another action</a></li>
+                    <li><a href='#'>Something else here</a></li>
+                    <li class='divider'></li>
+                    <li><a href='#'>Separated link</a></li>
+                  </ul>
+                </div>
+
+                <a href='#'>Profile</a>
+              </div>
+
+              <div id='profile' class='collapse'>
+                <ul role='menu' class='list-group-item-menu'>
+                  <li class='list-group-item'>
+                    <div class='list-group-item-wrapper'>
+                      <div class='dropdown pull-right'>
+                        <a href='#' class='dropdown-toggle' data-toggle='dropdown'><span class='caret'></span></a>
+                        <ul role='menu' class='dropdown-menu'>
+                          <li><a href='#'>Action</a></li>
+                          <li><a href='#'>Another action</a></li>
+                          <li><a href='#'>Something else here</a></li>
+                          <li class='divider'></li>
+                          <li><a href='#'>Separated link</a></li>
+                        </ul>
+                      </div>
+
+                      <a href='#'>Action</a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class='list-group-item'>
+              <span class='collapse-caret collapsed dropdown-toggle' data-toggle='collapse' data-target='#settings'></span>
+              <div class='list-group-item-wrapper'>
+                <div class='dropdown pull-right'>
+                  <a href='#' class='dropdown-toggle' data-toggle='dropdown'><span class='caret'></span></a>
+                  <ul role='menu' class='dropdown-menu'>
+                    <li><a href='#'>Action</a></li>
+                    <li><a href='#'>Another action</a></li>
+                    <li><a href='#'>Something else here</a></li>
+                    <li class='divider'></li>
+                    <li><a href='#'>Separated link</a></li>
+                  </ul>
+                </div>
+
+                <a href='#'>
+                  Settings
+                </a>
+              </div>
+
+              <div id='settings' class='collapse'>
+                <ul role='menu' class='list-group-item-menu'>
+                  <li class='list-group-item'>
+                    <div class='list-group-item-wrapper'>
+                      <div class='dropdown pull-right'>
+                        <a href='#' class='dropdown-toggle' data-toggle='dropdown'><span class='caret'></span></a>
+                        <ul role='menu' class='dropdown-menu'>
+                          <li><a href='#'>Action</a></li>
+                          <li><a href='#'>Another action</a></li>
+                          <li><a href='#'>Something else here</a></li>
+                          <li class='divider'></li>
+                          <li><a href='#'>Separated link</a></li>
+                        </ul>
+                      </div>
+
+                      <a href='#'>Action</a>
+                    </div>
+                  </li>
+                  <li class='divider'></li>
+                  <li class='list-group-item'>
+                    <span class='dropdown-toggle collapse-caret collapsed' data-toggle='collapse' data-target='#sub-settings'></span>
+                    <div class='list-group-item-wrapper'>
+                      <div class='dropdown pull-right'>
+                        <a href='#' class='dropdown-toggle' data-toggle='dropdown'><span class='caret'></span></a>
+                        <ul role='menu' class='dropdown-menu'>
+                          <li><a href='#'>Action</a></li>
+                          <li><a href='#'>Another action</a></li>
+                          <li><a href='#'>Something else here</a></li>
+                          <li class='divider'></li>
+                          <li><a href='#'>Separated link</a></li>
+                        </ul>
+                      </div>
+
+                      <a href='#'>
+                        Separated link
+                      </a>
+                    </div>
+
+                    <div class='collapse' id='sub-settings'>
+                      <ul role='menu' class='list-group-item-menu'>
+                        <li class='list-group-item'>
+                          <div class='list-group-item-wrapper'>
+                            <div class='dropdown pull-right'>
+                              <a href='#' class='dropdown-toggle' data-toggle='dropdown'><span class='caret'></span></a>
+                              <ul role='menu' class='dropdown-menu'>
+                                <li><a href='#'>Action</a></li>
+                                <li><a href='#'>Another action</a></li>
+                                <li><a href='#'>Something else here</a></li>
+                                <li class='divider'></li>
+                                <li><a href='#'>Separated link</a></li>
+                              </ul>
+                            </div>
+
+                            <a href='#'>Action 1</a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class='divider'></li>
+            <li class='list-group-item'><a href='#'>Help</a></li>
+          </ul>
+        </aside>
+
+        <div class='content col-md-7'>
+          <!-- Share -->
+<article class='media'>
+  <a href='#' class='pull-left'>
+    <img alt='48x48' data-src='holder.js/48x48/acs' class='media-object'>
+  </a>
+  <section class='media-body'>
+    <div class='activity-arrow-left'>
+      <header>
+        <div class='btn-group pull-right'>
+          <a href='#' data-toggle='dropdown' class='btn btn-sm btn-flat dropdown-toggle'>
+            <span class='fa fa-angle-down fa-lg'></span>
+          </a>
+          <ul class='dropdown-menu'>
+            <li><a href='#'>Edit</a></li>
+            <li><a href='#'>Delete</a></li>
+            <li class='divider'></li>
+            <li><a href='#'>Link to post</a></li>
+            <li class='divider'></li>
+            <li><a href='#'>Disable comments</a></li>
+            <li><a href='#'>Disable sharing</a></li>
+          </ul>
+        </div>
+
+        <h1>
+          <a href='#'>First Last</a>
+          <small class='text-muted'> -
+            <a class='text-muted' title='Apr 25, 2012 10:16:04 AM' href='#'>4 hours ago</a> -
+            <a class='text-muted' data-keyboard='true' data-backdrop='static' data-controls-modal1='modal-from-dom' title='Sharing details' id='visibility'>Limited</a>
+          </small>
+        </h1>
+      </header>
+
+      This is an example of what sharing a link would be like.
+
+      <section class='media media-body-attachment'>
+        <a href='#' class='pull-left'>
+          <img alt='135x90' data-src='holder.js/135x90/acs'>
+        </a>
+        <section class='media-body'>
+          <p>
+            <strong>User</strong> <a title='Dev Note: Link to original activities show event'>originally shared:</a>
+          <p>
+          <a target='_blank' href='http://www.marksdailyapple.com/how-agriculture-ruined-your-health-and-what-to-do-about-it/'>
+            How Agriculture Ruined Your Health (and What to Do About It) | Mark's Daily Apple&nbsp;»
+          </a>
+          <p>
+           You are overweight. I'm sorry to be blunt, but it's probably true: most adults living in Western countries are
+           overweight. A large portion is obese. Half of
+          </p>
+        </section>
+      </section>
+
+      <footer class='media-body-footer'>
+        <div class='btn-group'>
+          <a title='Like' class='btn btn-default btn-small' href='#'><span class='fa fa-thumbs-up text-muted'></span> 3</a>
+          <a title='Share' class='btn btn-default btn-small' href='#'><span class='fa fa-share text-muted'></span> 2</a>
+        </div>
+      </footer>
+
+      <section class='media-comments'>
+        <div class='row'>
+          <!-- Add a comment -->
+          <form action=''>
+            <div class='col-xs-12'>
+              <input class='form-control' type='text' placeholder='Add a comment...' id='comment-temp'>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div><!-- .activity-arrow-left -->
+  </section><!-- .media-body -->
+</article>
+
+<!-- Link -->
+<article class='media'>
+  <a href='#' class='pull-left'>
+    <img alt='48x48' data-src='holder.js/48x48/acs' class='media-object'>
+  </a>
+  <section class='media-body'>
+    <div class='activity-arrow-left'>
+      <header>
+        <div class='btn-group pull-right'>
+          <a href='#' data-toggle='dropdown' class='btn btn-sm btn-flat dropdown-toggle'>
+            <span class='fa fa-angle-down fa-lg'></span>
+          </a>
+          <ul class='dropdown-menu'>
+            <li><a href='#'>View activity</a></li>
+            <li><a href='#'>Link to post</a></li>
+            <li><a href='#'>Embed post</a></li>
+            <li><a href='#'>Mute post</a></li>
+            <li class='divider'></li>
+            <li><a href='#'>Report spam or abuse</a></li>
+          </ul>
+        </div>
+
+        <h1>
+          <a href='#'>First Last</a>
+          <small class='text-muted'> -
+            <a class='text-muted' title='Apr 25, 2012 10:16:04 AM' href='#'>4 hours ago</a> -
+            <a class='text-muted' data-keyboard='true' data-backdrop='static' data-controls-modal1='modal-from-dom' title='Sharing details' id='visibility'>Limited</a>
+          </small>
+        </h1>
+      </header>
+
+      This is an example of what a link would be like. This is where user text would go.
+
+      <section class='media media-body-attachment'>
+        <a href='#' class='pull-left'>
+          <img alt='135x90' data-src='holder.js/135x90/acs'>
+        </a>
+        <section class='media-body'>
+          <a target='_blank' href='http://www.marksdailyapple.com/how-agriculture-ruined-your-health-and-what-to-do-about-it/'>
+            How Agriculture Ruined Your Health (and What to Do About It) | Mark's Daily Apple&nbsp;»
+          </a>
+          <p>
+           You are overweight. I'm sorry to be blunt, but it's probably true: most adults living in Western countries are
+           overweight. A large portion is obese. Half of
+          </p>
+        </section>
+      </section>
+
+      <footer class='media-body-footer'>
+        <div class='btn-group'>
+          <a title='Like' class='btn btn-default btn-small' href='#'><span class='fa fa-thumbs-up text-muted'></span> 23</a>
+          <a title='Share' class='btn btn-default btn-small' href='#'><span class='fa fa-share text-muted'></span> 12</a>
+        </div>
+      </footer>
+
+      <section class='media-comments'>
+        <div class='row'>
+          <!-- Add a comment -->
+          <form action=''>
+            <div class='col-xs-12'>
+              <input class='form-control' type='text' placeholder='Add a comment...' id='comment-temp'>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div><!-- .activity-arrow-left -->
+  </section><!-- .media-body -->
+</article>
+
+<!-- Note -->
+<article class='media'>
+  <a href='#' class='pull-left'>
+    <img alt='48x48' data-src='holder.js/48x48/acs' class='media-object'>
+  </a>
+  <section class='media-body'>
+    <div class='activity-arrow-left'>
+      <header>
+        <div class='btn-group pull-right'>
+          <a href='#' data-toggle='dropdown' class='btn btn-sm btn-flat dropdown-toggle'>
+            <span class='fa fa-angle-down fa-lg'></span>
+          </a>
+          <ul class='dropdown-menu'>
+            <li><a href='#'>Edit</a></li>
+            <li><a href='#'>Delete</a></li>
+            <li class='divider'></li>
+            <li><a href='#'>Link to post</a></li>
+            <li class='divider'></li>
+            <li><a href='#'>Disable comments</a></li>
+            <li><a href='#'>Disable sharing</a></li>
+          </ul>
+        </div>
+
+        <h1>
+          <a href='#'>First Last</a>
+          <small class='text-muted'> -
+            <a class='text-muted' title='Apr 25, 2012 10:16:04 AM' href='#'>4 hours ago</a> -
+            <a class='text-muted' data-keyboard='true' data-backdrop='static' data-controls-modal1='modal-from-dom' title='Sharing details' id='visibility'>Limited</a>
+          </small>
+        </h1>
+      </header>
+
+      Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio,
+      vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
+      congue felis in faucibus.
+
+      <footer class='media-body-footer'>
+        <div class='btn-group'>
+          <a title='Like' class='btn btn-default btn-small' href='#'><span class='fa fa-thumbs-up text-muted'></span></a>
+          <a title='Share' class='btn btn-default btn-small' href='#'><span class='fa fa-share text-muted'></span> 1</a>
+        </div>
+      </footer>
+
+      <section class='media-comments'>
+        <div class='row'>
+          <!-- Add a comment -->
+          <form action=''>
+            <div class='col-xs-12'>
+              <input class='form-control' type='text' placeholder='Add a comment...' id='comment-temp'>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div><!-- .activity-arrow-left -->
+  </section><!-- .media-body -->
+</article>
+
+<!-- Event -->
+<article class="media">
+  <a href="#" class="pull-left">
+    <img class="media-object" data-src="holder.js/48x48/acs" alt="">
+  </a>
+  <section class="media-body">
+    <div class='activity-arrow-left'>
+      <header>
+        <div class='btn-group pull-right'>
+          <a href='#' data-toggle='dropdown' class='btn btn-sm btn-flat dropdown-toggle'>
+            <span class='fa fa-angle-down fa-lg'></span>
+          </a>
+          <ul class='dropdown-menu'>
+            <li><a href='#'>View activity</a></li>
+            <li><a href='#'>Link to post</a></li>
+            <li><a href='#'>Embed post</a></li>
+            <li><a href='#'>Mute post</a></li>
+            <li class='divider'></li>
+            <li><a href='#'>Report spam or abuse</a></li>
+          </ul>
+        </div>
+
+        <h1>
+          <a href='#'>First Last</a>
+          <small class='text-muted'> -
+            <a title='January 15, 2014 10:16:04 AM
+  (edited January 16, 2014 9:02:37 AM)' class='text-muted' href='#'>January 16, 2014 (edited)</a> -
+            <a class='text-muted' data-keyboard='true' data-backdrop='static' data-controls-modal1='modal-from-dom' title='Sharing details' id='visibility'>Limited</a>
+          </small>
+        </h1>
+
+        <h2><a>Event Title</a></h2>
+      </header>
+
+      <ul class='fa-ul'>
+        <li><i class='fa-li fa fa-calendar'></i>Today, Jun 27, 7:00 PM - 9:00 PM</li>
+        <li><i class='fa-li fa fa-map-marker'></i>Someplace cool.</li>
+        <li><i class='fa-li fa fa-user'></i>13 people attending</li>
+      </ul>
+
+      <p>
+        <strong>Are you going?</strong>
+        <br>
+        <a href="#" class="btn btn-primary">Yes</a>
+        <a href="#" class="btn btn-primary">Maybe</a>
+        <a href="#" class="btn btn-primary">No</a>
+      </p>
+
+      <p>
+        Cras sit amet nibh libero , in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. This is a
+        <button style="background: #eee; border: 1px solid #ddd; border-radius 2px; color: #36c!important; display: inline-block; margin: 0 1px; padding: 0 1px; vertical-align: baseline; whitespace: nowrap;">
+          <span style="color: #888;">#</span>test
+        </button>
+        <button style="background: #eee; border: 1px solid #ddd; border-radius 2px; color: #36c!important; display: inline-block; margin: 0 1px; padding: 0 1px; vertical-align: baseline; whitespace: nowrap;">
+          <span style="color: #888;">#</span>event
+        </button>,
+        <button style="background: #eee; border: 1px solid #ddd; border-radius 2px; color: #36c!important; display: inline-block; margin: 0 1px; padding: 0 1px; vertical-align: baseline; whitespace: nowrap;">
+          <span style="color: #888;">@</span>joe-user
+        </button>
+      </p>
+
+      <footer class='activity-footer'>
+        <div class='btn-group'>
+          <a title='Like' class='btn btn-default btn-small' href='#'><span class='fa fa-thumbs-up text-muted'></span></a>
+          <a title='Share' class='btn btn-default btn-small' href='#'><span class='fa fa-share text-muted'></span></a>
+        </div>
+      </footer>
+
+      <section class='media-comments'>
+        <div class='row'>
+          <!-- Add a comment -->
+          <form action=''>
+            <div class='col-xs-12'>
+              <input class='form-control' type='text' placeholder='Add a comment...' id='comment-temp'>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div><!-- .activity-arrow-left -->
+  </section><!-- .media-body -->
+</article>
+
+
+        </div>
+
+        <aside class='col-md-3'>
+          <ul class='list-group'>
+            <li class='list-group-header' style='margin-top: 0;'>In My Circles (38)</li>
+            <li class='list-group-item'>
+            </li>
+            <li class='list-group-header'>Suggested Groups</li>
+            <li class='list-group-header'>Trending</li>
+            <li class='list-group-header'>You May Know</li>
+            <li class='list-group-item'>
+            </li>
+            <li class='list-group-header'>You Might Like</li>
+            <li class='list-group-header'>Upcoming Events</li>
+          </ul>
+        </aside>
+      </div><!-- .row -->
+    </div><!-- .container -->
+
+    <!-- Footer -->
+    <footer>
+  <div class='container'>
+    <p>This is the footer</p>
+    <p style='text-align: right;' class='pull-right muted'>
+      Copyright &copy; 2014 by Some Company
+      <br>
+      All Rights Reserved
+    </p>
+  </div><!-- .container -->
+</footer>
+
+
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+    <script src="/assets/javascripts/application.js" type="text/javascript"></script>
+    <script>
+      Holder.add_theme('acs', { background: '#ccc', foreground: '#999', size: 12 })
+      Holder.add_theme('dark', {background: '#000', foreground: '#aaa', size: 11, font: 'Monaco'})
+    </script>
+  </body>
+</html>
