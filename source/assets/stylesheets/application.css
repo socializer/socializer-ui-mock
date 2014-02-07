@@ -1,10 +1,10 @@
-/*
+/*/*
 *= require_self
 *= require_tree .
 */
 
 body {
-  padding-top: 70px;
+  padding-top: 100px;
 }
 
 .toolbar {
@@ -15,4 +15,116 @@ footer {
   border-top: 1px solid #CCCCCC;
   margin-top: 25px;
   padding: 25px 0 26px;
+}
+
+article h1 {
+  font-size: 16px;
+  line-height: 20px;
+  margin-top: 12px;
+}
+article h1 small {
+  font-size: 12px;
+}
+article h2 {
+  font-size: 15px;
+  line-height: 18px;
+}
+article footer {
+  border-top-width: 0;
+  margin-top: 15px;
+  padding: 0;
+}
+
+article footer p {
+  margin-bottom: 9px;
+}
+.fa-ul {
+  margin-left: 1.75em;
+}
+
+
+
+
+.activity,
+.media {
+  margin-top: 15px;
+}
+.activity:first-child,
+.media:first-child {
+    margin-top: 0px;
+}
+.activity-footer,
+.media-body-footer {
+  margin: 10px -15px 5px;
+  padding: 5px 15px 1px;
+  border-top: 1px solid #ccc;
+}
+.activity-attachment,
+.media-body-attachment {
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}
+/*.activity-body {
+  padding: 2px 0;
+}*/
+.activity-body footer,
+.media-body footer {
+  margin: 10px -15px 5px;
+  padding: 5px 15px 1px;
+  border-top: 1px solid #ccc;
+}
+.activity-comments,
+.media-comments {
+  margin: 0 -15px;
+  padding: 9px;
+  background-color: #F1F1F1;
+  border-top: 1px solid #E5E5E5;
+  box-shadow: none;
+}
+
+.activity-arrow-left {
+  border: 1px solid #ccc;
+  padding: 0 15px 0;
+  position: relative;
+}
+.activity-arrow-left:before,
+.activity-arrow-left:after {
+  position: absolute;
+  left: -15px;
+  top: 10px;
+  display: inline-block;
+  margin-top: 7px;
+  border: 7px solid rgba(255,0,0,0);
+  content: '';
+}
+.activity-arrow-left:before {
+  border-right: 7px solid #ccc;
+}
+.activity-arrow-left:after {
+  left: -13px;
+  border-right: 7px solid #fff;
+}
+
+
+
+.media,
+.media-body {
+  overflow: visible !important;
+}
+.media-body {
+  display: table-cell;
+}
+
+.navbar-avatar {
+  margin-bottom: -3px;
+  margin-right: 1px;
+  margin-top: -6px;
+  vertical-align: middle;
+}
+.navbar-form .input-group-btn > .btn {
+  margin-top: 0;
+}
+
+.toolbar {
+  z-index: 1028 !important;
 }
