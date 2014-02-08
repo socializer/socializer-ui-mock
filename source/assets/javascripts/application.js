@@ -23,20 +23,19 @@ var emojis = [
   "-1"
 ]
 
-var names  = ["Jacob", "Isabella", "Ethan", "Emma", "Michael", "Olivia", "Alexander", "Sophia", "William", "Ava", "Joshua", "Emily", "Daniel", "Madison", "Jayden", "Abigail", "Noah", "Chloe", "Dominic", "Martin", "Tom"];
-
 var emojis_list = $.map(emojis, function(value, i) {
-  return {'id':i, 'name':value};
+  return {'id':i,'name':value};
 });
 
-var hash_tags = [
-  { id: "1", name: "socializer"},
-  { id: "2", name: "social"},
-  { id: "3", name: "tag"},
-  { id: "4", name: "blog"},
-  { id: "5", name: "code"},
-  { id: "6", name: "caturday"},
-];
+var names  = ["Jacob", "Isabella", "Ethan", "Emma", "Michael", "Olivia", "Alexander", "Sophia", "William", "Ava", "Joshua", "Emily", "Daniel", "Madison", "Jayden", "Abigail", "Noah", "Chloe", "Dominic", "Martin", "Tom"];
+var names = $.map(names,function(value,i) {
+  return {'id':i,'name':value,'email':value+"@email.com"};
+});
+
+var hash_tags = ["socializer", "social", "tag", "blog", "code", "caturday"]
+var hash_tags = $.map(hash_tags, function(value, i) {
+  return {'id':i,'name':value};
+});
 
 //http://a248.e.akamai.net/assets.github.com/images/icons/emoji/8.png
 $("#note_content")
@@ -48,7 +47,7 @@ $("#note_content")
   })
   .atwho({
     at: "#",
-    tpl: '<li data-value="#${name}">${name} <small>${content}</small></li>',
+    tpl: '<li data-value="#${name}">${name}</li>',
     data: hash_tags
   })
   .atwho({
