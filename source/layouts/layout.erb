@@ -286,10 +286,24 @@
         </aside>
 
         <div class='content col-md-7'>
-          <form role='form'>
-            <textarea class='form-control note-content-field' id='note_content' placeholder='Share anything with anyone...' rows='3'>
-            </textarea>
-          </form>
+          <div class='well well-sm'>
+            <form role='form'>
+              <textarea class='form-control note-content-field' id='note_content' placeholder='Share anything with anyone...' rows='3'>
+              </textarea>
+            </form>
+
+            <div class='pull-right'>
+              <button class='close' id='note_content-collapse' type='button' aria-hidden='true'>&times;</button>
+            </div>
+
+            <div class='btn-group'>
+              <a class='btn btn-default' title='New note'><span class='fa fa-pencil text-success'></span></a>
+              <a class='btn btn-default' title='New photo'><span class='fa fa-camera text-primary'></span></a>
+              <a class='btn btn-default' title='New link'><span class='fa fa-link'></span></a>
+              <a class='btn btn-default' title='New video'><span class='fa fa-youtube-play text-danger'></span></a>
+              <a class='btn btn-default' title='New Event'><span class='fa fa-calendar text-info'></span></a>
+            </div>
+          </div>
           <!-- <textarea class='note-content-field' id='note_content' placeholder='Share anything with anyone...' name='note[content]'></textarea> -->
           <%= yield %>
         </div>
