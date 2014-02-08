@@ -82,3 +82,12 @@ article footer p {
 .toolbar {
   z-index: 1028 !important;
 }
+
+textarea.form-control.note-content-field {
+  border: 1px solid #CCCCCC;
+  height: 30px;
+  margin-bottom: 5px;
+  padding: 5px;
+  resize: none;
+/*  width: 506px;*/
+}
