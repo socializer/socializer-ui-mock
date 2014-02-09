@@ -7,9 +7,6 @@ body {
   padding-top: 100px;
 }
 
-.toolbar {
-  top: 30px !important;
-}
 
 footer {
   border-top: 1px solid #CCCCCC;
@@ -80,6 +77,7 @@ article footer p {
 }
 
 .toolbar {
+  top: 30px !important;
   z-index: 1028 !important;
 }
 
