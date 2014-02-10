@@ -1,0 +1,22 @@
+.btn-transparent {
+  // .button-variant(transparent; transparent; transparent; transparent);
+  border: 1px solid transparent;
+  color: #333;
+  background-image: none;
+  text-shadow: none;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  .open .dropdown-toggle& {
+    color: #333;
+    // border: 1px solid darken(@border-color, 5%);
+    background-image: none;
+    background-color: #fafafa;
+  }
+
+  &.btn-xs {
+    padding: 2px 4px;
+  }
+}
