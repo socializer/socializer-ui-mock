@@ -1,7 +1,7 @@
 @resetNoteForm = ->
   $('#note_content').removeAttr('style').val('')
 
-  $('#note_content').on 'click', ->
+  $('#note_content').on 'click focus', ->
     $('#note_form_actions').removeClass('hidden')
     $(this).animate
       height: 100
