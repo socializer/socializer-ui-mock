@@ -288,7 +288,7 @@
         <div class='content col-md-7'>
           <div class='well well-sm'>
             <form role='form'>
-              <textarea class='form-control note-content-field' id='note_content' placeholder='Share anything with anyone...' rows='3'>
+              <textarea class='form-control note-content-field' id='note_content' placeholder='Share something...' rows='3'>
               </textarea>
 
             <!-- <div class='pull-right'>
@@ -296,14 +296,14 @@
             </div> -->
 
             <div class='btn-group'>
-              <a class='btn btn-default' title='New note'><span class='fa fa-pencil text-success'></span></a>
-              <a class='btn btn-default' title='New photo'><span class='fa fa-camera text-primary'></span></a>
-              <a class='btn btn-default' title='New link'><span class='fa fa-link'></span></a>
-              <a class='btn btn-default' title='New video'><span class='fa fa-youtube-play text-danger'></span></a>
-              <a class='btn btn-default' title='New Event'><span class='fa fa-calendar text-info'></span></a>
+              <a class='btn btn-default' id='new_note' title='New note'><span class='fa fa-pencil text-success'></span></a>
+              <a class='btn btn-default' id='new_photo' title='New photo'><span class='fa fa-camera text-primary'></span></a>
+              <a class='btn btn-default' id='new_link' title='New link'><span class='fa fa-link'></span></a>
+              <a class='btn btn-default' id='new_video' title='New video'><span class='fa fa-youtube-play text-danger'></span></a>
+              <a class='btn btn-default' id='new_event' title='New Event'><span class='fa fa-calendar text-info'></span></a>
             </div>
 
-            <footer class='form-actions hidden' id='note_form_actions' style='padding-top: 10px; padding-bottom: 0; margin-top: 10px;'>
+            <footer class='form-actions hidden' id='note_form_actions'>
               <a class='btn btn-success' id='note_form_submit'>Submit</a>
               <a class='btn btn-default' id='note_form_cancel'>Cancel</a>
             </footer>
