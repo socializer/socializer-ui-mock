@@ -89,3 +89,9 @@ textarea.form-control.note-content-field {
   resize: none;
 /*  width: 506px;*/
 }
+
+footer.form-actions {
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 0;
+}
