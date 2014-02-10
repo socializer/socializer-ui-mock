@@ -111,6 +111,10 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
   background-image: none;
   text-shadow: none;
 }
+.btn-transparent:hover {
+  text-shadow: none;
+  box-shadow: none;
+}
 .btn-transparent:hover,
 .btn-transparent:focus,
 .btn-transparent:active,
