@@ -5,9 +5,6 @@
 .media {
   margin-top: 15px;
 }
-.media:first-child {
-    margin-top: 0px;
-}
 .media-body {
   display: table-cell;
 }
@@ -19,11 +16,6 @@
 .media-body-attachment {
   border-top: 1px solid #ccc;
   padding-top: 10px;
-}
-.media-body footer {
-  margin: 10px -15px 5px;
-  padding: 5px 15px 1px;
-  border-top: 1px solid #ccc;
 }
 .media-comments {
   margin: 0 -15px;
