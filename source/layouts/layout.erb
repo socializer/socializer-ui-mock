@@ -291,11 +291,9 @@
               <textarea class='form-control note-content-field' id='note_content' placeholder='Share anything with anyone...' rows='3'>
               </textarea>
 
-            <div class='pull-right'>
+            <!-- <div class='pull-right'>
               <button class='close hidden' id='note_content-collapse' type='button' aria-hidden='true'>&times;</button>
-            </div>
-
-            <a class='btn btn-success hidden' id='note_submit'>Submit</a>
+            </div> -->
 
             <div class='btn-group'>
               <a class='btn btn-default' title='New note'><span class='fa fa-pencil text-success'></span></a>
@@ -305,6 +303,10 @@
               <a class='btn btn-default' title='New Event'><span class='fa fa-calendar text-info'></span></a>
             </div>
 
+            <footer class='form-actions hidden' id='note_form_actions' style='padding-top: 10px; padding-bottom: 0; margin-top: 10px;'>
+              <a class='btn btn-success' id='note_form_submit'>Submit</a>
+              <a class='btn btn-default' id='note_form_cancel'>Cancel</a>
+            </footer>
             </form>
           </div>
           <!-- <textarea class='note-content-field' id='note_content' placeholder='Share anything with anyone...' name='note[content]'></textarea> -->
