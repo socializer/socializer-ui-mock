@@ -3,6 +3,7 @@
 
   $('#note_content').on 'click', ->
     $('#note_content-collapse').removeClass('hidden')
+    $('#note_submit').removeClass('hidden')
     $(this).animate
       height: 100
     , 'fast'
@@ -12,4 +13,5 @@ jQuery ->
 
   $('#note_content-collapse').on 'click', ->
     $('#note_content-collapse').addClass('hidden')
+    $('#note_submit').addClass('hidden')
     $('#note_content').removeAttr('style').val('')
