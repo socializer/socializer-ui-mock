@@ -1,6 +1,6 @@
 .media,
 .media-body {
-  overflow: visible !important;
+  overflow: visible;
 }
 .media {
   margin-top: 15px;
