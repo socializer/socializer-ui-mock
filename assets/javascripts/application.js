@@ -1576,9 +1576,9 @@ if (typeof define === "function" && define.amd) {
     $('#note_content').removeAttr('style').val('');
     $('#new_note').on('click', function() {
       $('#note_form_actions').removeClass('hidden');
-      return $('#note_content').animate({
+      return $("#note_content").animate({
         height: 100
-      }, 'fast');
+      }, "fast").focus();
     });
     return $('#note_content').on('click focus', function() {
       $('#note_form_actions').removeClass('hidden');
