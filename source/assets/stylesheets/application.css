@@ -95,3 +95,7 @@ footer.form-actions {
   padding-top: 10px;
   padding-bottom: 0;
 }
+
+.select2-container {
+  padding: 0 !important;
+}

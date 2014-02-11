@@ -19,3 +19,14 @@ jQuery ->
   $('#note_form_cancel').on 'click', ->
     $('#note_form_actions').addClass('hidden')
     $('#note_content').removeAttr('style').val('')
+
+  if $("#circles").length > 0
+    $("#circles").select2 tags: [
+      "Your Circles"
+      "Public"
+      "Extended Circles"
+      "Friends(0)"
+      "Family(0)"
+      "Acquantances(0)"
+      "Following(3)"
+    ]
