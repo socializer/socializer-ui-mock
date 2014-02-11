@@ -3,9 +3,10 @@
 
   $('#new_note').on 'click', ->
     $('#note_form_actions').removeClass('hidden')
-    $('#note_content').animate
+
+    $("#note_content").animate(
       height: 100
-    , 'fast'
+    , "fast").focus()
 
   $('#note_content').on 'click focus', ->
     $('#note_form_actions').removeClass('hidden')
