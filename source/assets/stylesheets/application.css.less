@@ -1,6 +1,12 @@
 /*/*
 *= require_self
-*= require_tree .
+*= require bootstrap
+*= require todc-bootstrap
+*= require font-awesome
+*= require buttons
+*= require media
+*= require jquery.atwho
+*= require select2
 */
 
 body {
@@ -45,24 +51,43 @@ article footer p {
   border: 1px solid #ccc;
   padding: 0 15px 0;
   position: relative;
+
+  &:before,
+  &:after {
+    position: absolute;
+    left: -15px;
+    top: 10px;
+    display: inline-block;
+    margin-top: 7px;
+    border: 7px solid rgba(255,0,0,0);
+    content: '';
+  }
+
+  &:before {
+    border-right: 7px solid #ccc;
+  }
+  &:after {
+    left: -14px;
+    border-right: 7px solid #fff;
+  }
 }
-.activity-arrow-left:before,
-.activity-arrow-left:after {
-  position: absolute;
-  left: -15px;
-  top: 10px;
-  display: inline-block;
-  margin-top: 7px;
-  border: 7px solid rgba(255,0,0,0);
-  content: '';
-}
-.activity-arrow-left:before {
-  border-right: 7px solid #ccc;
-}
-.activity-arrow-left:after {
-  left: -14px;
-  border-right: 7px solid #fff;
-}
+// .activity-arrow-left:before,
+// .activity-arrow-left:after {
+//   position: absolute;
+//   left: -15px;
+//   top: 10px;
+//   display: inline-block;
+//   margin-top: 7px;
+//   border: 7px solid rgba(255,0,0,0);
+//   content: '';
+// }
+// .activity-arrow-left:before {
+//   border-right: 7px solid #ccc;
+// }
+// .activity-arrow-left:after {
+//   left: -14px;
+//   border-right: 7px solid #fff;
+// }
 
 
 
@@ -96,6 +121,6 @@ footer.form-actions {
   padding-bottom: 0;
 }
 
-.select2-container {
-  padding: 0 !important;
+.select2-container-multi .select2-choices {
+  min-height: 30px !important;
 }
