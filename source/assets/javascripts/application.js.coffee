@@ -180,3 +180,19 @@ $("#note-content-input").atwho(
   at: ":"
   tpl: "<li data-value=':${name}:'><img src='http://a248.e.akamai.net/assets.github.com/images/icons/emoji/${name}.png' height='20' width='20'/> ${name} </li>"
   data: emojis_list
+
+#
+$("#event-time-input .date").pikaday()
+$("#event-time-input .time").timepicker
+  scrollDefaultNow: true
+  showDuration: true
+  timeFormat: "g:ia"
+
+$("#event-time-input").datepair
+  parseDate: ($input) ->
+    picker = $input.data("pikaday")
+    picker.getDate()
+
+  updateDate: ($input, dateObj) ->
+    picker = $input.data("pikaday")
+    picker.setDate dateObj

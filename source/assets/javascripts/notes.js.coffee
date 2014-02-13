@@ -1,15 +1,16 @@
 @resetNoteForm = ->
-  $('#note_content').removeAttr('style').val('')
+  $('#note-content-input').removeAttr('style').val('')
 
-  $('#new_note').on 'click', ->
-    $('#note_form_actions').removeClass('hidden')
+  $('#new-note').on 'click', ->
+    # Use data attributes and each
+    $('#note-form-actions, #note-hidden').removeClass('hidden')
 
-    $("#note_content").animate(
+    $('#note-content-input').animate(
       height: 100
-    , "fast").focus()
+    , 'fast').focus()
 
-  $('#note_content').on 'click focus', ->
-    $('#note_form_actions').removeClass('hidden')
+  $('#note-content-input').on 'click focus', ->
+    $('#note-form-actions, #note-hidden').removeClass('hidden')
     $(this).animate
       height: 100
     , 'fast'
@@ -17,17 +18,20 @@
 jQuery ->
   resetNoteForm()
 
-  $('#note_form_cancel').on 'click', ->
-    $('#note_form_actions').addClass('hidden')
-    $('#note_content').removeAttr('style').val('')
+  $('#note-form-cancel').on 'click', ->
+    # Use data attributes and each
+    $('#note-form-actions, #note-hidden').addClass('hidden')
+    $('#note-content-input').removeAttr('style').val('')
+    $('a[href="#new-note-tab"]').tab('show')
 
-  if $("#circles").length > 0
-    $("#circles").select2 tags: [
-      "Your Circles"
-      "Public"
-      "Extended Circles"
-      "Friends(0)"
-      "Family(0)"
-      "Acquantances(0)"
-      "Following(3)"
+  # Use data attributes and each
+  if $('#note-share-input, #event-share-input').length > 0
+    $('#note-share-input, #event-share-input').select2 tags: [
+      'Your Circles'
+      'Public'
+      'Extended Circles'
+      'Friends(0)'
+      'Family(0)'
+      'Acquantances(0)'
+      'Following(3)'
     ]
