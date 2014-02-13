@@ -287,33 +287,86 @@
 
         <div class='content col-sm-7'>
           <div class='well well-sm'>
-            <form role='form'>
-              <textarea class='form-control note-content-field' id='note_content' placeholder='Share something...' rows='3'>
-              </textarea>
+            <form class='form-horizontal' role='form'>
+              <div class='tab-content'>
+                <!-- New Note
+                ================================================== -->
+                <div class='tab-pane fade in active' id='new-note-tab'>
+                  <div class='form-group'>
+                    <div class='col-sm-12'>
+                      <textarea class='form-control note-content-field' id='note-content-input' placeholder='Share something...' rows='3'>
+                      </textarea>
+                    </div>
+                  </div>
 
-            <!-- <div class='pull-right'>
-              <button class='close hidden' id='note_content-collapse' type='button' aria-hidden='true'>&times;</button>
-            </div> -->
+                  <div class='form-group hidden' id='note-hidden'>
+                    <div class='col-sm-12'>
+                      <input class='form-control' id='note-share-input' type='text' placeholder='+ Add names, circles or email addresses to share with...'>
+                    </div>
+                  </div>
+                </div>
 
-            <div class='btn-group'>
-              <a class='btn btn-default' id='new_note' title='New note'><span class='fa fa-pencil text-success'></span></a>
-              <a class='btn btn-default' id='new_photo' title='New photo'><span class='fa fa-camera text-primary'></span></a>
-              <a class='btn btn-default' id='new_link' title='New link'><span class='fa fa-link'></span></a>
-              <a class='btn btn-default' id='new_video' title='New video'><span class='fa fa-youtube-play text-danger'></span></a>
-              <a class='btn btn-default' id='new_event' title='New Event'><span class='fa fa-calendar text-info'></span></a>
-            </div>
+                <!-- New Event
+                ================================================== -->
+                <div class='tab-pane fade in' id='new-event-tab'>
+                  <div class='form-group'>
+                    <label for='event-title-input' class='col-sm-2 control-label'>Title</label>
+                    <div class='col-sm-10'>
+                      <input type='text' class='form-control' id='event-title-input' placeholder='Event title' autofocus>
+                    </div>
+                  </div>
 
-            <footer class='form-actions hidden' id='note_form_actions'>
-              <div class='form-group'>
-                <input class='form-control' id='circles' type='text' placeholder='+ Add names, circles or email addresses to share with...'>
+                  <div class='form-group' id='event-time-input'>
+                    <label for='event-time-input' class='col-sm-2 control-label'>Time</label>
+                    <div class='col-sm-10'>
+                      <input class="form-control date start" type="text" style='width: 25%; display: inline-block;' />
+                      <input class="form-control time start" type="text" style='margin-left: -5px; width: 20%; display: inline-block; border-top-left-radius: 0; border-bottom-left-radius: 0;' /> to
+                      <input class="form-control time end" type="text" style='width: 20%; display: inline-block;' />
+                      <input class="form-control date end" type="text" style='margin-left: -5px; width: 25%; display: inline-block; border-top-left-radius: 0; border-bottom-left-radius: 0;' />
+                    </div>
+                  </div>
+
+                  <div class='form-group'>
+                    <label for='event-location-input' class='col-sm-2 control-label'>Location</label>
+                    <div class='col-sm-10'>
+                      <input type='text' class='form-control' id='event-location-input' placeholder='Location (optional)'>
+                    </div>
+                  </div>
+
+                  <div class='form-group'>
+                    <label for='event-content-input' class='col-sm-2 control-label'>Details</label>
+                    <div class='col-sm-10'>
+                      <textarea type='text' class='form-control' id='event-content-input' placeholder='Details (optional)'></textarea>
+                    </div>
+                  </div>
+
+                  <div class='form-group'>
+                    <label for='event-share-input' class='col-sm-2 control-label'>To</label>
+                    <div class='col-sm-10'>
+                      <input type='text' class='form-control' id='event-share-input' placeholder='+ Add names, circles or email addresses to share with...'>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <a class='btn btn-success' id='note_form_submit'>Submit</a>
-              <a class='btn btn-default' id='note_form_cancel'>Cancel</a>
+            <div class='btn-group'>
+              <a class='btn btn-default' id='new-note' title='New note' href='#new-note-tab' data-toggle='tab'>
+                <span class='fa fa-pencil text-success'></span>
+              </a>
+              <a class='btn btn-default' id='new-photo' title='New photo'><span class='fa fa-camera text-primary'></span></a>
+              <a class='btn btn-default' id='new-link' title='New link'><span class='fa fa-link'></span></a>
+              <a class='btn btn-default' id='new-video' title='New video'><span class='fa fa-youtube-play text-danger'></span></a>
+              <a class='btn btn-default' id='new-event' title='New Event' href='#new-event-tab' data-toggle='tab'>
+                <span class='fa fa-calendar text-info'></span>
+              </a>
+            </div>
+
+            <footer class='form-actions hidden' id='note-form-actions'>
+              <a class='btn btn-success' id='note-form-submit'>Submit</a>
+              <a class='btn btn-default' id='note-form-cancel'>Cancel</a>
             </footer>
             </form>
           </div>
-          <!-- <textarea class='note-content-field' id='note_content' placeholder='Share anything with anyone...' name='note[content]'></textarea> -->
           <!-- Share -->
 <article class='media'>
   <a href='#' class='pull-left'>
@@ -604,7 +657,7 @@
         </button>
       </p>
 
-      <footer class='activity-footer'>
+      <footer class='media-body-footer'>
         <div class='btn-group'>
           <a title='Like' class='btn btn-default btn-small' href='#'><span class='fa fa-thumbs-up text-muted'></span></a>
           <a title='Share' class='btn btn-default btn-small' href='#'><span class='fa fa-share text-muted'></span></a>
