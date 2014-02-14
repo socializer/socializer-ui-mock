@@ -1,5 +1,19 @@
 //= require_tree .
 
+$("[title]").qtip
+  style:
+    classes: "qtip-bootstrap"
+    tip:
+      width: 12
+
+  show:
+    solo: true # Only show one tooltip at a time
+
+  position:
+    my: "top center"
+    at: "bottom center"
+    viewport: $(window)
+
 
 emojis = [
   "smile"
