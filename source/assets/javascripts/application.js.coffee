@@ -3,7 +3,7 @@
 jQuery ->
   $("[title]").qtip
     style:
-      classes: "qtip-bootstrap"
+      classes: "qtip-todc-bootstrap"
       tip:
         width: 12
 
