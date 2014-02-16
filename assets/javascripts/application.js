@@ -11967,7 +11967,7 @@ the specific language governing permissions and limitations under the Apache Lic
     var emojis, emojis_list, hash_tags, names;
     $("[title]").qtip({
       style: {
-        classes: "qtip-bootstrap",
+        classes: "qtip-todc-bootstrap",
         tip: {
           width: 12
         }
