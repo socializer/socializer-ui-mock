@@ -11,6 +11,7 @@
 
 
 
+
 */
 body {
   padding-top: 100px;
@@ -11063,6 +11064,12 @@ li.list-group-header {
 .btn-transparent.btn-xs {
   padding: 2px 4px;
 }
+.card {
+  background-color: #F7F7F7;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+}
 .media,
 .media-body {
   overflow: visible;
@@ -11072,6 +11079,7 @@ li.list-group-header {
 }
 .media-body {
   display: table-cell;
+  width: 9999px;
 }
 .media-body-footer {
   margin: 10px -15px 5px;
