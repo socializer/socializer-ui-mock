@@ -12683,6 +12683,7 @@ li.ui-timepicker-selected .ui-timepicker-duration,
   /** Taken from Bootstrap .popover-content */
 
   padding: 10px;
+  white-space: pre-wrap;
 }
 .qtip-todc-bootstrap .qtip-icon {
   /**
