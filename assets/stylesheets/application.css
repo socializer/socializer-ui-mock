@@ -89,7 +89,6 @@ textarea.form-control.note-content-field {
   padding: 5px;
   resize: none;
   /*  width: 506px;*/
-
 }
 .select2-container-multi .select2-choices {
   min-height: 30px !important;
@@ -12628,12 +12627,10 @@ li.ui-timepicker-selected .ui-timepicker-duration,
  */
 .qtip-todc-bootstrap {
   /** Taken from Bootstrap body */
-
   font-size: 13px;
   line-height: 18px;
   color: 333;
   /** Taken from Bootstrap .popover */
-
   padding: 1px;
   background-color: #fff;
   border: 1px solid #ccc;
@@ -12650,7 +12647,6 @@ li.ui-timepicker-selected .ui-timepicker-duration,
 }
 .qtip-todc-bootstrap .qtip-titlebar {
   /** Taken from Bootstrap .popover-title */
-
   padding: 10px;
   margin: 0;
   font-size: 13px;
@@ -12674,14 +12670,12 @@ li.ui-timepicker-selected .ui-timepicker-duration,
 			 *   border-style: solid;
 			 * }
 			 */
-
   right: 11px;
   top: 45%;
   border-style: none;
 }
 .qtip-todc-bootstrap .qtip-content {
   /** Taken from Bootstrap .popover-content */
-
   padding: 10px;
   white-space: pre-wrap;
 }
@@ -12694,7 +12688,6 @@ li.ui-timepicker-selected .ui-timepicker-duration,
 		 *   color: #777;
 		 * }
 		 */
-
   background: transparent;
 }
 .qtip-todc-bootstrap .qtip-icon .ui-icon {
@@ -12705,11 +12698,9 @@ li.ui-timepicker-selected .ui-timepicker-duration,
 			 *   height: 14px;
 			 * }
 			 */
-
   width: auto;
   height: auto;
   /* Taken from Bootstrap .close */
-
   float: right;
   font-size: 20px;
   font-weight: bold;
@@ -12721,7 +12712,6 @@ li.ui-timepicker-selected .ui-timepicker-duration,
 }
 .qtip-todc-bootstrap .qtip-icon .ui-icon:hover {
   /* Taken from Bootstrap .close:hover */
-
   color: #000000;
   text-decoration: none;
   cursor: pointer;

@@ -26,8 +26,8 @@
     var EditableCaret, InputCaret, Mirror, Utils, methods, oDocument, oFrame, oWindow, pluginName;
     pluginName = 'caret';
     EditableCaret = (function() {
-      function EditableCaret($inputor) {
-        this.$inputor = $inputor;
+      function EditableCaret($inputor1) {
+        this.$inputor = $inputor1;
         this.domInputor = this.$inputor[0];
       }
 
@@ -121,8 +121,8 @@
 
     })();
     InputCaret = (function() {
-      function InputCaret($inputor) {
-        this.$inputor = $inputor;
+      function InputCaret($inputor1) {
+        this.$inputor = $inputor1;
         this.domInputor = this.$inputor[0];
       }
 
@@ -238,8 +238,8 @@
     Mirror = (function() {
       Mirror.prototype.css_attr = ["overflowY", "height", "width", "paddingTop", "paddingLeft", "paddingRight", "paddingBottom", "marginTop", "marginLeft", "marginRight", "marginBottom", "fontFamily", "borderStyle", "borderWidth", "wordWrap", "fontSize", "lineHeight", "overflowX", "text-align"];
 
-      function Mirror($inputor) {
-        this.$inputor = $inputor;
+      function Mirror($inputor1) {
+        this.$inputor = $inputor1;
       }
 
       Mirror.prototype.mirrorCss = function() {

@@ -2474,7 +2474,7 @@ if (typeof define === "function" && define.amd) {
  */
 
 (function() {
-  var __slice = [].slice;
+  var slice = [].slice;
 
   (function(factory) {
     if (typeof define === 'function' && define.amd) {
@@ -2503,8 +2503,8 @@ if (typeof define === "function" && define.amd) {
       };
 
       App.prototype.reg = function(flag, setting) {
-        var controller, _base;
-        controller = (_base = this.controllers)[flag] || (_base[flag] = new Controller(this, flag));
+        var base, controller;
+        controller = (base = this.controllers)[flag] || (base[flag] = new Controller(this, flag));
         if (setting.alias) {
           this.alias_maps[setting.alias] = flag;
         }
@@ -2523,8 +2523,8 @@ if (typeof define === "function" && define.amd) {
           };
         })(this)).on('scroll.atwho', (function(_this) {
           return function(e) {
-            var _ref;
-            return (_ref = _this.controller()) != null ? _ref.view.hide() : void 0;
+            var ref;
+            return (ref = _this.controller()) != null ? ref.view.hide() : void 0;
           };
         })(this)).on('blur.atwho', (function(_this) {
           return function(e) {
@@ -2547,12 +2547,12 @@ if (typeof define === "function" && define.amd) {
       };
 
       App.prototype.on_keyup = function(e) {
-        var _ref;
+        var ref;
         switch (e.keyCode) {
           case KEY_CODE.ESC:
             e.preventDefault();
-            if ((_ref = this.controller()) != null) {
-              _ref.view.hide();
+            if ((ref = this.controller()) != null) {
+              ref.view.hide();
             }
             break;
           case KEY_CODE.DOWN:
@@ -2565,8 +2565,8 @@ if (typeof define === "function" && define.amd) {
       };
 
       App.prototype.on_keydown = function(e) {
-        var view, _ref;
-        view = (_ref = this.controller()) != null ? _ref.view : void 0;
+        var ref, view;
+        view = (ref = this.controller()) != null ? ref.view : void 0;
         if (!(view && view.visible())) {
           return;
         }
@@ -2600,7 +2600,7 @@ if (typeof define === "function" && define.amd) {
 
     })();
     Controller = (function() {
-      var uuid, _uuid;
+      var _uuid, uuid;
 
       _uuid = 0;
 
@@ -2608,9 +2608,9 @@ if (typeof define === "function" && define.amd) {
         return _uuid += 1;
       };
 
-      function Controller(app, at) {
-        this.app = app;
-        this.at = at;
+      function Controller(app1, at1) {
+        this.app = app1;
+        this.at = at1;
         this.$inputor = this.app.$inputor;
         this.oDocument = this.$inputor[0].ownerDocument;
         this.oWindow = this.oDocument.defaultView || this.oDocument.parentWindow;
@@ -2633,12 +2633,12 @@ if (typeof define === "function" && define.amd) {
 
       Controller.prototype.call_default = function() {
         var args, error, func_name;
-        func_name = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+        func_name = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
         try {
           return DEFAULT_CALLBACKS[func_name].apply(this, args);
         } catch (_error) {
           error = _error;
-          return $.error("" + error + " Or maybe At.js doesn't have function " + func_name);
+          return $.error(error + " Or maybe At.js doesn't have function " + func_name);
         }
       };
 
@@ -2646,7 +2646,7 @@ if (typeof define === "function" && define.amd) {
         var alias, event_name;
         data.push(this);
         alias = this.get_opt('alias');
-        event_name = alias ? "" + name + "-" + alias + ".atwho" : "" + name + ".atwho";
+        event_name = alias ? name + "-" + alias + ".atwho" : name + ".atwho";
         return this.$inputor.trigger(event_name, data);
       };
 
@@ -2754,7 +2754,7 @@ if (typeof define === "function" && define.amd) {
         $inputor = this.$inputor;
         if ($inputor.attr('contentEditable') === 'true') {
           class_name = "atwho-view-flag atwho-view-flag-" + (this.get_opt('alias') || this.at);
-          content_node = "" + content + "<span contenteditable='false'>&nbsp;<span>";
+          content_node = content + "<span contenteditable='false'>&nbsp;<span>";
           insert_node = "<span contenteditable='false' class='" + class_name + "'>" + content_node + "</span>";
           $insert_node = $(insert_node, this.oDocument).data('atwho-data-item', $li.data('item-data'));
           if (this.oDocument.selection) {
@@ -2796,7 +2796,7 @@ if (typeof define === "function" && define.amd) {
       };
 
       Controller.prototype.look_up = function() {
-        var query, _callback;
+        var _callback, query;
         if (!(query = this.catch_query())) {
           return;
         }
@@ -2826,7 +2826,7 @@ if (typeof define === "function" && define.amd) {
       };
 
       Model.prototype.query = function(query, callback) {
-        var data, search_key, _remote_filter;
+        var _remote_filter, data, search_key;
         data = this.fetch();
         search_key = this.context.get_opt("search_key");
         data = this.context.callbacks('filter').call(this.context, query, data, search_key) || [];
@@ -2986,7 +2986,7 @@ if (typeof define === "function" && define.amd) {
       };
 
       View.prototype.render = function(list) {
-        var $li, $ul, item, li, tpl, _i, _len;
+        var $li, $ul, i, item, len, li, tpl;
         if (!($.isArray(list) && list.length > 0)) {
           this.hide();
           return;
@@ -2994,8 +2994,8 @@ if (typeof define === "function" && define.amd) {
         this.$el.find('ul').empty();
         $ul = this.$el.find('ul');
         tpl = this.context.get_opt('tpl');
-        for (_i = 0, _len = list.length; _i < _len; _i++) {
-          item = list[_i];
+        for (i = 0, len = list.length; i < len; i++) {
+          item = list[i];
           item = $.extend({}, item, {
             'atwho-at': this.context.at
           });
@@ -3020,22 +3020,22 @@ if (typeof define === "function" && define.amd) {
     };
     DEFAULT_CALLBACKS = {
       before_save: function(data) {
-        var item, _i, _len, _results;
+        var i, item, len, results;
         if (!$.isArray(data)) {
           return data;
         }
-        _results = [];
-        for (_i = 0, _len = data.length; _i < _len; _i++) {
-          item = data[_i];
+        results = [];
+        for (i = 0, len = data.length; i < len; i++) {
+          item = data[i];
           if ($.isPlainObject(item)) {
-            _results.push(item);
+            results.push(item);
           } else {
-            _results.push({
+            results.push({
               name: item
             });
           }
         }
-        return _results;
+        return results;
       },
       matcher: function(flag, subtext, should_start_with_space) {
         var match, regexp;
@@ -3052,10 +3052,10 @@ if (typeof define === "function" && define.amd) {
         }
       },
       filter: function(query, data, search_key) {
-        var item, _i, _len, _results;
+        var _results, i, item, len;
         _results = [];
-        for (_i = 0, _len = data.length; _i < _len; _i++) {
-          item = data[_i];
+        for (i = 0, len = data.length; i < len; i++) {
+          item = data[i];
           if (~item[search_key].toLowerCase().indexOf(query)) {
             _results.push(item);
           }
@@ -3064,13 +3064,13 @@ if (typeof define === "function" && define.amd) {
       },
       remote_filter: null,
       sorter: function(query, items, search_key) {
-        var item, _i, _len, _results;
+        var _results, i, item, len;
         if (!query) {
           return items;
         }
         _results = [];
-        for (_i = 0, _len = items.length; _i < _len; _i++) {
-          item = items[_i];
+        for (i = 0, len = items.length; i < len; i++) {
+          item = items[i];
           item.atwho_order = item[search_key].toLowerCase().indexOf(query);
           if (item.atwho_order > -1) {
             _results.push(item);
@@ -3157,7 +3157,7 @@ if (typeof define === "function" && define.amd) {
     };
     $CONTAINER = $("<div id='atwho-container'></div>");
     $.fn.atwho = function(method) {
-      var result, _args;
+      var _args, result;
       _args = arguments;
       $('body').append($CONTAINER);
       result = null;
@@ -3219,8 +3219,8 @@ if (typeof define === "function" && define.amd) {
     var EditableCaret, InputCaret, Mirror, Utils, methods, oDocument, oFrame, oWindow, pluginName;
     pluginName = 'caret';
     EditableCaret = (function() {
-      function EditableCaret($inputor) {
-        this.$inputor = $inputor;
+      function EditableCaret($inputor1) {
+        this.$inputor = $inputor1;
         this.domInputor = this.$inputor[0];
       }
 
@@ -3314,8 +3314,8 @@ if (typeof define === "function" && define.amd) {
 
     })();
     InputCaret = (function() {
-      function InputCaret($inputor) {
-        this.$inputor = $inputor;
+      function InputCaret($inputor1) {
+        this.$inputor = $inputor1;
         this.domInputor = this.$inputor[0];
       }
 
@@ -3431,8 +3431,8 @@ if (typeof define === "function" && define.amd) {
     Mirror = (function() {
       Mirror.prototype.css_attr = ["overflowY", "height", "width", "paddingTop", "paddingLeft", "paddingRight", "paddingBottom", "marginTop", "marginLeft", "marginRight", "marginBottom", "fontFamily", "borderStyle", "borderWidth", "wordWrap", "fontSize", "lineHeight", "overflowX", "text-align"];
 
-      function Mirror($inputor) {
-        this.$inputor = $inputor;
+      function Mirror($inputor1) {
+        this.$inputor = $inputor1;
       }
 
       Mirror.prototype.mirrorCss = function() {

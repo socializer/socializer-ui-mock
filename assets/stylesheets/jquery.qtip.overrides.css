@@ -6,12 +6,10 @@
  */
 .qtip-todc-bootstrap {
   /** Taken from Bootstrap body */
-
   font-size: 13px;
   line-height: 18px;
   color: 333;
   /** Taken from Bootstrap .popover */
-
   padding: 1px;
   background-color: #fff;
   border: 1px solid #ccc;
@@ -28,7 +26,6 @@
 }
 .qtip-todc-bootstrap .qtip-titlebar {
   /** Taken from Bootstrap .popover-title */
-
   padding: 10px;
   margin: 0;
   font-size: 13px;
@@ -52,14 +49,12 @@
 			 *   border-style: solid;
 			 * }
 			 */
-
   right: 11px;
   top: 45%;
   border-style: none;
 }
 .qtip-todc-bootstrap .qtip-content {
   /** Taken from Bootstrap .popover-content */
-
   padding: 10px;
   white-space: pre-wrap;
 }
@@ -72,7 +67,6 @@
 		 *   color: #777;
 		 * }
 		 */
-
   background: transparent;
 }
 .qtip-todc-bootstrap .qtip-icon .ui-icon {
@@ -83,11 +77,9 @@
 			 *   height: 14px;
 			 * }
 			 */
-
   width: auto;
   height: auto;
   /* Taken from Bootstrap .close */
-
   float: right;
   font-size: 20px;
   font-weight: bold;
@@ -99,7 +91,6 @@
 }
 .qtip-todc-bootstrap .qtip-icon .ui-icon:hover {
   /* Taken from Bootstrap .close:hover */
-
   color: #000000;
   text-decoration: none;
   cursor: pointer;
