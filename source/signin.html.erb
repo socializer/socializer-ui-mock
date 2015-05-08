@@ -1,0 +1,40 @@
+---
+layout: signin
+title: Sign In - Socializer
+---
+
+<h1 class="form-signin-heading text-center">Welcom to Socializer</h1>
+<h2 class="form-signin-heading text-center">Sign in with your Account</h2>
+
+<div class="card card-signin">
+  <img class="img-circle profile-img" src="assets/images/avatar.png" alt="">
+  <form class="form-signin">
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+    <div class="checkbox">
+      <a class="pull-right">Need help?</a>
+      <label>
+        <input type="checkbox" value="remember-me"> Stay signed in
+      </label>
+    </div>
+
+  </form>
+  <div class="social-login">
+    <p><strong>You may also sign in using one of these services:</strong></p>
+    <p>
+      <%= link_to(content_tag(:span, nil, class:'fa fa-facebook', title: 'Facebook'), '', class: 'btn btn-social-icon btn-facebook btn-lg') %>
+      <%= link_to(content_tag(:span, nil, class:'fa fa-twitter', title: 'Twitter'), '', class: 'btn btn-social-icon btn-twitter btn-lg') %>
+      <%= link_to(content_tag(:span, nil, class:'fa fa-linkedin', title: 'LinkedIn'), '', class: 'btn btn-social-icon btn-linkedin btn-lg') %>
+      <%= link_to(content_tag(:span, nil, class:'fa fa-yahoo', title: 'Yahoo'), '', class: 'btn btn-social-icon btn-yahoo btn-lg') %>
+      <%= link_to(content_tag(:span, nil, class:'fa fa-google', title: 'Google'), '', class: 'btn btn-social-icon btn-google btn-lg') %>
+    </p>
+  </div>
+</div>
+
+<p class="text-center">
+  <a>Create an account</a>
+</p>
