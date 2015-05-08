@@ -1,0 +1,439 @@
+/*
+ * Social Buttons for Bootstrap
+ *
+ * Copyright 2013-2014 Panayiotis Lipiridis
+ * Licensed under the MIT License
+ *
+ * https://github.com/lipis/bootstrap-social
+ */
+/* line 15, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+
+.btn-social, .btn-social-icon {
+  position: relative;
+  padding-left: 36px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* line 22, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-social :first-child, .btn-social-icon :first-child {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+  line-height: 30px;
+  font-size: 1.6em;
+  text-align: center;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+/* line 33, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-social.btn-lg, .btn-group-lg > .btn-social.btn, .btn-group-lg > .btn.btn-social-icon, .btn-lg.btn-social-icon {
+  padding-left: 51px;
+}
+/* line 35, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-social.btn-lg :first-child, .btn-group-lg > .btn-social.btn :first-child, .btn-group-lg > .btn.btn-social-icon :first-child, .btn-lg.btn-social-icon :first-child {
+  line-height: 37px;
+  width: 37px;
+  font-size: 1.8em;
+}
+/* line 41, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-social.btn-sm, .btn-group-sm > .btn-social.btn, .btn-group-sm > .btn.btn-social-icon, .btn-sm.btn-social-icon {
+  padding-left: 32px;
+}
+/* line 43, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-social.btn-sm :first-child, .btn-group-sm > .btn-social.btn :first-child, .btn-group-sm > .btn.btn-social-icon :first-child, .btn-sm.btn-social-icon :first-child {
+  line-height: 24px;
+  width: 24px;
+  font-size: 1.4em;
+}
+/* line 49, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-social.btn-xs, .btn-group-xs > .btn-social.btn, .btn-group-xs > .btn.btn-social-icon, .btn-xs.btn-social-icon {
+  padding-left: 26px;
+}
+/* line 51, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-social.btn-xs :first-child, .btn-group-xs > .btn-social.btn :first-child, .btn-group-xs > .btn.btn-social-icon :first-child, .btn-xs.btn-social-icon :first-child {
+  line-height: 18px;
+  width: 18px;
+  font-size: 1.2em;
+}
+
+/* line 59, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-social-icon {
+  height: 30px;
+  width: 30px;
+  padding: 0;
+}
+/* line 64, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-social-icon :first-child {
+  border: none;
+  text-align: center;
+  width: 100% !important;
+}
+/* line 69, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-social-icon.btn-lg, .btn-group-lg > .btn-social-icon.btn {
+  height: 37px;
+  width: 37px;
+  padding-left: 0;
+  padding-right: 0;
+}
+/* line 75, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-social-icon.btn-sm, .btn-group-sm > .btn-social-icon.btn {
+  height: 26px;
+  width: 26px;
+  padding-left: 0;
+  padding-right: 0;
+}
+/* line 81, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-social-icon.btn-xs, .btn-group-xs > .btn-social-icon.btn {
+  height: 20px;
+  width: 20px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* line 98, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-facebook {
+  background-color: #3b5998;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #fff;
+  background-image: -webkit-linear-gradient(top, #3b5998 0%, #3b5998 100%);
+  background-image: -o-linear-gradient(top, #3b5998 0%, #3b5998 100%);
+  background-image: linear-gradient(to bottom, #3b5998 0%, #3b5998 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF3B5998', endColorstr='#FF3B5998', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+}
+/* line 13, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-facebook:hover {
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+/* line 19, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-facebook:hover, .btn-facebook:focus, .btn-facebook:active, .btn-facebook.active, .open > .btn-facebook.dropdown-toggle {
+  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-image: -webkit-linear-gradient(top, #3b5998 0%, #344e86 100%);
+  background-image: -o-linear-gradient(top, #3b5998 0%, #344e86 100%);
+  background-image: linear-gradient(to bottom, #3b5998 0%, #344e86 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF3B5998', endColorstr='#FF344E86', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-color: #344e86;
+}
+/* line 30, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-facebook:active, .btn-facebook.active, .open > .btn-facebook.dropdown-toggle {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  background-image: -webkit-linear-gradient(top, #3b5998 0%, #2d4373 100%);
+  background-image: -o-linear-gradient(top, #3b5998 0%, #2d4373 100%);
+  background-image: linear-gradient(to bottom, #3b5998 0%, #2d4373 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF3B5998', endColorstr='#FF2D4373', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+/* line 39, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-facebook:focus {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 1px #fff;
+}
+/* line 46, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-facebook.disabled, .btn-facebook.disabled:hover, .btn-facebook.disabled:focus, .btn-facebook.disabled:active, .btn-facebook.disabled.active, .btn-facebook[disabled], .btn-facebook[disabled]:hover, .btn-facebook[disabled]:focus, .btn-facebook[disabled]:active, .btn-facebook[disabled].active, fieldset[disabled] .btn-facebook, fieldset[disabled] .btn-facebook:hover, fieldset[disabled] .btn-facebook:focus, fieldset[disabled] .btn-facebook:active, fieldset[disabled] .btn-facebook.active {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-image: -webkit-linear-gradient(top, #3b5998 0%, #3b5998 100%);
+  background-image: -o-linear-gradient(top, #3b5998 0%, #3b5998 100%);
+  background-image: linear-gradient(to bottom, #3b5998 0%, #3b5998 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF3B5998', endColorstr='#FF3B5998', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-color: #3b5998;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/* line 59, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-facebook .badge {
+  color: rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+}
+
+/* line 102, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-google {
+  background-color: #4d90fe;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #fff;
+  background-image: -webkit-linear-gradient(top, #4d90fe 0%, #4d90fe 100%);
+  background-image: -o-linear-gradient(top, #4d90fe 0%, #4d90fe 100%);
+  background-image: linear-gradient(to bottom, #4d90fe 0%, #4d90fe 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF4D90FE', endColorstr='#FF4D90FE', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+}
+/* line 13, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-google:hover {
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+/* line 19, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-google:hover, .btn-google:focus, .btn-google:active, .btn-google.active, .open > .btn-google.dropdown-toggle {
+  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-image: -webkit-linear-gradient(top, #4d90fe 0%, #3480fe 100%);
+  background-image: -o-linear-gradient(top, #4d90fe 0%, #3480fe 100%);
+  background-image: linear-gradient(to bottom, #4d90fe 0%, #3480fe 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF4D90FE', endColorstr='#FF3480FE', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-color: #3480fe;
+}
+/* line 30, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-google:active, .btn-google.active, .open > .btn-google.dropdown-toggle {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  background-image: -webkit-linear-gradient(top, #4d90fe 0%, #1a70fe 100%);
+  background-image: -o-linear-gradient(top, #4d90fe 0%, #1a70fe 100%);
+  background-image: linear-gradient(to bottom, #4d90fe 0%, #1a70fe 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF4D90FE', endColorstr='#FF1A70FE', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+/* line 39, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-google:focus {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 1px #fff;
+}
+/* line 46, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-google.disabled, .btn-google.disabled:hover, .btn-google.disabled:focus, .btn-google.disabled:active, .btn-google.disabled.active, .btn-google[disabled], .btn-google[disabled]:hover, .btn-google[disabled]:focus, .btn-google[disabled]:active, .btn-google[disabled].active, fieldset[disabled] .btn-google, fieldset[disabled] .btn-google:hover, fieldset[disabled] .btn-google:focus, fieldset[disabled] .btn-google:active, fieldset[disabled] .btn-google.active {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-image: -webkit-linear-gradient(top, #4d90fe 0%, #4d90fe 100%);
+  background-image: -o-linear-gradient(top, #4d90fe 0%, #4d90fe 100%);
+  background-image: linear-gradient(to bottom, #4d90fe 0%, #4d90fe 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF4D90FE', endColorstr='#FF4D90FE', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-color: #4d90fe;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/* line 59, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-google .badge {
+  color: rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+}
+
+/* line 105, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-linkedin {
+  background-color: #007bb6;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #fff;
+  background-image: -webkit-linear-gradient(top, #007bb6 0%, #007bb6 100%);
+  background-image: -o-linear-gradient(top, #007bb6 0%, #007bb6 100%);
+  background-image: linear-gradient(to bottom, #007bb6 0%, #007bb6 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF007BB6', endColorstr='#FF007BB6', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+}
+/* line 13, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-linkedin:hover {
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+/* line 19, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-linkedin:hover, .btn-linkedin:focus, .btn-linkedin:active, .btn-linkedin.active, .open > .btn-linkedin.dropdown-toggle {
+  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-image: -webkit-linear-gradient(top, #007bb6 0%, #006a9d 100%);
+  background-image: -o-linear-gradient(top, #007bb6 0%, #006a9d 100%);
+  background-image: linear-gradient(to bottom, #007bb6 0%, #006a9d 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF007BB6', endColorstr='#FF006A9D', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-color: #006a9d;
+}
+/* line 30, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-linkedin:active, .btn-linkedin.active, .open > .btn-linkedin.dropdown-toggle {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  background-image: -webkit-linear-gradient(top, #007bb6 0%, #005983 100%);
+  background-image: -o-linear-gradient(top, #007bb6 0%, #005983 100%);
+  background-image: linear-gradient(to bottom, #007bb6 0%, #005983 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF007BB6', endColorstr='#FF005983', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+/* line 39, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-linkedin:focus {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 1px #fff;
+}
+/* line 46, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-linkedin.disabled, .btn-linkedin.disabled:hover, .btn-linkedin.disabled:focus, .btn-linkedin.disabled:active, .btn-linkedin.disabled.active, .btn-linkedin[disabled], .btn-linkedin[disabled]:hover, .btn-linkedin[disabled]:focus, .btn-linkedin[disabled]:active, .btn-linkedin[disabled].active, fieldset[disabled] .btn-linkedin, fieldset[disabled] .btn-linkedin:hover, fieldset[disabled] .btn-linkedin:focus, fieldset[disabled] .btn-linkedin:active, fieldset[disabled] .btn-linkedin.active {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-image: -webkit-linear-gradient(top, #007bb6 0%, #007bb6 100%);
+  background-image: -o-linear-gradient(top, #007bb6 0%, #007bb6 100%);
+  background-image: linear-gradient(to bottom, #007bb6 0%, #007bb6 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF007BB6', endColorstr='#FF007BB6', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-color: #007bb6;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/* line 59, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-linkedin .badge {
+  color: rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+}
+
+/* line 111, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-twitter {
+  background-color: #55acee;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #fff;
+  background-image: -webkit-linear-gradient(top, #55acee 0%, #55acee 100%);
+  background-image: -o-linear-gradient(top, #55acee 0%, #55acee 100%);
+  background-image: linear-gradient(to bottom, #55acee 0%, #55acee 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF55ACEE', endColorstr='#FF55ACEE', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+}
+/* line 13, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-twitter:hover {
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+/* line 19, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-twitter:hover, .btn-twitter:focus, .btn-twitter:active, .btn-twitter.active, .open > .btn-twitter.dropdown-toggle {
+  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-image: -webkit-linear-gradient(top, #55acee 0%, #3ea1ec 100%);
+  background-image: -o-linear-gradient(top, #55acee 0%, #3ea1ec 100%);
+  background-image: linear-gradient(to bottom, #55acee 0%, #3ea1ec 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF55ACEE', endColorstr='#FF3EA1EC', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-color: #3ea1ec;
+}
+/* line 30, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-twitter:active, .btn-twitter.active, .open > .btn-twitter.dropdown-toggle {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  background-image: -webkit-linear-gradient(top, #55acee 0%, #2795e9 100%);
+  background-image: -o-linear-gradient(top, #55acee 0%, #2795e9 100%);
+  background-image: linear-gradient(to bottom, #55acee 0%, #2795e9 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF55ACEE', endColorstr='#FF2795E9', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+/* line 39, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-twitter:focus {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 1px #fff;
+}
+/* line 46, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-twitter.disabled, .btn-twitter.disabled:hover, .btn-twitter.disabled:focus, .btn-twitter.disabled:active, .btn-twitter.disabled.active, .btn-twitter[disabled], .btn-twitter[disabled]:hover, .btn-twitter[disabled]:focus, .btn-twitter[disabled]:active, .btn-twitter[disabled].active, fieldset[disabled] .btn-twitter, fieldset[disabled] .btn-twitter:hover, fieldset[disabled] .btn-twitter:focus, fieldset[disabled] .btn-twitter:active, fieldset[disabled] .btn-twitter.active {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-image: -webkit-linear-gradient(top, #55acee 0%, #55acee 100%);
+  background-image: -o-linear-gradient(top, #55acee 0%, #55acee 100%);
+  background-image: linear-gradient(to bottom, #55acee 0%, #55acee 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF55ACEE', endColorstr='#FF55ACEE', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-color: #55acee;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/* line 59, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-twitter .badge {
+  color: rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+}
+
+/* line 114, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/components/_button-social.scss */
+.btn-yahoo {
+  background-color: #720e9e;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #fff;
+  background-image: -webkit-linear-gradient(top, #720e9e 0%, #720e9e 100%);
+  background-image: -o-linear-gradient(top, #720e9e 0%, #720e9e 100%);
+  background-image: linear-gradient(to bottom, #720e9e 0%, #720e9e 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF720E9E', endColorstr='#FF720E9E', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+}
+/* line 13, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-yahoo:hover {
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+/* line 19, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-yahoo:hover, .btn-yahoo:focus, .btn-yahoo:active, .btn-yahoo.active, .open > .btn-yahoo.dropdown-toggle {
+  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-image: -webkit-linear-gradient(top, #720e9e 0%, #610c87 100%);
+  background-image: -o-linear-gradient(top, #720e9e 0%, #610c87 100%);
+  background-image: linear-gradient(to bottom, #720e9e 0%, #610c87 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF720E9E', endColorstr='#FF610C87', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-color: #610c87;
+}
+/* line 30, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-yahoo:active, .btn-yahoo.active, .open > .btn-yahoo.dropdown-toggle {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  background-image: -webkit-linear-gradient(top, #720e9e 0%, #500a6f 100%);
+  background-image: -o-linear-gradient(top, #720e9e 0%, #500a6f 100%);
+  background-image: linear-gradient(to bottom, #720e9e 0%, #500a6f 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF720E9E', endColorstr='#FF500A6F', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+/* line 39, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-yahoo:focus {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 1px #fff;
+}
+/* line 46, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-yahoo.disabled, .btn-yahoo.disabled:hover, .btn-yahoo.disabled:focus, .btn-yahoo.disabled:active, .btn-yahoo.disabled.active, .btn-yahoo[disabled], .btn-yahoo[disabled]:hover, .btn-yahoo[disabled]:focus, .btn-yahoo[disabled]:active, .btn-yahoo[disabled].active, fieldset[disabled] .btn-yahoo, fieldset[disabled] .btn-yahoo:hover, fieldset[disabled] .btn-yahoo:focus, fieldset[disabled] .btn-yahoo:active, fieldset[disabled] .btn-yahoo.active {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-image: -webkit-linear-gradient(top, #720e9e 0%, #720e9e 100%);
+  background-image: -o-linear-gradient(top, #720e9e 0%, #720e9e 100%);
+  background-image: linear-gradient(to bottom, #720e9e 0%, #720e9e 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF720E9E', endColorstr='#FF720E9E', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-color: #720e9e;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/* line 59, /Users/tpietschker/Projects/github/socializer/app/assets/stylesheets/socializer/mixins/_buttons.scss */
+.btn-yahoo .badge {
+  color: rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+}

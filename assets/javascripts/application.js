@@ -1,17 +1,27 @@
 /*!
- * Bootstrap v3.1.1 (http://getbootstrap.com)
- * Copyright 2011-2014 Twitter, Inc.
+ * Bootstrap v3.3.4 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
 
-if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript requires jQuery') }
+if (typeof jQuery === 'undefined') {
+  throw new Error('Bootstrap\'s JavaScript requires jQuery')
+}
+
++function ($) {
+  'use strict';
+  var version = $.fn.jquery.split(' ')[0].split('.')
+  if ((version[0] < 2 && version[1] < 9) || (version[0] == 1 && version[1] == 9 && version[2] < 1)) {
+    throw new Error('Bootstrap\'s JavaScript requires jQuery version 1.9.1 or higher')
+  }
+}(jQuery);
 
 /* ========================================================================
- * Bootstrap: transition.js v3.1.1
+ * Bootstrap: transition.js v3.3.4
  * http://getbootstrap.com/javascript/#transitions
  * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -26,10 +36,10 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     var el = document.createElement('bootstrap')
 
     var transEndEventNames = {
-      'WebkitTransition' : 'webkitTransitionEnd',
-      'MozTransition'    : 'transitionend',
-      'OTransition'      : 'oTransitionEnd otransitionend',
-      'transition'       : 'transitionend'
+      WebkitTransition : 'webkitTransitionEnd',
+      MozTransition    : 'transitionend',
+      OTransition      : 'oTransitionEnd otransitionend',
+      transition       : 'transitionend'
     }
 
     for (var name in transEndEventNames) {
@@ -43,8 +53,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
   // http://blog.alexmaccaw.com/css-transitions
   $.fn.emulateTransitionEnd = function (duration) {
-    var called = false, $el = this
-    $(this).one($.support.transition.end, function () { called = true })
+    var called = false
+    var $el = this
+    $(this).one('bsTransitionEnd', function () { called = true })
     var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
     setTimeout(callback, duration)
     return this
@@ -52,15 +63,25 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
   $(function () {
     $.support.transition = transitionEnd()
+
+    if (!$.support.transition) return
+
+    $.event.special.bsTransitionEnd = {
+      bindType: $.support.transition.end,
+      delegateType: $.support.transition.end,
+      handle: function (e) {
+        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
+      }
+    }
   })
 
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: alert.js v3.1.1
+ * Bootstrap: alert.js v3.3.4
  * http://getbootstrap.com/javascript/#alerts
  * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -76,6 +97,10 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     $(el).on('click', dismiss, this.close)
   }
 
+  Alert.VERSION = '3.3.4'
+
+  Alert.TRANSITION_DURATION = 150
+
   Alert.prototype.close = function (e) {
     var $this    = $(this)
     var selector = $this.attr('data-target')
@@ -90,7 +115,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     if (e) e.preventDefault()
 
     if (!$parent.length) {
-      $parent = $this.hasClass('alert') ? $this : $this.parent()
+      $parent = $this.closest('.alert')
     }
 
     $parent.trigger(e = $.Event('close.bs.alert'))
@@ -100,13 +125,14 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     $parent.removeClass('in')
 
     function removeElement() {
-      $parent.trigger('closed.bs.alert').remove()
+      // detach from parent, fire event then clean up data
+      $parent.detach().trigger('closed.bs.alert').remove()
     }
 
     $.support.transition && $parent.hasClass('fade') ?
       $parent
-        .one($.support.transition.end, removeElement)
-        .emulateTransitionEnd(150) :
+        .one('bsTransitionEnd', removeElement)
+        .emulateTransitionEnd(Alert.TRANSITION_DURATION) :
       removeElement()
   }
 
@@ -114,9 +140,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // ALERT PLUGIN DEFINITION
   // =======================
 
-  var old = $.fn.alert
-
-  $.fn.alert = function (option) {
+  function Plugin(option) {
     return this.each(function () {
       var $this = $(this)
       var data  = $this.data('bs.alert')
@@ -126,6 +150,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     })
   }
 
+  var old = $.fn.alert
+
+  $.fn.alert             = Plugin
   $.fn.alert.Constructor = Alert
 
 
@@ -146,10 +173,10 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: button.js v3.1.1
+ * Bootstrap: button.js v3.3.4
  * http://getbootstrap.com/javascript/#buttons
  * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -166,6 +193,8 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     this.isLoading = false
   }
 
+  Button.VERSION  = '3.3.4'
+
   Button.DEFAULTS = {
     loadingText: 'loading...'
   }
@@ -176,14 +205,14 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     var val  = $el.is('input') ? 'val' : 'html'
     var data = $el.data()
 
-    state = state + 'Text'
+    state += 'Text'
 
-    if (!data.resetText) $el.data('resetText', $el[val]())
-
-    $el[val](data[state] || this.options[state])
+    if (data.resetText == null) $el.data('resetText', $el[val]())
 
     // push to event loop to allow forms to submit
     setTimeout($.proxy(function () {
+      $el[val](data[state] == null ? this.options[state] : data[state])
+
       if (state == 'loadingText') {
         this.isLoading = true
         $el.addClass(d).attr(d, d)
@@ -201,22 +230,26 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     if ($parent.length) {
       var $input = this.$element.find('input')
       if ($input.prop('type') == 'radio') {
-        if ($input.prop('checked') && this.$element.hasClass('active')) changed = false
-        else $parent.find('.active').removeClass('active')
+        if ($input.prop('checked')) changed = false
+        $parent.find('.active').removeClass('active')
+        this.$element.addClass('active')
+      } else if ($input.prop('type') == 'checkbox') {
+        if (($input.prop('checked')) !== this.$element.hasClass('active')) changed = false
+        this.$element.toggleClass('active')
       }
-      if (changed) $input.prop('checked', !this.$element.hasClass('active')).trigger('change')
+      $input.prop('checked', this.$element.hasClass('active'))
+      if (changed) $input.trigger('change')
+    } else {
+      this.$element.attr('aria-pressed', !this.$element.hasClass('active'))
+      this.$element.toggleClass('active')
     }
-
-    if (changed) this.$element.toggleClass('active')
   }
 
 
   // BUTTON PLUGIN DEFINITION
   // ========================
 
-  var old = $.fn.button
-
-  $.fn.button = function (option) {
+  function Plugin(option) {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.button')
@@ -229,6 +262,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     })
   }
 
+  var old = $.fn.button
+
+  $.fn.button             = Plugin
   $.fn.button.Constructor = Button
 
 
@@ -244,20 +280,24 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // BUTTON DATA-API
   // ===============
 
-  $(document).on('click.bs.button.data-api', '[data-toggle^=button]', function (e) {
-    var $btn = $(e.target)
-    if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
-    $btn.button('toggle')
-    e.preventDefault()
-  })
+  $(document)
+    .on('click.bs.button.data-api', '[data-toggle^="button"]', function (e) {
+      var $btn = $(e.target)
+      if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
+      Plugin.call($btn, 'toggle')
+      if (!($(e.target).is('input[type="radio"]') || $(e.target).is('input[type="checkbox"]'))) e.preventDefault()
+    })
+    .on('focus.bs.button.data-api blur.bs.button.data-api', '[data-toggle^="button"]', function (e) {
+      $(e.target).closest('.btn').toggleClass('focus', /^focus(in)?$/.test(e.type))
+    })
 
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: carousel.js v3.1.1
+ * Bootstrap: carousel.js v3.3.4
  * http://getbootstrap.com/javascript/#carousel
  * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -272,24 +312,42 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     this.$element    = $(element)
     this.$indicators = this.$element.find('.carousel-indicators')
     this.options     = options
-    this.paused      =
-    this.sliding     =
-    this.interval    =
-    this.$active     =
+    this.paused      = null
+    this.sliding     = null
+    this.interval    = null
+    this.$active     = null
     this.$items      = null
 
-    this.options.pause == 'hover' && this.$element
-      .on('mouseenter', $.proxy(this.pause, this))
-      .on('mouseleave', $.proxy(this.cycle, this))
+    this.options.keyboard && this.$element.on('keydown.bs.carousel', $.proxy(this.keydown, this))
+
+    this.options.pause == 'hover' && !('ontouchstart' in document.documentElement) && this.$element
+      .on('mouseenter.bs.carousel', $.proxy(this.pause, this))
+      .on('mouseleave.bs.carousel', $.proxy(this.cycle, this))
   }
+
+  Carousel.VERSION  = '3.3.4'
+
+  Carousel.TRANSITION_DURATION = 600
 
   Carousel.DEFAULTS = {
     interval: 5000,
     pause: 'hover',
-    wrap: true
+    wrap: true,
+    keyboard: true
   }
 
-  Carousel.prototype.cycle =  function (e) {
+  Carousel.prototype.keydown = function (e) {
+    if (/input|textarea/i.test(e.target.tagName)) return
+    switch (e.which) {
+      case 37: this.prev(); break
+      case 39: this.next(); break
+      default: return
+    }
+
+    e.preventDefault()
+  }
+
+  Carousel.prototype.cycle = function (e) {
     e || (this.paused = false)
 
     this.interval && clearInterval(this.interval)
@@ -301,23 +359,31 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     return this
   }
 
-  Carousel.prototype.getActiveIndex = function () {
-    this.$active = this.$element.find('.item.active')
-    this.$items  = this.$active.parent().children()
+  Carousel.prototype.getItemIndex = function (item) {
+    this.$items = item.parent().children('.item')
+    return this.$items.index(item || this.$active)
+  }
 
-    return this.$items.index(this.$active)
+  Carousel.prototype.getItemForDirection = function (direction, active) {
+    var activeIndex = this.getItemIndex(active)
+    var willWrap = (direction == 'prev' && activeIndex === 0)
+                || (direction == 'next' && activeIndex == (this.$items.length - 1))
+    if (willWrap && !this.options.wrap) return active
+    var delta = direction == 'prev' ? -1 : 1
+    var itemIndex = (activeIndex + delta) % this.$items.length
+    return this.$items.eq(itemIndex)
   }
 
   Carousel.prototype.to = function (pos) {
     var that        = this
-    var activeIndex = this.getActiveIndex()
+    var activeIndex = this.getItemIndex(this.$active = this.$element.find('.item.active'))
 
     if (pos > (this.$items.length - 1) || pos < 0) return
 
-    if (this.sliding)       return this.$element.one('slid.bs.carousel', function () { that.to(pos) })
+    if (this.sliding)       return this.$element.one('slid.bs.carousel', function () { that.to(pos) }) // yes, "slid"
     if (activeIndex == pos) return this.pause().cycle()
 
-    return this.slide(pos > activeIndex ? 'next' : 'prev', $(this.$items[pos]))
+    return this.slide(pos > activeIndex ? 'next' : 'prev', this.$items.eq(pos))
   }
 
   Carousel.prototype.pause = function (e) {
@@ -345,22 +411,20 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
   Carousel.prototype.slide = function (type, next) {
     var $active   = this.$element.find('.item.active')
-    var $next     = next || $active[type]()
+    var $next     = next || this.getItemForDirection(type, $active)
     var isCycling = this.interval
     var direction = type == 'next' ? 'left' : 'right'
-    var fallback  = type == 'next' ? 'first' : 'last'
     var that      = this
 
-    if (!$next.length) {
-      if (!this.options.wrap) return
-      $next = this.$element.find('.item')[fallback]()
-    }
+    if ($next.hasClass('active')) return (this.sliding = false)
 
-    if ($next.hasClass('active')) return this.sliding = false
-
-    var e = $.Event('slide.bs.carousel', { relatedTarget: $next[0], direction: direction })
-    this.$element.trigger(e)
-    if (e.isDefaultPrevented()) return
+    var relatedTarget = $next[0]
+    var slideEvent = $.Event('slide.bs.carousel', {
+      relatedTarget: relatedTarget,
+      direction: direction
+    })
+    this.$element.trigger(slideEvent)
+    if (slideEvent.isDefaultPrevented()) return
 
     this.sliding = true
 
@@ -368,30 +432,31 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
     if (this.$indicators.length) {
       this.$indicators.find('.active').removeClass('active')
-      this.$element.one('slid.bs.carousel', function () {
-        var $nextIndicator = $(that.$indicators.children()[that.getActiveIndex()])
-        $nextIndicator && $nextIndicator.addClass('active')
-      })
+      var $nextIndicator = $(this.$indicators.children()[this.getItemIndex($next)])
+      $nextIndicator && $nextIndicator.addClass('active')
     }
 
+    var slidEvent = $.Event('slid.bs.carousel', { relatedTarget: relatedTarget, direction: direction }) // yes, "slid"
     if ($.support.transition && this.$element.hasClass('slide')) {
       $next.addClass(type)
       $next[0].offsetWidth // force reflow
       $active.addClass(direction)
       $next.addClass(direction)
       $active
-        .one($.support.transition.end, function () {
+        .one('bsTransitionEnd', function () {
           $next.removeClass([type, direction].join(' ')).addClass('active')
           $active.removeClass(['active', direction].join(' '))
           that.sliding = false
-          setTimeout(function () { that.$element.trigger('slid.bs.carousel') }, 0)
+          setTimeout(function () {
+            that.$element.trigger(slidEvent)
+          }, 0)
         })
-        .emulateTransitionEnd($active.css('transition-duration').slice(0, -1) * 1000)
+        .emulateTransitionEnd(Carousel.TRANSITION_DURATION)
     } else {
       $active.removeClass('active')
       $next.addClass('active')
       this.sliding = false
-      this.$element.trigger('slid.bs.carousel')
+      this.$element.trigger(slidEvent)
     }
 
     isCycling && this.cycle()
@@ -403,9 +468,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // CAROUSEL PLUGIN DEFINITION
   // ==========================
 
-  var old = $.fn.carousel
-
-  $.fn.carousel = function (option) {
+  function Plugin(option) {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.carousel')
@@ -419,6 +482,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     })
   }
 
+  var old = $.fn.carousel
+
+  $.fn.carousel             = Plugin
   $.fn.carousel.Constructor = Carousel
 
 
@@ -434,36 +500,42 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // CAROUSEL DATA-API
   // =================
 
-  $(document).on('click.bs.carousel.data-api', '[data-slide], [data-slide-to]', function (e) {
-    var $this   = $(this), href
-    var $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
+  var clickHandler = function (e) {
+    var href
+    var $this   = $(this)
+    var $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) // strip for ie7
+    if (!$target.hasClass('carousel')) return
     var options = $.extend({}, $target.data(), $this.data())
     var slideIndex = $this.attr('data-slide-to')
     if (slideIndex) options.interval = false
 
-    $target.carousel(options)
+    Plugin.call($target, options)
 
-    if (slideIndex = $this.attr('data-slide-to')) {
+    if (slideIndex) {
       $target.data('bs.carousel').to(slideIndex)
     }
 
     e.preventDefault()
-  })
+  }
+
+  $(document)
+    .on('click.bs.carousel.data-api', '[data-slide]', clickHandler)
+    .on('click.bs.carousel.data-api', '[data-slide-to]', clickHandler)
 
   $(window).on('load', function () {
     $('[data-ride="carousel"]').each(function () {
       var $carousel = $(this)
-      $carousel.carousel($carousel.data())
+      Plugin.call($carousel, $carousel.data())
     })
   })
 
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: collapse.js v3.1.1
+ * Bootstrap: collapse.js v3.3.4
  * http://getbootstrap.com/javascript/#collapse
  * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -477,11 +549,22 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   var Collapse = function (element, options) {
     this.$element      = $(element)
     this.options       = $.extend({}, Collapse.DEFAULTS, options)
+    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
+                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
     this.transitioning = null
 
-    if (this.options.parent) this.$parent = $(this.options.parent)
+    if (this.options.parent) {
+      this.$parent = this.getParent()
+    } else {
+      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
+    }
+
     if (this.options.toggle) this.toggle()
   }
+
+  Collapse.VERSION  = '3.3.4'
+
+  Collapse.TRANSITION_DURATION = 350
 
   Collapse.DEFAULTS = {
     toggle: true
@@ -495,35 +578,43 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   Collapse.prototype.show = function () {
     if (this.transitioning || this.$element.hasClass('in')) return
 
+    var activesData
+    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
+
+    if (actives && actives.length) {
+      activesData = actives.data('bs.collapse')
+      if (activesData && activesData.transitioning) return
+    }
+
     var startEvent = $.Event('show.bs.collapse')
     this.$element.trigger(startEvent)
     if (startEvent.isDefaultPrevented()) return
 
-    var actives = this.$parent && this.$parent.find('> .panel > .in')
-
     if (actives && actives.length) {
-      var hasData = actives.data('bs.collapse')
-      if (hasData && hasData.transitioning) return
-      actives.collapse('hide')
-      hasData || actives.data('bs.collapse', null)
+      Plugin.call(actives, 'hide')
+      activesData || actives.data('bs.collapse', null)
     }
 
     var dimension = this.dimension()
 
     this.$element
       .removeClass('collapse')
-      .addClass('collapsing')
-      [dimension](0)
+      .addClass('collapsing')[dimension](0)
+      .attr('aria-expanded', true)
+
+    this.$trigger
+      .removeClass('collapsed')
+      .attr('aria-expanded', true)
 
     this.transitioning = 1
 
     var complete = function () {
       this.$element
         .removeClass('collapsing')
-        .addClass('collapse in')
-        [dimension]('auto')
+        .addClass('collapse in')[dimension]('')
       this.transitioning = 0
-      this.$element.trigger('shown.bs.collapse')
+      this.$element
+        .trigger('shown.bs.collapse')
     }
 
     if (!$.support.transition) return complete.call(this)
@@ -531,9 +622,8 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     var scrollSize = $.camelCase(['scroll', dimension].join('-'))
 
     this.$element
-      .one($.support.transition.end, $.proxy(complete, this))
-      .emulateTransitionEnd(350)
-      [dimension](this.$element[0][scrollSize])
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
   }
 
   Collapse.prototype.hide = function () {
@@ -545,55 +635,85 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
     var dimension = this.dimension()
 
-    this.$element
-      [dimension](this.$element[dimension]())
-      [0].offsetHeight
+    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
 
     this.$element
       .addClass('collapsing')
-      .removeClass('collapse')
-      .removeClass('in')
+      .removeClass('collapse in')
+      .attr('aria-expanded', false)
+
+    this.$trigger
+      .addClass('collapsed')
+      .attr('aria-expanded', false)
 
     this.transitioning = 1
 
     var complete = function () {
       this.transitioning = 0
       this.$element
-        .trigger('hidden.bs.collapse')
         .removeClass('collapsing')
         .addClass('collapse')
+        .trigger('hidden.bs.collapse')
     }
 
     if (!$.support.transition) return complete.call(this)
 
     this.$element
       [dimension](0)
-      .one($.support.transition.end, $.proxy(complete, this))
-      .emulateTransitionEnd(350)
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
   }
 
   Collapse.prototype.toggle = function () {
     this[this.$element.hasClass('in') ? 'hide' : 'show']()
   }
 
+  Collapse.prototype.getParent = function () {
+    return $(this.options.parent)
+      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
+      .each($.proxy(function (i, element) {
+        var $element = $(element)
+        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
+      }, this))
+      .end()
+  }
+
+  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
+    var isOpen = $element.hasClass('in')
+
+    $element.attr('aria-expanded', isOpen)
+    $trigger
+      .toggleClass('collapsed', !isOpen)
+      .attr('aria-expanded', isOpen)
+  }
+
+  function getTargetFromTrigger($trigger) {
+    var href
+    var target = $trigger.attr('data-target')
+      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
+
+    return $(target)
+  }
+
 
   // COLLAPSE PLUGIN DEFINITION
   // ==========================
 
-  var old = $.fn.collapse
-
-  $.fn.collapse = function (option) {
+  function Plugin(option) {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.collapse')
       var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
-      if (!data && options.toggle && option == 'show') option = !option
+      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
       if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
       if (typeof option == 'string') data[option]()
     })
   }
 
+  var old = $.fn.collapse
+
+  $.fn.collapse             = Plugin
   $.fn.collapse.Constructor = Collapse
 
 
@@ -609,32 +729,25 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // COLLAPSE DATA-API
   // =================
 
-  $(document).on('click.bs.collapse.data-api', '[data-toggle=collapse]', function (e) {
-    var $this   = $(this), href
-    var target  = $this.attr('data-target')
-        || e.preventDefault()
-        || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
-    var $target = $(target)
+  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
+    var $this   = $(this)
+
+    if (!$this.attr('data-target')) e.preventDefault()
+
+    var $target = getTargetFromTrigger($this)
     var data    = $target.data('bs.collapse')
     var option  = data ? 'toggle' : $this.data()
-    var parent  = $this.attr('data-parent')
-    var $parent = parent && $(parent)
 
-    if (!data || !data.transitioning) {
-      if ($parent) $parent.find('[data-toggle=collapse][data-parent="' + parent + '"]').not($this).addClass('collapsed')
-      $this[$target.hasClass('in') ? 'addClass' : 'removeClass']('collapsed')
-    }
-
-    $target.collapse(option)
+    Plugin.call($target, option)
   })
 
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: dropdown.js v3.1.1
+ * Bootstrap: dropdown.js v3.3.4
  * http://getbootstrap.com/javascript/#dropdowns
  * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -646,9 +759,45 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // =========================
 
   var backdrop = '.dropdown-backdrop'
-  var toggle   = '[data-toggle=dropdown]'
+  var toggle   = '[data-toggle="dropdown"]'
   var Dropdown = function (element) {
     $(element).on('click.bs.dropdown', this.toggle)
+  }
+
+  Dropdown.VERSION = '3.3.4'
+
+  function getParent($this) {
+    var selector = $this.attr('data-target')
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+    }
+
+    var $parent = selector && $(selector)
+
+    return $parent && $parent.length ? $parent : $this.parent()
+  }
+
+  function clearMenus(e) {
+    if (e && e.which === 3) return
+    $(backdrop).remove()
+    $(toggle).each(function () {
+      var $this         = $(this)
+      var $parent       = getParent($this)
+      var relatedTarget = { relatedTarget: this }
+
+      if (!$parent.hasClass('open')) return
+
+      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
+
+      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $this.attr('aria-expanded', 'false')
+      $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
+    })
   }
 
   Dropdown.prototype.toggle = function (e) {
@@ -664,7 +813,10 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     if (!isActive) {
       if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
         // if mobile we use a backdrop because click events don't delegate
-        $('<div class="dropdown-backdrop"/>').insertAfter($(this)).on('click', clearMenus)
+        $(document.createElement('div'))
+          .addClass('dropdown-backdrop')
+          .insertAfter($(this))
+          .on('click', clearMenus)
       }
 
       var relatedTarget = { relatedTarget: this }
@@ -672,18 +824,20 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
       if (e.isDefaultPrevented()) return
 
+      $this
+        .trigger('focus')
+        .attr('aria-expanded', 'true')
+
       $parent
         .toggleClass('open')
         .trigger('shown.bs.dropdown', relatedTarget)
-
-      $this.focus()
     }
 
     return false
   }
 
   Dropdown.prototype.keydown = function (e) {
-    if (!/(38|40|27)/.test(e.keyCode)) return
+    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
 
     var $this = $(this)
 
@@ -695,57 +849,30 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     var $parent  = getParent($this)
     var isActive = $parent.hasClass('open')
 
-    if (!isActive || (isActive && e.keyCode == 27)) {
-      if (e.which == 27) $parent.find(toggle).focus()
-      return $this.click()
+    if (!isActive && e.which != 27 || isActive && e.which == 27) {
+      if (e.which == 27) $parent.find(toggle).trigger('focus')
+      return $this.trigger('click')
     }
 
-    var desc = ' li:not(.divider):visible a'
-    var $items = $parent.find('[role=menu]' + desc + ', [role=listbox]' + desc)
+    var desc = ' li:not(.disabled):visible a'
+    var $items = $parent.find('[role="menu"]' + desc + ', [role="listbox"]' + desc)
 
     if (!$items.length) return
 
-    var index = $items.index($items.filter(':focus'))
+    var index = $items.index(e.target)
 
-    if (e.keyCode == 38 && index > 0)                 index--                        // up
-    if (e.keyCode == 40 && index < $items.length - 1) index++                        // down
-    if (!~index)                                      index = 0
+    if (e.which == 38 && index > 0)                 index--         // up
+    if (e.which == 40 && index < $items.length - 1) index++         // down
+    if (!~index)                                    index = 0
 
-    $items.eq(index).focus()
-  }
-
-  function clearMenus(e) {
-    $(backdrop).remove()
-    $(toggle).each(function () {
-      var $parent = getParent($(this))
-      var relatedTarget = { relatedTarget: this }
-      if (!$parent.hasClass('open')) return
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
-      if (e.isDefaultPrevented()) return
-      $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
-    })
-  }
-
-  function getParent($this) {
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
-    }
-
-    var $parent = selector && $(selector)
-
-    return $parent && $parent.length ? $parent : $this.parent()
+    $items.eq(index).trigger('focus')
   }
 
 
   // DROPDOWN PLUGIN DEFINITION
   // ==========================
 
-  var old = $.fn.dropdown
-
-  $.fn.dropdown = function (option) {
+  function Plugin(option) {
     return this.each(function () {
       var $this = $(this)
       var data  = $this.data('bs.dropdown')
@@ -755,6 +882,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     })
   }
 
+  var old = $.fn.dropdown
+
+  $.fn.dropdown             = Plugin
   $.fn.dropdown.Constructor = Dropdown
 
 
@@ -774,15 +904,16 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     .on('click.bs.dropdown.data-api', clearMenus)
     .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
     .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle + ', [role=menu], [role=listbox]', Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
 
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: modal.js v3.1.1
+ * Bootstrap: modal.js v3.3.4
  * http://getbootstrap.com/javascript/#modals
  * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -794,10 +925,15 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // ======================
 
   var Modal = function (element, options) {
-    this.options   = options
-    this.$element  = $(element)
-    this.$backdrop =
-    this.isShown   = null
+    this.options             = options
+    this.$body               = $(document.body)
+    this.$element            = $(element)
+    this.$dialog             = this.$element.find('.modal-dialog')
+    this.$backdrop           = null
+    this.isShown             = null
+    this.originalBodyPad     = null
+    this.scrollbarWidth      = 0
+    this.ignoreBackdropClick = false
 
     if (this.options.remote) {
       this.$element
@@ -808,6 +944,11 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     }
   }
 
+  Modal.VERSION  = '3.3.4'
+
+  Modal.TRANSITION_DURATION = 300
+  Modal.BACKDROP_TRANSITION_DURATION = 150
+
   Modal.DEFAULTS = {
     backdrop: true,
     keyboard: true,
@@ -815,7 +956,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   }
 
   Modal.prototype.toggle = function (_relatedTarget) {
-    return this[!this.isShown ? 'show' : 'hide'](_relatedTarget)
+    return this.isShown ? this.hide() : this.show(_relatedTarget)
   }
 
   Modal.prototype.show = function (_relatedTarget) {
@@ -828,40 +969,51 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
     this.isShown = true
 
+    this.checkScrollbar()
+    this.setScrollbar()
+    this.$body.addClass('modal-open')
+
     this.escape()
+    this.resize()
 
     this.$element.on('click.dismiss.bs.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
+
+    this.$dialog.on('mousedown.dismiss.bs.modal', function () {
+      that.$element.one('mouseup.dismiss.bs.modal', function (e) {
+        if ($(e.target).is(that.$element)) that.ignoreBackdropClick = true
+      })
+    })
 
     this.backdrop(function () {
       var transition = $.support.transition && that.$element.hasClass('fade')
 
       if (!that.$element.parent().length) {
-        that.$element.appendTo(document.body) // don't move modals dom position
+        that.$element.appendTo(that.$body) // don't move modals dom position
       }
 
       that.$element
         .show()
         .scrollTop(0)
 
+      that.adjustDialog()
+
       if (transition) {
         that.$element[0].offsetWidth // force reflow
       }
 
-      that.$element
-        .addClass('in')
-        .attr('aria-hidden', false)
+      that.$element.addClass('in')
 
       that.enforceFocus()
 
       var e = $.Event('shown.bs.modal', { relatedTarget: _relatedTarget })
 
       transition ?
-        that.$element.find('.modal-dialog') // wait for modal to slide in
-          .one($.support.transition.end, function () {
-            that.$element.focus().trigger(e)
+        that.$dialog // wait for modal to slide in
+          .one('bsTransitionEnd', function () {
+            that.$element.trigger('focus').trigger(e)
           })
-          .emulateTransitionEnd(300) :
-        that.$element.focus().trigger(e)
+          .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
+        that.$element.trigger('focus').trigger(e)
     })
   }
 
@@ -877,18 +1029,21 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     this.isShown = false
 
     this.escape()
+    this.resize()
 
     $(document).off('focusin.bs.modal')
 
     this.$element
       .removeClass('in')
-      .attr('aria-hidden', true)
       .off('click.dismiss.bs.modal')
+      .off('mouseup.dismiss.bs.modal')
+
+    this.$dialog.off('mousedown.dismiss.bs.modal')
 
     $.support.transition && this.$element.hasClass('fade') ?
       this.$element
-        .one($.support.transition.end, $.proxy(this.hideModal, this))
-        .emulateTransitionEnd(300) :
+        .one('bsTransitionEnd', $.proxy(this.hideModal, this))
+        .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
       this.hideModal()
   }
 
@@ -897,18 +1052,26 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
       .off('focusin.bs.modal') // guard against infinite focus loop
       .on('focusin.bs.modal', $.proxy(function (e) {
         if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
-          this.$element.focus()
+          this.$element.trigger('focus')
         }
       }, this))
   }
 
   Modal.prototype.escape = function () {
     if (this.isShown && this.options.keyboard) {
-      this.$element.on('keyup.dismiss.bs.modal', $.proxy(function (e) {
+      this.$element.on('keydown.dismiss.bs.modal', $.proxy(function (e) {
         e.which == 27 && this.hide()
       }, this))
     } else if (!this.isShown) {
-      this.$element.off('keyup.dismiss.bs.modal')
+      this.$element.off('keydown.dismiss.bs.modal')
+    }
+  }
+
+  Modal.prototype.resize = function () {
+    if (this.isShown) {
+      $(window).on('resize.bs.modal', $.proxy(this.handleUpdate, this))
+    } else {
+      $(window).off('resize.bs.modal')
     }
   }
 
@@ -916,7 +1079,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     var that = this
     this.$element.hide()
     this.backdrop(function () {
-      that.removeBackdrop()
+      that.$body.removeClass('modal-open')
+      that.resetAdjustments()
+      that.resetScrollbar()
       that.$element.trigger('hidden.bs.modal')
     })
   }
@@ -927,19 +1092,25 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   }
 
   Modal.prototype.backdrop = function (callback) {
+    var that = this
     var animate = this.$element.hasClass('fade') ? 'fade' : ''
 
     if (this.isShown && this.options.backdrop) {
       var doAnimate = $.support.transition && animate
 
-      this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
-        .appendTo(document.body)
+      this.$backdrop = $(document.createElement('div'))
+        .addClass('modal-backdrop ' + animate)
+        .appendTo(this.$body)
 
       this.$element.on('click.dismiss.bs.modal', $.proxy(function (e) {
+        if (this.ignoreBackdropClick) {
+          this.ignoreBackdropClick = false
+          return
+        }
         if (e.target !== e.currentTarget) return
         this.options.backdrop == 'static'
-          ? this.$element[0].focus.call(this.$element[0])
-          : this.hide.call(this)
+          ? this.$element[0].focus()
+          : this.hide()
       }, this))
 
       if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
@@ -950,31 +1121,84 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
       doAnimate ?
         this.$backdrop
-          .one($.support.transition.end, callback)
-          .emulateTransitionEnd(150) :
+          .one('bsTransitionEnd', callback)
+          .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
         callback()
 
     } else if (!this.isShown && this.$backdrop) {
       this.$backdrop.removeClass('in')
 
+      var callbackRemove = function () {
+        that.removeBackdrop()
+        callback && callback()
+      }
       $.support.transition && this.$element.hasClass('fade') ?
         this.$backdrop
-          .one($.support.transition.end, callback)
-          .emulateTransitionEnd(150) :
-        callback()
+          .one('bsTransitionEnd', callbackRemove)
+          .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
+        callbackRemove()
 
     } else if (callback) {
       callback()
     }
   }
 
+  // these following methods are used to handle overflowing modals
+
+  Modal.prototype.handleUpdate = function () {
+    this.adjustDialog()
+  }
+
+  Modal.prototype.adjustDialog = function () {
+    var modalIsOverflowing = this.$element[0].scrollHeight > document.documentElement.clientHeight
+
+    this.$element.css({
+      paddingLeft:  !this.bodyIsOverflowing && modalIsOverflowing ? this.scrollbarWidth : '',
+      paddingRight: this.bodyIsOverflowing && !modalIsOverflowing ? this.scrollbarWidth : ''
+    })
+  }
+
+  Modal.prototype.resetAdjustments = function () {
+    this.$element.css({
+      paddingLeft: '',
+      paddingRight: ''
+    })
+  }
+
+  Modal.prototype.checkScrollbar = function () {
+    var fullWindowWidth = window.innerWidth
+    if (!fullWindowWidth) { // workaround for missing window.innerWidth in IE8
+      var documentElementRect = document.documentElement.getBoundingClientRect()
+      fullWindowWidth = documentElementRect.right - Math.abs(documentElementRect.left)
+    }
+    this.bodyIsOverflowing = document.body.clientWidth < fullWindowWidth
+    this.scrollbarWidth = this.measureScrollbar()
+  }
+
+  Modal.prototype.setScrollbar = function () {
+    var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
+    this.originalBodyPad = document.body.style.paddingRight || ''
+    if (this.bodyIsOverflowing) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
+  }
+
+  Modal.prototype.resetScrollbar = function () {
+    this.$body.css('padding-right', this.originalBodyPad)
+  }
+
+  Modal.prototype.measureScrollbar = function () { // thx walsh
+    var scrollDiv = document.createElement('div')
+    scrollDiv.className = 'modal-scrollbar-measure'
+    this.$body.append(scrollDiv)
+    var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
+    this.$body[0].removeChild(scrollDiv)
+    return scrollbarWidth
+  }
+
 
   // MODAL PLUGIN DEFINITION
   // =======================
 
-  var old = $.fn.modal
-
-  $.fn.modal = function (option, _relatedTarget) {
+  function Plugin(option, _relatedTarget) {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.modal')
@@ -986,6 +1210,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     })
   }
 
+  var old = $.fn.modal
+
+  $.fn.modal             = Plugin
   $.fn.modal.Constructor = Modal
 
 
@@ -1004,30 +1231,28 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   $(document).on('click.bs.modal.data-api', '[data-toggle="modal"]', function (e) {
     var $this   = $(this)
     var href    = $this.attr('href')
-    var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
+    var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) // strip for ie7
     var option  = $target.data('bs.modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
 
     if ($this.is('a')) e.preventDefault()
 
-    $target
-      .modal(option, this)
-      .one('hide', function () {
-        $this.is(':visible') && $this.focus()
+    $target.one('show.bs.modal', function (showEvent) {
+      if (showEvent.isDefaultPrevented()) return // only register focus restorer if modal will actually get shown
+      $target.one('hidden.bs.modal', function () {
+        $this.is(':visible') && $this.trigger('focus')
       })
+    })
+    Plugin.call($target, option, this)
   })
-
-  $(document)
-    .on('show.bs.modal', '.modal', function () { $(document.body).addClass('modal-open') })
-    .on('hidden.bs.modal', '.modal', function () { $(document.body).removeClass('modal-open') })
 
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: tooltip.js v3.1.1
+ * Bootstrap: tooltip.js v3.3.4
  * http://getbootstrap.com/javascript/#tooltip
  * Inspired by the original jQuery.tipsy by Jason Frame
  * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -1039,33 +1264,48 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // ===============================
 
   var Tooltip = function (element, options) {
-    this.type       =
-    this.options    =
-    this.enabled    =
-    this.timeout    =
-    this.hoverState =
+    this.type       = null
+    this.options    = null
+    this.enabled    = null
+    this.timeout    = null
+    this.hoverState = null
     this.$element   = null
+    this.inState    = null
 
     this.init('tooltip', element, options)
   }
+
+  Tooltip.VERSION  = '3.3.4'
+
+  Tooltip.TRANSITION_DURATION = 150
 
   Tooltip.DEFAULTS = {
     animation: true,
     placement: 'top',
     selector: false,
-    template: '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+    template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
     trigger: 'hover focus',
     title: '',
     delay: 0,
     html: false,
-    container: false
+    container: false,
+    viewport: {
+      selector: 'body',
+      padding: 0
+    }
   }
 
   Tooltip.prototype.init = function (type, element, options) {
-    this.enabled  = true
-    this.type     = type
-    this.$element = $(element)
-    this.options  = this.getOptions(options)
+    this.enabled   = true
+    this.type      = type
+    this.$element  = $(element)
+    this.options   = this.getOptions(options)
+    this.$viewport = this.options.viewport && $($.isFunction(this.options.viewport) ? this.options.viewport.call(this, this.$element) : (this.options.viewport.selector || this.options.viewport))
+    this.inState   = { click: false, hover: false, focus: false }
+
+    if (this.$element[0] instanceof document.constructor && !this.options.selector) {
+      throw new Error('`selector` option must be specified when initializing ' + this.type + ' on the window.document object!')
+    }
 
     var triggers = this.options.trigger.split(' ')
 
@@ -1118,7 +1358,21 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
   Tooltip.prototype.enter = function (obj) {
     var self = obj instanceof this.constructor ?
-      obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
+      obj : $(obj.currentTarget).data('bs.' + this.type)
+
+    if (!self) {
+      self = new this.constructor(obj.currentTarget, this.getDelegateOptions())
+      $(obj.currentTarget).data('bs.' + this.type, self)
+    }
+
+    if (obj instanceof $.Event) {
+      self.inState[obj.type == 'focusin' ? 'focus' : 'hover'] = true
+    }
+
+    if (self.tip().hasClass('in') || self.hoverState == 'in') {
+      self.hoverState = 'in'
+      return
+    }
 
     clearTimeout(self.timeout)
 
@@ -1131,9 +1385,28 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     }, self.options.delay.show)
   }
 
+  Tooltip.prototype.isInStateTrue = function () {
+    for (var key in this.inState) {
+      if (this.inState[key]) return true
+    }
+
+    return false
+  }
+
   Tooltip.prototype.leave = function (obj) {
     var self = obj instanceof this.constructor ?
-      obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
+      obj : $(obj.currentTarget).data('bs.' + this.type)
+
+    if (!self) {
+      self = new this.constructor(obj.currentTarget, this.getDelegateOptions())
+      $(obj.currentTarget).data('bs.' + this.type, self)
+    }
+
+    if (obj instanceof $.Event) {
+      self.inState[obj.type == 'focusout' ? 'focus' : 'hover'] = false
+    }
+
+    if (self.isInStateTrue()) return
 
     clearTimeout(self.timeout)
 
@@ -1152,12 +1425,17 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     if (this.hasContent() && this.enabled) {
       this.$element.trigger(e)
 
-      if (e.isDefaultPrevented()) return
-      var that = this;
+      var inDom = $.contains(this.$element[0].ownerDocument.documentElement, this.$element[0])
+      if (e.isDefaultPrevented() || !inDom) return
+      var that = this
 
       var $tip = this.tip()
 
+      var tipId = this.getUID(this.type)
+
       this.setContent()
+      $tip.attr('id', tipId)
+      this.$element.attr('aria-describedby', tipId)
 
       if (this.options.animation) $tip.addClass('fade')
 
@@ -1173,26 +1451,23 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
         .detach()
         .css({ top: 0, left: 0, display: 'block' })
         .addClass(placement)
+        .data('bs.' + this.type, this)
 
       this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
+      this.$element.trigger('inserted.bs.' + this.type)
 
       var pos          = this.getPosition()
       var actualWidth  = $tip[0].offsetWidth
       var actualHeight = $tip[0].offsetHeight
 
       if (autoPlace) {
-        var $parent = this.$element.parent()
-
         var orgPlacement = placement
-        var docScroll    = document.documentElement.scrollTop || document.body.scrollTop
-        var parentWidth  = this.options.container == 'body' ? window.innerWidth  : $parent.outerWidth()
-        var parentHeight = this.options.container == 'body' ? window.innerHeight : $parent.outerHeight()
-        var parentLeft   = this.options.container == 'body' ? 0 : $parent.offset().left
+        var viewportDim = this.getPosition(this.$viewport)
 
-        placement = placement == 'bottom' && pos.top   + pos.height  + actualHeight - docScroll > parentHeight  ? 'top'    :
-                    placement == 'top'    && pos.top   - docScroll   - actualHeight < 0                         ? 'bottom' :
-                    placement == 'right'  && pos.right + actualWidth > parentWidth                              ? 'left'   :
-                    placement == 'left'   && pos.left  - actualWidth < parentLeft                               ? 'right'  :
+        placement = placement == 'bottom' && pos.bottom + actualHeight > viewportDim.bottom ? 'top'    :
+                    placement == 'top'    && pos.top    - actualHeight < viewportDim.top    ? 'bottom' :
+                    placement == 'right'  && pos.right  + actualWidth  > viewportDim.width  ? 'left'   :
+                    placement == 'left'   && pos.left   - actualWidth  < viewportDim.left   ? 'right'  :
                     placement
 
         $tip
@@ -1203,22 +1478,24 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
       var calculatedOffset = this.getCalculatedOffset(placement, pos, actualWidth, actualHeight)
 
       this.applyPlacement(calculatedOffset, placement)
-      this.hoverState = null
 
-      var complete = function() {
+      var complete = function () {
+        var prevHoverState = that.hoverState
         that.$element.trigger('shown.bs.' + that.type)
+        that.hoverState = null
+
+        if (prevHoverState == 'out') that.leave(that)
       }
 
       $.support.transition && this.$tip.hasClass('fade') ?
         $tip
-          .one($.support.transition.end, complete)
-          .emulateTransitionEnd(150) :
+          .one('bsTransitionEnd', complete)
+          .emulateTransitionEnd(Tooltip.TRANSITION_DURATION) :
         complete()
     }
   }
 
   Tooltip.prototype.applyPlacement = function (offset, placement) {
-    var replace
     var $tip   = this.tip()
     var width  = $tip[0].offsetWidth
     var height = $tip[0].offsetHeight
@@ -1231,8 +1508,8 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     if (isNaN(marginTop))  marginTop  = 0
     if (isNaN(marginLeft)) marginLeft = 0
 
-    offset.top  = offset.top  + marginTop
-    offset.left = offset.left + marginLeft
+    offset.top  += marginTop
+    offset.left += marginLeft
 
     // $.fn.offset doesn't round pixel values
     // so we use setOffset directly with our own function B-0
@@ -1252,33 +1529,26 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     var actualHeight = $tip[0].offsetHeight
 
     if (placement == 'top' && actualHeight != height) {
-      replace = true
       offset.top = offset.top + height - actualHeight
     }
 
-    if (/bottom|top/.test(placement)) {
-      var delta = 0
+    var delta = this.getViewportAdjustedDelta(placement, offset, actualWidth, actualHeight)
 
-      if (offset.left < 0) {
-        delta       = offset.left * -2
-        offset.left = 0
+    if (delta.left) offset.left += delta.left
+    else offset.top += delta.top
 
-        $tip.offset(offset)
+    var isVertical          = /top|bottom/.test(placement)
+    var arrowDelta          = isVertical ? delta.left * 2 - width + actualWidth : delta.top * 2 - height + actualHeight
+    var arrowOffsetPosition = isVertical ? 'offsetWidth' : 'offsetHeight'
 
-        actualWidth  = $tip[0].offsetWidth
-        actualHeight = $tip[0].offsetHeight
-      }
-
-      this.replaceArrow(delta - width + actualWidth, actualWidth, 'left')
-    } else {
-      this.replaceArrow(actualHeight - height, actualHeight, 'top')
-    }
-
-    if (replace) $tip.offset(offset)
+    $tip.offset(offset)
+    this.replaceArrow(arrowDelta, $tip[0][arrowOffsetPosition], isVertical)
   }
 
-  Tooltip.prototype.replaceArrow = function (delta, dimension, position) {
-    this.arrow().css(position, delta ? (50 * (1 - delta / dimension) + '%') : '')
+  Tooltip.prototype.replaceArrow = function (delta, dimension, isVertical) {
+    this.arrow()
+      .css(isVertical ? 'left' : 'top', 50 * (1 - delta / dimension) + '%')
+      .css(isVertical ? 'top' : 'left', '')
   }
 
   Tooltip.prototype.setContent = function () {
@@ -1289,14 +1559,17 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     $tip.removeClass('fade in top bottom left right')
   }
 
-  Tooltip.prototype.hide = function () {
+  Tooltip.prototype.hide = function (callback) {
     var that = this
-    var $tip = this.tip()
+    var $tip = $(this.$tip)
     var e    = $.Event('hide.bs.' + this.type)
 
     function complete() {
       if (that.hoverState != 'in') $tip.detach()
-      that.$element.trigger('hidden.bs.' + that.type)
+      that.$element
+        .removeAttr('aria-describedby')
+        .trigger('hidden.bs.' + that.type)
+      callback && callback()
     }
 
     this.$element.trigger(e)
@@ -1305,10 +1578,10 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
     $tip.removeClass('in')
 
-    $.support.transition && this.$tip.hasClass('fade') ?
+    $.support.transition && $tip.hasClass('fade') ?
       $tip
-        .one($.support.transition.end, complete)
-        .emulateTransitionEnd(150) :
+        .one('bsTransitionEnd', complete)
+        .emulateTransitionEnd(Tooltip.TRANSITION_DURATION) :
       complete()
 
     this.hoverState = null
@@ -1318,7 +1591,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
   Tooltip.prototype.fixTitle = function () {
     var $e = this.$element
-    if ($e.attr('title') || typeof($e.attr('data-original-title')) != 'string') {
+    if ($e.attr('title') || typeof $e.attr('data-original-title') != 'string') {
       $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')
     }
   }
@@ -1327,19 +1600,58 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     return this.getTitle()
   }
 
-  Tooltip.prototype.getPosition = function () {
-    var el = this.$element[0]
-    return $.extend({}, (typeof el.getBoundingClientRect == 'function') ? el.getBoundingClientRect() : {
-      width: el.offsetWidth,
-      height: el.offsetHeight
-    }, this.$element.offset())
+  Tooltip.prototype.getPosition = function ($element) {
+    $element   = $element || this.$element
+
+    var el     = $element[0]
+    var isBody = el.tagName == 'BODY'
+
+    var elRect    = el.getBoundingClientRect()
+    if (elRect.width == null) {
+      // width and height are missing in IE8, so compute them manually; see https://github.com/twbs/bootstrap/issues/14093
+      elRect = $.extend({}, elRect, { width: elRect.right - elRect.left, height: elRect.bottom - elRect.top })
+    }
+    var elOffset  = isBody ? { top: 0, left: 0 } : $element.offset()
+    var scroll    = { scroll: isBody ? document.documentElement.scrollTop || document.body.scrollTop : $element.scrollTop() }
+    var outerDims = isBody ? { width: $(window).width(), height: $(window).height() } : null
+
+    return $.extend({}, elRect, scroll, outerDims, elOffset)
   }
 
   Tooltip.prototype.getCalculatedOffset = function (placement, pos, actualWidth, actualHeight) {
-    return placement == 'bottom' ? { top: pos.top + pos.height,   left: pos.left + pos.width / 2 - actualWidth / 2  } :
-           placement == 'top'    ? { top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2  } :
+    return placement == 'bottom' ? { top: pos.top + pos.height,   left: pos.left + pos.width / 2 - actualWidth / 2 } :
+           placement == 'top'    ? { top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2 } :
            placement == 'left'   ? { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth } :
-        /* placement == 'right' */ { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width   }
+        /* placement == 'right' */ { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width }
+
+  }
+
+  Tooltip.prototype.getViewportAdjustedDelta = function (placement, pos, actualWidth, actualHeight) {
+    var delta = { top: 0, left: 0 }
+    if (!this.$viewport) return delta
+
+    var viewportPadding = this.options.viewport && this.options.viewport.padding || 0
+    var viewportDimensions = this.getPosition(this.$viewport)
+
+    if (/right|left/.test(placement)) {
+      var topEdgeOffset    = pos.top - viewportPadding - viewportDimensions.scroll
+      var bottomEdgeOffset = pos.top + viewportPadding - viewportDimensions.scroll + actualHeight
+      if (topEdgeOffset < viewportDimensions.top) { // top overflow
+        delta.top = viewportDimensions.top - topEdgeOffset
+      } else if (bottomEdgeOffset > viewportDimensions.top + viewportDimensions.height) { // bottom overflow
+        delta.top = viewportDimensions.top + viewportDimensions.height - bottomEdgeOffset
+      }
+    } else {
+      var leftEdgeOffset  = pos.left - viewportPadding
+      var rightEdgeOffset = pos.left + viewportPadding + actualWidth
+      if (leftEdgeOffset < viewportDimensions.left) { // left overflow
+        delta.left = viewportDimensions.left - leftEdgeOffset
+      } else if (rightEdgeOffset > viewportDimensions.right) { // right overflow
+        delta.left = viewportDimensions.left + viewportDimensions.width - rightEdgeOffset
+      }
+    }
+
+    return delta
   }
 
   Tooltip.prototype.getTitle = function () {
@@ -1353,20 +1665,24 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     return title
   }
 
+  Tooltip.prototype.getUID = function (prefix) {
+    do prefix += ~~(Math.random() * 1000000)
+    while (document.getElementById(prefix))
+    return prefix
+  }
+
   Tooltip.prototype.tip = function () {
-    return this.$tip = this.$tip || $(this.options.template)
+    if (!this.$tip) {
+      this.$tip = $(this.options.template)
+      if (this.$tip.length != 1) {
+        throw new Error(this.type + ' `template` option must consist of exactly 1 top-level element!')
+      }
+    }
+    return this.$tip
   }
 
   Tooltip.prototype.arrow = function () {
-    return this.$arrow = this.$arrow || this.tip().find('.tooltip-arrow')
-  }
-
-  Tooltip.prototype.validate = function () {
-    if (!this.$element[0].parentNode) {
-      this.hide()
-      this.$element = null
-      this.options  = null
-    }
+    return (this.$arrow = this.$arrow || this.tip().find('.tooltip-arrow'))
   }
 
   Tooltip.prototype.enable = function () {
@@ -1382,33 +1698,57 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   }
 
   Tooltip.prototype.toggle = function (e) {
-    var self = e ? $(e.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type) : this
-    self.tip().hasClass('in') ? self.leave(self) : self.enter(self)
+    var self = this
+    if (e) {
+      self = $(e.currentTarget).data('bs.' + this.type)
+      if (!self) {
+        self = new this.constructor(e.currentTarget, this.getDelegateOptions())
+        $(e.currentTarget).data('bs.' + this.type, self)
+      }
+    }
+
+    if (e) {
+      self.inState.click = !self.inState.click
+      if (self.isInStateTrue()) self.enter(self)
+      else self.leave(self)
+    } else {
+      self.tip().hasClass('in') ? self.leave(self) : self.enter(self)
+    }
   }
 
   Tooltip.prototype.destroy = function () {
+    var that = this
     clearTimeout(this.timeout)
-    this.hide().$element.off('.' + this.type).removeData('bs.' + this.type)
+    this.hide(function () {
+      that.$element.off('.' + that.type).removeData('bs.' + that.type)
+      if (that.$tip) {
+        that.$tip.detach()
+      }
+      that.$tip = null
+      that.$arrow = null
+      that.$viewport = null
+    })
   }
 
 
   // TOOLTIP PLUGIN DEFINITION
   // =========================
 
-  var old = $.fn.tooltip
-
-  $.fn.tooltip = function (option) {
+  function Plugin(option) {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.tooltip')
       var options = typeof option == 'object' && option
 
-      if (!data && option == 'destroy') return
+      if (!data && /destroy|hide/.test(option)) return
       if (!data) $this.data('bs.tooltip', (data = new Tooltip(this, options)))
       if (typeof option == 'string') data[option]()
     })
   }
 
+  var old = $.fn.tooltip
+
+  $.fn.tooltip             = Plugin
   $.fn.tooltip.Constructor = Tooltip
 
 
@@ -1423,10 +1763,10 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: popover.js v3.1.1
+ * Bootstrap: popover.js v3.3.4
  * http://getbootstrap.com/javascript/#popovers
  * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -1443,11 +1783,13 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
   if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
 
+  Popover.VERSION  = '3.3.4'
+
   Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
     placement: 'right',
     trigger: 'click',
     content: '',
-    template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+    template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
   })
 
 
@@ -1468,7 +1810,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     var content = this.getContent()
 
     $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
-    $tip.find('.popover-content')[ // we use append for html objects to maintain js events
+    $tip.find('.popover-content').children().detach().end()[ // we use append for html objects to maintain js events
       this.options.html ? (typeof content == 'string' ? 'html' : 'append') : 'text'
     ](content)
 
@@ -1494,32 +1836,28 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   }
 
   Popover.prototype.arrow = function () {
-    return this.$arrow = this.$arrow || this.tip().find('.arrow')
-  }
-
-  Popover.prototype.tip = function () {
-    if (!this.$tip) this.$tip = $(this.options.template)
-    return this.$tip
+    return (this.$arrow = this.$arrow || this.tip().find('.arrow'))
   }
 
 
   // POPOVER PLUGIN DEFINITION
   // =========================
 
-  var old = $.fn.popover
-
-  $.fn.popover = function (option) {
+  function Plugin(option) {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.popover')
       var options = typeof option == 'object' && option
 
-      if (!data && option == 'destroy') return
+      if (!data && /destroy|hide/.test(option)) return
       if (!data) $this.data('bs.popover', (data = new Popover(this, options)))
       if (typeof option == 'string') data[option]()
     })
   }
 
+  var old = $.fn.popover
+
+  $.fn.popover             = Plugin
   $.fn.popover.Constructor = Popover
 
 
@@ -1534,10 +1872,10 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: scrollspy.js v3.1.1
+ * Bootstrap: scrollspy.js v3.3.4
  * http://getbootstrap.com/javascript/#scrollspy
  * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -1549,36 +1887,45 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // ==========================
 
   function ScrollSpy(element, options) {
-    var href
-    var process  = $.proxy(this.process, this)
-
-    this.$element       = $(element).is('body') ? $(window) : $(element)
-    this.$body          = $('body')
-    this.$scrollElement = this.$element.on('scroll.bs.scroll-spy.data-api', process)
+    this.$body          = $(document.body)
+    this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
     this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
-    this.selector       = (this.options.target
-      || ((href = $(element).attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
-      || '') + ' .nav li > a'
-    this.offsets        = $([])
-    this.targets        = $([])
+    this.selector       = (this.options.target || '') + ' .nav li > a'
+    this.offsets        = []
+    this.targets        = []
     this.activeTarget   = null
+    this.scrollHeight   = 0
 
+    this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
     this.refresh()
     this.process()
   }
+
+  ScrollSpy.VERSION  = '3.3.4'
 
   ScrollSpy.DEFAULTS = {
     offset: 10
   }
 
+  ScrollSpy.prototype.getScrollHeight = function () {
+    return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+  }
+
   ScrollSpy.prototype.refresh = function () {
-    var offsetMethod = this.$element[0] == window ? 'offset' : 'position'
+    var that          = this
+    var offsetMethod  = 'offset'
+    var offsetBase    = 0
 
-    this.offsets = $([])
-    this.targets = $([])
+    this.offsets      = []
+    this.targets      = []
+    this.scrollHeight = this.getScrollHeight()
 
-    var self     = this
-    var $targets = this.$body
+    if (!$.isWindow(this.$scrollElement[0])) {
+      offsetMethod = 'position'
+      offsetBase   = this.$scrollElement.scrollTop()
+    }
+
+    this.$body
       .find(this.selector)
       .map(function () {
         var $el   = $(this)
@@ -1588,50 +1935,53 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
         return ($href
           && $href.length
           && $href.is(':visible')
-          && [[ $href[offsetMethod]().top + (!$.isWindow(self.$scrollElement.get(0)) && self.$scrollElement.scrollTop()), href ]]) || null
+          && [[$href[offsetMethod]().top + offsetBase, href]]) || null
       })
       .sort(function (a, b) { return a[0] - b[0] })
       .each(function () {
-        self.offsets.push(this[0])
-        self.targets.push(this[1])
+        that.offsets.push(this[0])
+        that.targets.push(this[1])
       })
   }
 
   ScrollSpy.prototype.process = function () {
     var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
-    var scrollHeight = this.$scrollElement[0].scrollHeight || this.$body[0].scrollHeight
-    var maxScroll    = scrollHeight - this.$scrollElement.height()
+    var scrollHeight = this.getScrollHeight()
+    var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
     var offsets      = this.offsets
     var targets      = this.targets
     var activeTarget = this.activeTarget
     var i
 
-    if (scrollTop >= maxScroll) {
-      return activeTarget != (i = targets.last()[0]) && this.activate(i)
+    if (this.scrollHeight != scrollHeight) {
+      this.refresh()
     }
 
-    if (activeTarget && scrollTop <= offsets[0]) {
-      return activeTarget != (i = targets[0]) && this.activate(i)
+    if (scrollTop >= maxScroll) {
+      return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+    }
+
+    if (activeTarget && scrollTop < offsets[0]) {
+      this.activeTarget = null
+      return this.clear()
     }
 
     for (i = offsets.length; i--;) {
       activeTarget != targets[i]
         && scrollTop >= offsets[i]
-        && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
-        && this.activate( targets[i] )
+        && (offsets[i + 1] === undefined || scrollTop < offsets[i + 1])
+        && this.activate(targets[i])
     }
   }
 
   ScrollSpy.prototype.activate = function (target) {
     this.activeTarget = target
 
-    $(this.selector)
-      .parentsUntil(this.options.target, '.active')
-      .removeClass('active')
+    this.clear()
 
     var selector = this.selector +
-        '[data-target="' + target + '"],' +
-        this.selector + '[href="' + target + '"]'
+      '[data-target="' + target + '"],' +
+      this.selector + '[href="' + target + '"]'
 
     var active = $(selector)
       .parents('li')
@@ -1646,13 +1996,17 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     active.trigger('activate.bs.scrollspy')
   }
 
+  ScrollSpy.prototype.clear = function () {
+    $(this.selector)
+      .parentsUntil(this.options.target, '.active')
+      .removeClass('active')
+  }
+
 
   // SCROLLSPY PLUGIN DEFINITION
   // ===========================
 
-  var old = $.fn.scrollspy
-
-  $.fn.scrollspy = function (option) {
+  function Plugin(option) {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.scrollspy')
@@ -1663,6 +2017,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     })
   }
 
+  var old = $.fn.scrollspy
+
+  $.fn.scrollspy             = Plugin
   $.fn.scrollspy.Constructor = ScrollSpy
 
 
@@ -1678,20 +2035,20 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // SCROLLSPY DATA-API
   // ==================
 
-  $(window).on('load', function () {
+  $(window).on('load.bs.scrollspy.data-api', function () {
     $('[data-spy="scroll"]').each(function () {
       var $spy = $(this)
-      $spy.scrollspy($spy.data())
+      Plugin.call($spy, $spy.data())
     })
   })
 
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: tab.js v3.1.1
+ * Bootstrap: tab.js v3.3.4
  * http://getbootstrap.com/javascript/#tabs
  * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -1703,8 +2060,14 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // ====================
 
   var Tab = function (element) {
+    // jscs:disable requireDollarBeforejQueryAssignment
     this.element = $(element)
+    // jscs:enable requireDollarBeforejQueryAssignment
   }
+
+  Tab.VERSION = '3.3.4'
+
+  Tab.TRANSITION_DURATION = 150
 
   Tab.prototype.show = function () {
     var $this    = this.element
@@ -1713,27 +2076,35 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
     if (!selector) {
       selector = $this.attr('href')
-      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
+      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
     }
 
     if ($this.parent('li').hasClass('active')) return
 
-    var previous = $ul.find('.active:last a')[0]
-    var e        = $.Event('show.bs.tab', {
-      relatedTarget: previous
+    var $previous = $ul.find('.active:last a')
+    var hideEvent = $.Event('hide.bs.tab', {
+      relatedTarget: $this[0]
+    })
+    var showEvent = $.Event('show.bs.tab', {
+      relatedTarget: $previous[0]
     })
 
-    $this.trigger(e)
+    $previous.trigger(hideEvent)
+    $this.trigger(showEvent)
 
-    if (e.isDefaultPrevented()) return
+    if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) return
 
     var $target = $(selector)
 
-    this.activate($this.parent('li'), $ul)
+    this.activate($this.closest('li'), $ul)
     this.activate($target, $target.parent(), function () {
+      $previous.trigger({
+        type: 'hidden.bs.tab',
+        relatedTarget: $this[0]
+      })
       $this.trigger({
         type: 'shown.bs.tab',
-        relatedTarget: previous
+        relatedTarget: $previous[0]
       })
     })
   }
@@ -1742,15 +2113,21 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     var $active    = container.find('> .active')
     var transition = callback
       && $.support.transition
-      && $active.hasClass('fade')
+      && ($active.length && $active.hasClass('fade') || !!container.find('> .fade').length)
 
     function next() {
       $active
         .removeClass('active')
         .find('> .dropdown-menu > .active')
-        .removeClass('active')
+          .removeClass('active')
+        .end()
+        .find('[data-toggle="tab"]')
+          .attr('aria-expanded', false)
 
-      element.addClass('active')
+      element
+        .addClass('active')
+        .find('[data-toggle="tab"]')
+          .attr('aria-expanded', true)
 
       if (transition) {
         element[0].offsetWidth // reflow for transition
@@ -1759,17 +2136,22 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
         element.removeClass('fade')
       }
 
-      if (element.parent('.dropdown-menu')) {
-        element.closest('li.dropdown').addClass('active')
+      if (element.parent('.dropdown-menu').length) {
+        element
+          .closest('li.dropdown')
+            .addClass('active')
+          .end()
+          .find('[data-toggle="tab"]')
+            .attr('aria-expanded', true)
       }
 
       callback && callback()
     }
 
-    transition ?
+    $active.length && transition ?
       $active
-        .one($.support.transition.end, next)
-        .emulateTransitionEnd(150) :
+        .one('bsTransitionEnd', next)
+        .emulateTransitionEnd(Tab.TRANSITION_DURATION) :
       next()
 
     $active.removeClass('in')
@@ -1779,9 +2161,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // TAB PLUGIN DEFINITION
   // =====================
 
-  var old = $.fn.tab
-
-  $.fn.tab = function ( option ) {
+  function Plugin(option) {
     return this.each(function () {
       var $this = $(this)
       var data  = $this.data('bs.tab')
@@ -1791,6 +2171,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     })
   }
 
+  var old = $.fn.tab
+
+  $.fn.tab             = Plugin
   $.fn.tab.Constructor = Tab
 
 
@@ -1806,18 +2189,22 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // TAB DATA-API
   // ============
 
-  $(document).on('click.bs.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
+  var clickHandler = function (e) {
     e.preventDefault()
-    $(this).tab('show')
-  })
+    Plugin.call($(this), 'show')
+  }
+
+  $(document)
+    .on('click.bs.tab.data-api', '[data-toggle="tab"]', clickHandler)
+    .on('click.bs.tab.data-api', '[data-toggle="pill"]', clickHandler)
 
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: affix.js v3.1.1
+ * Bootstrap: affix.js v3.3.4
  * http://getbootstrap.com/javascript/#affix
  * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -1830,28 +2217,54 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
   var Affix = function (element, options) {
     this.options = $.extend({}, Affix.DEFAULTS, options)
-    this.$window = $(window)
+
+    this.$target = $(this.options.target)
       .on('scroll.bs.affix.data-api', $.proxy(this.checkPosition, this))
       .on('click.bs.affix.data-api',  $.proxy(this.checkPositionWithEventLoop, this))
 
     this.$element     = $(element)
-    this.affixed      =
-    this.unpin        =
+    this.affixed      = null
+    this.unpin        = null
     this.pinnedOffset = null
 
     this.checkPosition()
   }
 
-  Affix.RESET = 'affix affix-top affix-bottom'
+  Affix.VERSION  = '3.3.4'
+
+  Affix.RESET    = 'affix affix-top affix-bottom'
 
   Affix.DEFAULTS = {
-    offset: 0
+    offset: 0,
+    target: window
+  }
+
+  Affix.prototype.getState = function (scrollHeight, height, offsetTop, offsetBottom) {
+    var scrollTop    = this.$target.scrollTop()
+    var position     = this.$element.offset()
+    var targetHeight = this.$target.height()
+
+    if (offsetTop != null && this.affixed == 'top') return scrollTop < offsetTop ? 'top' : false
+
+    if (this.affixed == 'bottom') {
+      if (offsetTop != null) return (scrollTop + this.unpin <= position.top) ? false : 'bottom'
+      return (scrollTop + targetHeight <= scrollHeight - offsetBottom) ? false : 'bottom'
+    }
+
+    var initializing   = this.affixed == null
+    var colliderTop    = initializing ? scrollTop : position.top
+    var colliderHeight = initializing ? targetHeight : height
+
+    if (offsetTop != null && scrollTop <= offsetTop) return 'top'
+    if (offsetBottom != null && (colliderTop + colliderHeight >= scrollHeight - offsetBottom)) return 'bottom'
+
+    return false
   }
 
   Affix.prototype.getPinnedOffset = function () {
     if (this.pinnedOffset) return this.pinnedOffset
     this.$element.removeClass(Affix.RESET).addClass('affix')
-    var scrollTop = this.$window.scrollTop()
+    var scrollTop = this.$target.scrollTop()
     var position  = this.$element.offset()
     return (this.pinnedOffset = position.top - scrollTop)
   }
@@ -1863,43 +2276,41 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   Affix.prototype.checkPosition = function () {
     if (!this.$element.is(':visible')) return
 
-    var scrollHeight = $(document).height()
-    var scrollTop    = this.$window.scrollTop()
-    var position     = this.$element.offset()
+    var height       = this.$element.height()
     var offset       = this.options.offset
     var offsetTop    = offset.top
     var offsetBottom = offset.bottom
-
-    if (this.affixed == 'top') position.top += scrollTop
+    var scrollHeight = Math.max($(document).height(), $(document.body).height())
 
     if (typeof offset != 'object')         offsetBottom = offsetTop = offset
     if (typeof offsetTop == 'function')    offsetTop    = offset.top(this.$element)
     if (typeof offsetBottom == 'function') offsetBottom = offset.bottom(this.$element)
 
-    var affix = this.unpin   != null && (scrollTop + this.unpin <= position.top) ? false :
-                offsetBottom != null && (position.top + this.$element.height() >= scrollHeight - offsetBottom) ? 'bottom' :
-                offsetTop    != null && (scrollTop <= offsetTop) ? 'top' : false
+    var affix = this.getState(scrollHeight, height, offsetTop, offsetBottom)
 
-    if (this.affixed === affix) return
-    if (this.unpin) this.$element.css('top', '')
+    if (this.affixed != affix) {
+      if (this.unpin != null) this.$element.css('top', '')
 
-    var affixType = 'affix' + (affix ? '-' + affix : '')
-    var e         = $.Event(affixType + '.bs.affix')
+      var affixType = 'affix' + (affix ? '-' + affix : '')
+      var e         = $.Event(affixType + '.bs.affix')
 
-    this.$element.trigger(e)
+      this.$element.trigger(e)
 
-    if (e.isDefaultPrevented()) return
+      if (e.isDefaultPrevented()) return
 
-    this.affixed = affix
-    this.unpin = affix == 'bottom' ? this.getPinnedOffset() : null
+      this.affixed = affix
+      this.unpin = affix == 'bottom' ? this.getPinnedOffset() : null
 
-    this.$element
-      .removeClass(Affix.RESET)
-      .addClass(affixType)
-      .trigger($.Event(affixType.replace('affix', 'affixed')))
+      this.$element
+        .removeClass(Affix.RESET)
+        .addClass(affixType)
+        .trigger(affixType.replace('affix', 'affixed') + '.bs.affix')
+    }
 
     if (affix == 'bottom') {
-      this.$element.offset({ top: scrollHeight - offsetBottom - this.$element.height() })
+      this.$element.offset({
+        top: scrollHeight - height - offsetBottom
+      })
     }
   }
 
@@ -1907,9 +2318,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   // AFFIX PLUGIN DEFINITION
   // =======================
 
-  var old = $.fn.affix
-
-  $.fn.affix = function (option) {
+  function Plugin(option) {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.affix')
@@ -1920,6 +2329,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     })
   }
 
+  var old = $.fn.affix
+
+  $.fn.affix             = Plugin
   $.fn.affix.Constructor = Affix
 
 
@@ -1942,10 +2354,10 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
       data.offset = data.offset || {}
 
-      if (data.offsetBottom) data.offset.bottom = data.offsetBottom
-      if (data.offsetTop)    data.offset.top    = data.offsetTop
+      if (data.offsetBottom != null) data.offset.bottom = data.offsetBottom
+      if (data.offsetTop    != null) data.offset.top    = data.offsetTop
 
-      $spy.affix(data)
+      Plugin.call($spy, data)
     })
   })
 
@@ -1965,505 +2377,2476 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 }).call(this);
 /*!
 
-Holder - 2.2 - client side image placeholders
-(c) 2012-2013 Ivan Malopinsky / http://imsky.co
+Holder - client side image placeholders
+Version 2.7.1+6hydf
+© 2015 Ivan Malopinsky - http://imsky.co
 
-Provided under the MIT License.
-Commercial use requires attribution.
+Site:     http://holderjs.com
+Issues:   https://github.com/imsky/holder/issues
+License:  http://opensource.org/licenses/MIT
 
 */
 
+(function (window) {
+  if (!window.document) return;
+  var document = window.document;
 
-var Holder = Holder || {};
-(function (app, win) {
+  //https://github.com/inexorabletash/polyfill/blob/master/web.js
+    if (!document.querySelectorAll) {
+      document.querySelectorAll = function (selectors) {
+        var style = document.createElement('style'), elements = [], element;
+        document.documentElement.firstChild.appendChild(style);
+        document._qsa = [];
 
-var preempted = false,
-fallback = false,
-canvas = document.createElement('canvas');
-var dpr = 1, bsr = 1;
-var resizable_images = [];
+        style.styleSheet.cssText = selectors + '{x-qsa:expression(document._qsa && document._qsa.push(this))}';
+        window.scrollBy(0, 0);
+        style.parentNode.removeChild(style);
 
-if (!canvas.getContext) {
-	fallback = true;
-} else {
-	if (canvas.toDataURL("image/png")
-		.indexOf("data:image/png") < 0) {
-		//Android doesn't support data URI
-		fallback = true;
-	} else {
-		var ctx = canvas.getContext("2d");
-	}
-}
+        while (document._qsa.length) {
+          element = document._qsa.shift();
+          element.style.removeAttribute('x-qsa');
+          elements.push(element);
+        }
+        document._qsa = null;
+        return elements;
+      };
+    }
 
-if(!fallback){
-    dpr = window.devicePixelRatio || 1,
-    bsr = ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio || ctx.msBackingStorePixelRatio || ctx.oBackingStorePixelRatio || ctx.backingStorePixelRatio || 1;
-}
+    if (!document.querySelector) {
+      document.querySelector = function (selectors) {
+        var elements = document.querySelectorAll(selectors);
+        return (elements.length) ? elements[0] : null;
+      };
+    }
 
-var ratio = dpr / bsr;
+    if (!document.getElementsByClassName) {
+      document.getElementsByClassName = function (classNames) {
+        classNames = String(classNames).replace(/^|\s+/g, '.');
+        return document.querySelectorAll(classNames);
+      };
+    }
 
-var settings = {
-	domain: "holder.js",
-	images: "img",
-	bgnodes: ".holderjs",
-	themes: {
-		"gray": {
-			background: "#eee",
-			foreground: "#aaa",
-			size: 12
-		},
-		"social": {
-			background: "#3a5a97",
-			foreground: "#fff",
-			size: 12
-		},
-		"industrial": {
-			background: "#434A52",
-			foreground: "#C2F200",
-			size: 12
-		},
-		"sky": {
-			background: "#0D8FDB",
-			foreground: "#fff",
-			size: 12
-		},
-		"vine": {
-			background: "#39DBAC",
-			foreground: "#1E292C",
-			size: 12
-		},
-		"lava": {
-			background: "#F8591A",
-			foreground: "#1C2846",
-			size: 12
-		}
-	},
-	stylesheet: ""
-};
-app.flags = {
-	dimensions: {
-		regex: /^(\d+)x(\d+)$/,
-		output: function (val) {
-			var exec = this.regex.exec(val);
-			return {
-				width: +exec[1],
-				height: +exec[2]
-			}
-		}
-	},
-	fluid: {
-		regex: /^([0-9%]+)x([0-9%]+)$/,
-		output: function (val) {
-			var exec = this.regex.exec(val);
-			return {
-				width: exec[1],
-				height: exec[2]
-			}
-		}
-	},
-	colors: {
-		regex: /#([0-9a-f]{3,})\:#([0-9a-f]{3,})/i,
-		output: function (val) {
-			var exec = this.regex.exec(val);
-			return {
-				size: settings.themes.gray.size,
-				foreground: "#" + exec[2],
-				background: "#" + exec[1]
-			}
-		}
-	},
-	text: {
-		regex: /text\:(.*)/,
-		output: function (val) {
-			return this.regex.exec(val)[1];
-		}
-	},
-	font: {
-		regex: /font\:(.*)/,
-		output: function (val) {
-			return this.regex.exec(val)[1];
-		}
-	},
-	auto: {
-		regex: /^auto$/
-	},
-	textmode: {
-		regex: /textmode\:(.*)/,
-		output: function(val){
-			return this.regex.exec(val)[1];
-		}
-	}
-}
+  //https://github.com/inexorabletash/polyfill
+  // ES5 15.2.3.14 Object.keys ( O )
+  // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/keys
+  if (!Object.keys) {
+    Object.keys = function (o) {
+      if (o !== Object(o)) { throw TypeError('Object.keys called on non-object'); }
+      var ret = [], p;
+      for (p in o) {
+        if (Object.prototype.hasOwnProperty.call(o, p)) {
+          ret.push(p);
+        }
+      }
+      return ret;
+    };
+  }
 
-//getElementsByClassName polyfill
-document.getElementsByClassName||(document.getElementsByClassName=function(e){var t=document,n,r,i,s=[];if(t.querySelectorAll)return t.querySelectorAll("."+e);if(t.evaluate){r=".//*[contains(concat(' ', @class, ' '), ' "+e+" ')]",n=t.evaluate(r,t,null,0,null);while(i=n.iterateNext())s.push(i)}else{n=t.getElementsByTagName("*"),r=new RegExp("(^|\\s)"+e+"(\\s|$)");for(i=0;i<n.length;i++)r.test(n[i].className)&&s.push(n[i])}return s})
+  //https://github.com/inexorabletash/polyfill/blob/master/web.js
+  (function (global) {
+    var B64_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+    global.atob = global.atob || function (input) {
+      input = String(input);
+      var position = 0,
+          output = [],
+          buffer = 0, bits = 0, n;
 
-//getComputedStyle polyfill
-window.getComputedStyle||(window.getComputedStyle=function(e){return this.el=e,this.getPropertyValue=function(t){var n=/(\-([a-z]){1})/g;return t=="float"&&(t="styleFloat"),n.test(t)&&(t=t.replace(n,function(){return arguments[2].toUpperCase()})),e.currentStyle[t]?e.currentStyle[t]:null},this})
+      input = input.replace(/\s/g, '');
+      if ((input.length % 4) === 0) { input = input.replace(/=+$/, ''); }
+      if ((input.length % 4) === 1) { throw Error('InvalidCharacterError'); }
+      if (/[^+/0-9A-Za-z]/.test(input)) { throw Error('InvalidCharacterError'); }
 
-//http://javascript.nwbox.com/ContentLoaded by Diego Perini with modifications
-function contentLoaded(n,t){var l="complete",s="readystatechange",u=!1,h=u,c=!0,i=n.document,a=i.documentElement,e=i.addEventListener?"addEventListener":"attachEvent",v=i.addEventListener?"removeEventListener":"detachEvent",f=i.addEventListener?"":"on",r=function(e){(e.type!=s||i.readyState==l)&&((e.type=="load"?n:i)[v](f+e.type,r,u),!h&&(h=!0)&&t.call(n,null))},o=function(){try{a.doScroll("left")}catch(n){setTimeout(o,50);return}r("poll")};if(i.readyState==l)t.call(n,"lazy");else{if(i.createEventObject&&a.doScroll){try{c=!n.frameElement}catch(y){}c&&o()}i[e](f+"DOMContentLoaded",r,u),i[e](f+s,r,u),n[e](f+"load",r,u)}}
+      while (position < input.length) {
+        n = B64_ALPHABET.indexOf(input.charAt(position));
+        buffer = (buffer << 6) | n;
+        bits += 6;
 
-//https://gist.github.com/991057 by Jed Schmidt with modifications
-function selector(a){
-	a=a.match(/^(\W)?(.*)/);var b=document["getElement"+(a[1]?a[1]=="#"?"ById":"sByClassName":"sByTagName")](a[2]);
-	var ret=[];	b!==null&&(b.length?ret=b:b.length===0?ret=b:ret=[b]);	return ret;
-}
+        if (bits === 24) {
+          output.push(String.fromCharCode((buffer >> 16) & 0xFF));
+          output.push(String.fromCharCode((buffer >>  8) & 0xFF));
+          output.push(String.fromCharCode(buffer & 0xFF));
+          bits = 0;
+          buffer = 0;
+        }
+        position += 1;
+      }
 
-//shallow object property extend
-function extend(a,b){
-	var c={};
-	for(var i in a){
-		if(a.hasOwnProperty(i)){
-			c[i]=a[i];
-		}
-	}
-	for(var i in b){
-		if(b.hasOwnProperty(i)){
-			c[i]=b[i];
-		}
-	}
-	return c
-}
+      if (bits === 12) {
+        buffer = buffer >> 4;
+        output.push(String.fromCharCode(buffer & 0xFF));
+      } else if (bits === 18) {
+        buffer = buffer >> 2;
+        output.push(String.fromCharCode((buffer >> 8) & 0xFF));
+        output.push(String.fromCharCode(buffer & 0xFF));
+      }
 
-//hasOwnProperty polyfill
-if (!Object.prototype.hasOwnProperty)
-    /*jshint -W001, -W103 */
-    Object.prototype.hasOwnProperty = function(prop) {
-		var proto = this.__proto__ || this.constructor.prototype;
-		return (prop in this) && (!(prop in proto) || proto[prop] !== this[prop]);
-	}
-    /*jshint +W001, +W103 */
+      return output.join('');
+    };
 
-function text_size(width, height, template) {
-	height = parseInt(height, 10);
-	width = parseInt(width, 10);
-	var bigSide = Math.max(height, width)
-	var smallSide = Math.min(height, width)
-	var scale = 1 / 12;
-	var newHeight = Math.min(smallSide * 0.75, 0.75 * bigSide * scale);
-	return {
-		height: Math.round(Math.max(template.size, newHeight))
-	}
-}
+    global.btoa = global.btoa || function (input) {
+      input = String(input);
+      var position = 0,
+          out = [],
+          o1, o2, o3,
+          e1, e2, e3, e4;
 
-function draw(args) {
-	var ctx = args.ctx;
-	var dimensions = args.dimensions;
-	var template = args.template;
-	var ratio = args.ratio;
-	var holder = args.holder;
-	var literal = holder.textmode == "literal";
-	var exact = holder.textmode == "exact";
+      if (/[^\x00-\xFF]/.test(input)) { throw Error('InvalidCharacterError'); }
 
-	var ts = text_size(dimensions.width, dimensions.height, template);
-	var text_height = ts.height;
-	var width = dimensions.width * ratio,
-		height = dimensions.height * ratio;
-	var font = template.font ? template.font : "sans-serif";
-	canvas.width = width;
-	canvas.height = height;
-	ctx.textAlign = "center";
-	ctx.textBaseline = "middle";
-	ctx.fillStyle = template.background;
-	ctx.fillRect(0, 0, width, height);
-	ctx.fillStyle = template.foreground;
-	ctx.font = "bold " + text_height + "px " + font;
-	var text = template.text ? template.text : (Math.floor(dimensions.width) + "x" + Math.floor(dimensions.height));
-	if (literal) {
-		var dimensions = holder.dimensions;
-		text = dimensions.width + "x" + dimensions.height;
-	}
-	else if(exact && holder.exact_dimensions){
-		var dimensions = holder.exact_dimensions;
-		text = (Math.floor(dimensions.width) + "x" + Math.floor(dimensions.height));
-	}
-	var text_width = ctx.measureText(text).width;
-	if (text_width / width >= 0.75) {
-		text_height = Math.floor(text_height * 0.75 * (width / text_width));
-	}
-	//Resetting font size if necessary
-	ctx.font = "bold " + (text_height * ratio) + "px " + font;
-	ctx.fillText(text, (width / 2), (height / 2), width);
-	return canvas.toDataURL("image/png");
-}
+      while (position < input.length) {
+        o1 = input.charCodeAt(position++);
+        o2 = input.charCodeAt(position++);
+        o3 = input.charCodeAt(position++);
 
-function render(mode, el, holder, src) {
+        // 111111 112222 222233 333333
+        e1 = o1 >> 2;
+        e2 = ((o1 & 0x3) << 4) | (o2 >> 4);
+        e3 = ((o2 & 0xf) << 2) | (o3 >> 6);
+        e4 = o3 & 0x3f;
 
-	var dimensions = holder.dimensions,
-		theme = holder.theme,
-		text = holder.text ? decodeURIComponent(holder.text) : holder.text;
-	var dimensions_caption = dimensions.width + "x" + dimensions.height;
-	theme = (text ? extend(theme, {
-		text: text
-	}) : theme);
-	theme = (holder.font ? extend(theme, {
-		font: holder.font
-	}) : theme);
-	el.setAttribute("data-src", src);
-	holder.theme = theme;
-	el.holder_data = holder;
+        if (position === input.length + 2) {
+          e3 = 64; e4 = 64;
+        }
+        else if (position === input.length + 1) {
+          e4 = 64;
+        }
 
-	if (mode == "image") {
-		el.setAttribute("alt", text ? text : theme.text ? theme.text + " [" + dimensions_caption + "]" : dimensions_caption);
-		if (fallback || !holder.auto) {
-			el.style.width = dimensions.width + "px";
-			el.style.height = dimensions.height + "px";
-		}
-		if (fallback) {
-			el.style.backgroundColor = theme.background;
-		} else {
-			el.setAttribute("src", draw({ctx: ctx, dimensions: dimensions, template: theme, ratio:ratio, holder: holder}));
+        out.push(B64_ALPHABET.charAt(e1),
+                 B64_ALPHABET.charAt(e2),
+                 B64_ALPHABET.charAt(e3),
+                 B64_ALPHABET.charAt(e4));
+      }
 
-			if(holder.textmode && holder.textmode == "exact"){
-				resizable_images.push(el);
-				resizable_update(el);
-			}
+      return out.join('');
+    };
+  }(window));
 
-		}
-	} else if (mode == "background") {
-		if (!fallback) {
-			el.style.backgroundImage = "url(" + draw({ctx:ctx, dimensions: dimensions, template: theme, ratio: ratio, holder: holder}) + ")";
-			el.style.backgroundSize = dimensions.width + "px " + dimensions.height + "px";
-		}
-	} else if (mode == "fluid") {
-		el.setAttribute("alt", text ? text : theme.text ? theme.text + " [" + dimensions_caption + "]" : dimensions_caption);
-		if (dimensions.height.slice(-1) == "%") {
-			el.style.height = dimensions.height
-		} else {
-			el.style.height = dimensions.height + "px"
-		}
-		if (dimensions.width.slice(-1) == "%") {
-			el.style.width = dimensions.width
-		} else {
-			el.style.width = dimensions.width + "px"
-		}
-		if (el.style.display == "inline" || el.style.display === "" || el.style.display == "none") {
-			el.style.display = "block";
-		}
-		if (fallback) {
-			el.style.backgroundColor = theme.background;
-		} else {
-			resizable_images.push(el);
-			resizable_update(el);
-		}
-	}
-}
+  //https://gist.github.com/jimeh/332357
+  if (!Object.prototype.hasOwnProperty){
+      /*jshint -W001, -W103 */
+      Object.prototype.hasOwnProperty = function(prop) {
+      var proto = this.__proto__ || this.constructor.prototype;
+      return (prop in this) && (!(prop in proto) || proto[prop] !== this[prop]);
+    };
+      /*jshint +W001, +W103 */
+  }
 
-function dimension_check(el, callback) {
-	var dimensions = {
-		height: el.clientHeight,
-		width: el.clientWidth
+  // @license http://opensource.org/licenses/MIT
+  // copyright Paul Irish 2015
+
+
+  // Date.now() is supported everywhere except IE8. For IE8 we use the Date.now polyfill
+  //   github.com/Financial-Times/polyfill-service/blob/master/polyfills/Date.now/polyfill.js
+  // as Safari 6 doesn't have support for NavigationTiming, we use a Date.now() timestamp for relative values
+
+  // if you want values similar to what you'd get with real perf.now, place this towards the head of the page
+  // but in reality, you're just getting the delta between now() calls, so it's not terribly important where it's placed
+
+
+  (function(){
+
+    if ('performance' in window === false) {
+        window.performance = {};
+    }
+
+    Date.now = (Date.now || function () {  // thanks IE8
+      return new Date().getTime();
+    });
+
+    if ('now' in window.performance === false){
+
+      var nowOffset = Date.now();
+
+      if (performance.timing && performance.timing.navigationStart){
+        nowOffset = performance.timing.navigationStart;
+      }
+
+      window.performance.now = function now(){
+        return Date.now() - nowOffset;
+      };
+    }
+
+  })();
+
+  //requestAnimationFrame polyfill for older Firefox/Chrome versions
+  if (!window.requestAnimationFrame) {
+    if (window.webkitRequestAnimationFrame) {
+    //https://github.com/Financial-Times/polyfill-service/blob/master/polyfills/requestAnimationFrame/polyfill-webkit.js
+    (function (global) {
+      // window.requestAnimationFrame
+      global.requestAnimationFrame = function (callback) {
+        return webkitRequestAnimationFrame(function () {
+          callback(global.performance.now());
+        });
+      };
+
+      // window.cancelAnimationFrame
+      global.cancelAnimationFrame = webkitCancelAnimationFrame;
+    }(window));
+    } else if (window.mozRequestAnimationFrame) {
+      //https://github.com/Financial-Times/polyfill-service/blob/master/polyfills/requestAnimationFrame/polyfill-moz.js
+    (function (global) {
+      // window.requestAnimationFrame
+      global.requestAnimationFrame = function (callback) {
+        return mozRequestAnimationFrame(function () {
+          callback(global.performance.now());
+        });
+      };
+
+      // window.cancelAnimationFrame
+      global.cancelAnimationFrame = mozCancelAnimationFrame;
+    }(window));
+    } else {
+    (function (global) {
+      global.requestAnimationFrame = function (callback) {
+      return global.setTimeout(callback, 1000 / 60);
+      };
+
+      global.cancelAnimationFrame = global.clearTimeout;
+    })(window);
+    }
+  }
+})(this);
+
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define(factory);
+	else if(typeof exports === 'object')
+		exports["Holder"] = factory();
+	else
+		root["Holder"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {/*
+	Holder.js - client side image placeholders
+	© 2012-2015 Ivan Malopinsky - http://imsky.co
+	*/
+
+	//Libraries and functions
+	var onDomReady = __webpack_require__(1);
+	var SceneGraph = __webpack_require__(2);
+	var utils = __webpack_require__(3);
+	var querystring = __webpack_require__(4);
+
+	var extend = utils.extend;
+	var getNodeArray = utils.getNodeArray;
+	var dimensionCheck = utils.dimensionCheck;
+
+	//Constants and definitions
+	var SVG_NS = 'http://www.w3.org/2000/svg';
+	var NODE_TYPE_COMMENT = 8;
+	var version = '2.7.1';
+	var generatorComment = '\n' +
+	    'Created with Holder.js ' + version + '.\n' +
+	    'Learn more at http://holderjs.com\n' +
+	    '(c) 2012-2015 Ivan Malopinsky - http://imsky.co\n';
+
+	var Holder = {
+	    version: version,
+
+	    /**
+	     * Adds a theme to default settings
+	     *
+	     * @param {string} name Theme name
+	     * @param {Object} theme Theme object, with foreground, background, size, font, and fontweight properties.
+	     */
+	    addTheme: function(name, theme) {
+	        name != null && theme != null && (App.settings.themes[name] = theme);
+	        delete App.vars.cache.themeKeys;
+	        return this;
+	    },
+
+	    /**
+	     * Appends a placeholder to an element
+	     *
+	     * @param {string} src Placeholder URL string
+	     * @param {string} el Selector of target element(s)
+	     */
+	    addImage: function(src, el) {
+	        var node = document.querySelectorAll(el);
+	        if (node.length) {
+	            for (var i = 0, l = node.length; i < l; i++) {
+	                var img = newEl('img');
+	                var domProps = {};
+	                domProps[App.vars.dataAttr] = src;
+	                setAttr(img, domProps);
+	                node[i].appendChild(img);
+	            }
+	        }
+	        return this;
+	    },
+
+	    /**
+	     * Sets whether or not an image is updated on resize.
+	     * If an image is set to be updated, it is immediately rendered.
+	     *
+	     * @param {Object} el Image DOM element
+	     * @param {Boolean} value Resizable update flag value
+	     */
+	    setResizeUpdate: function(el, value) {
+	        if (el.holderData) {
+	            el.holderData.resizeUpdate = !!value;
+	            if (el.holderData.resizeUpdate) {
+	                updateResizableElements(el);
+	            }
+	        }
+	    },
+
+	    /**
+	     * Runs Holder with options. By default runs Holder on all images with "holder.js" in their source attributes.
+	     *
+	     * @param {Object} userOptions Options object, can contain domain, themes, images, and bgnodes properties
+	     */
+	    run: function(userOptions) {
+	        userOptions = userOptions || {};
+	        var engineSettings = {};
+	        var options = extend(App.settings, userOptions);
+
+	        App.vars.preempted = true;
+	        App.vars.dataAttr = options.dataAttr || App.vars.dataAttr;
+
+	        engineSettings.renderer = options.renderer ? options.renderer : App.setup.renderer;
+	        if (App.setup.renderers.join(',').indexOf(engineSettings.renderer) === -1) {
+	            engineSettings.renderer = App.setup.supportsSVG ? 'svg' : (App.setup.supportsCanvas ? 'canvas' : 'html');
+	        }
+
+	        var images = getNodeArray(options.images);
+	        var bgnodes = getNodeArray(options.bgnodes);
+	        var stylenodes = getNodeArray(options.stylenodes);
+	        var objects = getNodeArray(options.objects);
+
+	        engineSettings.stylesheets = [];
+	        engineSettings.svgXMLStylesheet = true;
+	        engineSettings.noFontFallback = options.noFontFallback ? options.noFontFallback : false;
+
+	        for (var i = 0; i < stylenodes.length; i++) {
+	            var styleNode = stylenodes[i];
+	            if (styleNode.attributes.rel && styleNode.attributes.href && styleNode.attributes.rel.value == 'stylesheet') {
+	                var href = styleNode.attributes.href.value;
+	                //todo: write isomorphic relative-to-absolute URL function
+	                var proxyLink = newEl('a');
+	                proxyLink.href = href;
+	                var stylesheetURL = proxyLink.protocol + '//' + proxyLink.host + proxyLink.pathname + proxyLink.search;
+	                engineSettings.stylesheets.push(stylesheetURL);
+	            }
+	        }
+
+	        for (i = 0; i < bgnodes.length; i++) {
+	            //Skip processing background nodes if getComputedStyle is unavailable, since only modern browsers would be able to use canvas or SVG to render to background
+	            if (!global.getComputedStyle) continue;
+	            var backgroundImage = global.getComputedStyle(bgnodes[i], null).getPropertyValue('background-image');
+	            var dataBackgroundImage = bgnodes[i].getAttribute('data-background-src');
+	            var rawURL = null;
+
+	            if (dataBackgroundImage == null) {
+	                rawURL = backgroundImage;
+	            } else {
+	                rawURL = dataBackgroundImage;
+	            }
+
+	            var holderURL = null;
+	            var holderString = '?' + options.domain + '/';
+
+	            if (rawURL.indexOf(holderString) === 0) {
+	                holderURL = rawURL.slice(1);
+	            } else if (rawURL.indexOf(holderString) != -1) {
+	                var fragment = rawURL.substr(rawURL.indexOf(holderString)).slice(1);
+	                var fragmentMatch = fragment.match(/([^\"]*)"?\)/);
+
+	                if (fragmentMatch != null) {
+	                    holderURL = fragmentMatch[1];
+	                }
+	            }
+
+	            if (holderURL != null) {
+	                var holderFlags = parseURL(holderURL, options);
+	                if (holderFlags) {
+	                    prepareDOMElement({
+	                        mode: 'background',
+	                        el: bgnodes[i],
+	                        flags: holderFlags,
+	                        engineSettings: engineSettings
+	                    });
+	                }
+	            }
+	        }
+
+	        for (i = 0; i < objects.length; i++) {
+	            var object = objects[i];
+	            var objectAttr = {};
+
+	            try {
+	                objectAttr.data = object.getAttribute('data');
+	                objectAttr.dataSrc = object.getAttribute(App.vars.dataAttr);
+	            } catch (e) {}
+
+	            var objectHasSrcURL = objectAttr.data != null && objectAttr.data.indexOf(options.domain) === 0;
+	            var objectHasDataSrcURL = objectAttr.dataSrc != null && objectAttr.dataSrc.indexOf(options.domain) === 0;
+
+	            if (objectHasSrcURL) {
+	                prepareImageElement(options, engineSettings, objectAttr.data, object);
+	            } else if (objectHasDataSrcURL) {
+	                prepareImageElement(options, engineSettings, objectAttr.dataSrc, object);
+	            }
+	        }
+
+	        for (i = 0; i < images.length; i++) {
+	            var image = images[i];
+	            var imageAttr = {};
+
+	            try {
+	                imageAttr.src = image.getAttribute('src');
+	                imageAttr.dataSrc = image.getAttribute(App.vars.dataAttr);
+	                imageAttr.rendered = image.getAttribute('data-holder-rendered');
+	            } catch (e) {}
+
+	            var imageHasSrc = imageAttr.src != null;
+	            var imageHasDataSrcURL = imageAttr.dataSrc != null && imageAttr.dataSrc.indexOf(options.domain) === 0;
+	            var imageRendered = imageAttr.rendered != null && imageAttr.rendered == 'true';
+
+	            if (imageHasSrc) {
+	                if (imageAttr.src.indexOf(options.domain) === 0) {
+	                    prepareImageElement(options, engineSettings, imageAttr.src, image);
+	                } else if (imageHasDataSrcURL) {
+	                    //Image has a valid data-src and an invalid src
+	                    if (imageRendered) {
+	                        //If the placeholder has already been render, re-render it
+	                        prepareImageElement(options, engineSettings, imageAttr.dataSrc, image);
+	                    } else {
+	                        //If the placeholder has not been rendered, check if the image exists and render a fallback if it doesn't
+	                        (function(src, options, engineSettings, dataSrc, image) {
+	                            utils.imageExists(src, function(exists) {
+	                                if (!exists) {
+	                                    prepareImageElement(options, engineSettings, dataSrc, image);
+	                                }
+	                            });
+	                        })(imageAttr.src, options, engineSettings, imageAttr.dataSrc, image);
+	                    }
+	                }
+	            } else if (imageHasDataSrcURL) {
+	                prepareImageElement(options, engineSettings, imageAttr.dataSrc, image);
+	            }
+	        }
+
+	        return this;
+	    }
 	};
-	if (!dimensions.height && !dimensions.width) {
-		if (el.hasAttribute("data-holder-invisible")) {
-			throw new Error("Holder: placeholder is not visible");
-		} else {
-			el.setAttribute("data-holder-invisible", true)
-			setTimeout(function () {
-				callback.call(this, el)
-			}, 1)
-			return null;
-		}
-	} else {
-		el.removeAttribute("data-holder-invisible")
-	}
-	return dimensions;
-}
 
-function resizable_update(element) {
-	var images;
-	if (element.nodeType == null) {
-		images = resizable_images;
-	} else {
-		images = [element]
-	}
-	for (var i in images) {
-		if (!images.hasOwnProperty(i)) {
-			continue;
-		}
-		var el = images[i]
-		if (el.holder_data) {
-			var holder = el.holder_data;
-			var dimensions = dimension_check(el, resizable_update)
-			if(dimensions){
-				if(holder.fluid){
-					el.setAttribute("src", draw({
-						ctx: ctx,
-						dimensions: dimensions,
-						template: holder.theme,
-						ratio: ratio,
-						holder: holder
-					}))
-				}
-				if(holder.textmode && holder.textmode == "exact"){
-					holder.exact_dimensions = dimensions;
-					el.setAttribute("src", draw({
-						ctx: ctx,
-						dimensions: holder.dimensions,
-						template: holder.theme,
-						ratio: ratio,
-						holder: holder
-					}))
-				}
-			}
-		}
-	}
-}
-
-function parse_flags(flags, options) {
-	var ret = {
-		theme: extend(settings.themes.gray, {})
+	var App = {
+	    settings: {
+	        domain: 'holder.js',
+	        images: 'img',
+	        objects: 'object',
+	        bgnodes: 'body .holderjs',
+	        stylenodes: 'head link.holderjs',
+	        stylesheets: [],
+	        themes: {
+	            'gray': {
+	                background: '#EEEEEE',
+	                foreground: '#AAAAAA'
+	            },
+	            'social': {
+	                background: '#3a5a97',
+	                foreground: '#FFFFFF'
+	            },
+	            'industrial': {
+	                background: '#434A52',
+	                foreground: '#C2F200'
+	            },
+	            'sky': {
+	                background: '#0D8FDB',
+	                foreground: '#FFFFFF'
+	            },
+	            'vine': {
+	                background: '#39DBAC',
+	                foreground: '#1E292C'
+	            },
+	            'lava': {
+	                background: '#F8591A',
+	                foreground: '#1C2846'
+	            }
+	        }
+	    },
+	    defaults: {
+	        size: 10,
+	        units: 'pt',
+	        scale: 1 / 16
+	    },
+	    //todo: remove in 2.8
+	    flags: {
+	        dimensions: {
+	            regex: /^(\d+)x(\d+)$/,
+	            output: function(val) {
+	                var exec = this.regex.exec(val);
+	                return {
+	                    width: +exec[1],
+	                    height: +exec[2]
+	                };
+	            }
+	        },
+	        fluid: {
+	            regex: /^([0-9]+%?)x([0-9]+%?)$/,
+	            output: function(val) {
+	                var exec = this.regex.exec(val);
+	                return {
+	                    width: exec[1],
+	                    height: exec[2]
+	                };
+	            }
+	        },
+	        colors: {
+	            regex: /(?:#|\^)([0-9a-f]{3,})\:(?:#|\^)([0-9a-f]{3,})/i,
+	            output: function(val) {
+	                var exec = this.regex.exec(val);
+	                return {
+	                    foreground: '#' + exec[2],
+	                    background: '#' + exec[1]
+	                };
+	            }
+	        },
+	        text: {
+	            regex: /text\:(.*)/,
+	            output: function(val) {
+	                return this.regex.exec(val)[1].replace('\\/', '/');
+	            }
+	        },
+	        font: {
+	            regex: /font\:(.*)/,
+	            output: function(val) {
+	                return this.regex.exec(val)[1];
+	            }
+	        },
+	        auto: {
+	            regex: /^auto$/
+	        },
+	        textmode: {
+	            regex: /textmode\:(.*)/,
+	            output: function(val) {
+	                return this.regex.exec(val)[1];
+	            }
+	        },
+	        random: {
+	            regex: /^random$/
+	        },
+	        size: {
+	            regex: /size\:(\d+)/,
+	            output: function(val) {
+	                return this.regex.exec(val)[1];
+	            }
+	        }
+	    }
 	};
-	var render = false;
-	for (sl = flags.length, j = 0; j < sl; j++) {
-		var flag = flags[j];
-		if (app.flags.dimensions.match(flag)) {
-			render = true;
-			ret.dimensions = app.flags.dimensions.output(flag);
-		} else if (app.flags.fluid.match(flag)) {
-			render = true;
-			ret.dimensions = app.flags.fluid.output(flag);
-			ret.fluid = true;
-		} else if (app.flags.textmode.match(flag)) {
-			ret.textmode = app.flags.textmode.output(flag)
-		} else if (app.flags.colors.match(flag)) {
-			ret.theme = app.flags.colors.output(flag);
-		} else if (options.themes[flag]) {
-			//If a theme is specified, it will override custom colors
-			if(options.themes.hasOwnProperty(flag)){
-				ret.theme = extend(options.themes[flag], {});
-			}
-		} else if (app.flags.font.match(flag)) {
-			ret.font = app.flags.font.output(flag);
-		} else if (app.flags.auto.match(flag)) {
-			ret.auto = true;
-		} else if (app.flags.text.match(flag)) {
-			ret.text = app.flags.text.output(flag);
-		}
-	}
-	return render ? ret : false;
-}
 
-for (var flag in app.flags) {
-	if (!app.flags.hasOwnProperty(flag)) continue;
-	app.flags[flag].match = function (val) {
-		return val.match(this.regex)
-	}
-}
-app.add_theme = function (name, theme) {
-	name != null && theme != null && (settings.themes[name] = theme);
-	return app;
-};
-app.add_image = function (src, el) {
-	var node = selector(el);
-	if (node.length) {
-		for (var i = 0, l = node.length; i < l; i++) {
-			var img = document.createElement("img")
-			img.setAttribute("data-src", src);
-			node[i].appendChild(img);
-		}
-	}
-	return app;
-};
-app.run = function (o) {
-	preempted = true;
-
-	var options = extend(settings, o),
-		images = [],
-		imageNodes = [],
-		bgnodes = [];
-	if (typeof (options.images) == "string") {
-		imageNodes = selector(options.images);
-	} else if (window.NodeList && options.images instanceof window.NodeList) {
-		imageNodes = options.images;
-	} else if (window.Node && options.images instanceof window.Node) {
-		imageNodes = [options.images];
+	/**
+	 * Processes provided source attribute and sets up the appropriate rendering workflow
+	 *
+	 * @private
+	 * @param options Instance options from Holder.run
+	 * @param renderSettings Instance configuration
+	 * @param src Image URL
+	 * @param el Image DOM element
+	 */
+	function prepareImageElement(options, engineSettings, src, el) {
+	    var holderFlags = parseURL(src.substr(src.lastIndexOf(options.domain)), options);
+	    if (holderFlags) {
+	        prepareDOMElement({
+	            mode: null,
+	            el: el,
+	            flags: holderFlags,
+	            engineSettings: engineSettings
+	        });
+	    }
 	}
 
-	if (typeof (options.bgnodes) == "string") {
-		bgnodes = selector(options.bgnodes);
-	} else if (window.NodeList && options.elements instanceof window.NodeList) {
-		bgnodes = options.bgnodes;
-	} else if (window.Node && options.bgnodes instanceof window.Node) {
-		bgnodes = [options.bgnodes];
+	/**
+	 * Processes a Holder URL
+	 *
+	 * @private
+	 * @param url URL
+	 * @param options Instance options from Holder.run
+	 */
+	function parseURL(url, options) {
+	    var holder = {
+	        theme: extend(App.settings.themes.gray, null),
+	        stylesheets: options.stylesheets,
+	        instanceOptions: options
+	    };
+
+	    if (url.match(/([\d]+p?)x([\d]+p?)(?:\?|$)/)) {
+	        return parseQueryString(url, holder);
+	    } else {
+	        return parseFlags(url, holder);
+	    }
 	}
-	for (i = 0, l = imageNodes.length; i < l; i++) images.push(imageNodes[i]);
-	var holdercss = document.getElementById("holderjs-style");
-	if (!holdercss) {
-		holdercss = document.createElement("style");
-		holdercss.setAttribute("id", "holderjs-style");
-		holdercss.type = "text/css";
-		document.getElementsByTagName("head")[0].appendChild(holdercss);
+
+	/**
+	 * Processes a Holder URL and extracts configuration from query string
+	 *
+	 * @private
+	 * @param url URL
+	 * @param holder Staging Holder object
+	 */
+	function parseQueryString(url, holder) {
+	    var parts = url.split('?');
+	    var basics = parts[0].split('/');
+
+	    holder.holderURL = url;
+
+	    var dimensions = basics[1];
+	    var dimensionData = dimensions.match(/([\d]+p?)x([\d]+p?)/);
+
+	    if (!dimensionData) return false;
+
+	    holder.fluid = dimensions.indexOf('p') !== -1;
+
+	    holder.dimensions = {
+	        width: dimensionData[1].replace('p', '%'),
+	        height: dimensionData[2].replace('p', '%')
+	    };
+
+	    if (parts.length === 2) {
+	        var options = querystring.parse(parts[1]);
+
+	        // Colors
+
+	        if (options.bg) {
+	            holder.theme.background = (options.bg.indexOf('#') === -1 ? '#' : '') + options.bg;
+	        }
+
+	        if (options.fg) {
+	            holder.theme.foreground = (options.fg.indexOf('#') === -1 ? '#' : '') + options.fg;
+	        }
+
+	        if (options.theme && holder.instanceOptions.themes.hasOwnProperty(options.theme)) {
+	            holder.theme = extend(holder.instanceOptions.themes[options.theme], null);
+	        }
+
+	        // Text
+
+	        if (options.text) {
+	            holder.text = options.text;
+	        }
+
+	        if (options.textmode) {
+	            holder.textmode = options.textmode;
+	        }
+
+	        if (options.size) {
+	            holder.size = options.size;
+	        }
+
+	        if (options.font) {
+	            holder.font = options.font;
+	        }
+
+	        if (options.align) {
+	            holder.align = options.align;
+	        }
+
+	        holder.nowrap = utils.truthy(options.nowrap);
+
+	        // Miscellaneous
+
+	        holder.auto = utils.truthy(options.auto);
+
+	        if (utils.truthy(options.random)) {
+	            App.vars.cache.themeKeys = App.vars.cache.themeKeys || Object.keys(holder.instanceOptions.themes);
+	            var _theme = App.vars.cache.themeKeys[0 | Math.random() * App.vars.cache.themeKeys.length];
+	            holder.theme = extend(holder.instanceOptions.themes[_theme], null);
+	        }
+	    }
+
+	    return holder;
 	}
-	if (!options.nocss) {
-		if (holdercss.styleSheet) {
-			holdercss.styleSheet.cssText += options.stylesheet;
-		} else {
-			holdercss.appendChild(document.createTextNode(options.stylesheet));
-		}
+
+	//todo: remove in 2.8
+	/**
+	 * Processes a Holder URL and extracts flags
+	 *
+	 * @private
+	 * @deprecated
+	 * @param url URL
+	 * @param holder Staging Holder object
+	 */
+	function parseFlags(url, holder) {
+	    var render = false;
+	    var vtab = String.fromCharCode(11);
+	    var flags = url.replace(/([^\\])\//g, '$1' + vtab).split(vtab);
+	    var uriRegex = /%[0-9a-f]{2}/gi;
+	    var options = holder.instanceOptions;
+
+	    holder.holderURL = [];
+
+	    for (var fl = flags.length, j = 0; j < fl; j++) {
+	        var flag = flags[j];
+	        if (flag.match(uriRegex)) {
+	            try {
+	                flag = decodeURIComponent(flag);
+	            } catch (e) {
+	                flag = flags[j];
+	            }
+	        }
+
+	        var push = false;
+
+	        if (App.flags.dimensions.match(flag)) {
+	            render = true;
+	            holder.dimensions = App.flags.dimensions.output(flag);
+	            push = true;
+	        } else if (App.flags.fluid.match(flag)) {
+	            render = true;
+	            holder.dimensions = App.flags.fluid.output(flag);
+	            holder.fluid = true;
+	            push = true;
+	        } else if (App.flags.textmode.match(flag)) {
+	            holder.textmode = App.flags.textmode.output(flag);
+	            push = true;
+	        } else if (App.flags.colors.match(flag)) {
+	            var colors = App.flags.colors.output(flag);
+	            holder.theme = extend(holder.theme, colors);
+	            push = true;
+	        } else if (options.themes[flag]) {
+	            //If a theme is specified, it will override custom colors
+	            if (options.themes.hasOwnProperty(flag)) {
+	                holder.theme = extend(options.themes[flag], null);
+	            }
+	            push = true;
+	        } else if (App.flags.font.match(flag)) {
+	            holder.font = App.flags.font.output(flag);
+	            push = true;
+	        } else if (App.flags.auto.match(flag)) {
+	            holder.auto = true;
+	            push = true;
+	        } else if (App.flags.text.match(flag)) {
+	            holder.text = App.flags.text.output(flag);
+	            push = true;
+	        } else if (App.flags.size.match(flag)) {
+	            holder.size = App.flags.size.output(flag);
+	            push = true;
+	        } else if (App.flags.random.match(flag)) {
+	            if (App.vars.cache.themeKeys == null) {
+	                App.vars.cache.themeKeys = Object.keys(options.themes);
+	            }
+	            var theme = App.vars.cache.themeKeys[0 | Math.random() * App.vars.cache.themeKeys.length];
+	            holder.theme = extend(options.themes[theme], null);
+	            push = true;
+	        }
+
+	        if (push) {
+	            holder.holderURL.push(flag);
+	        }
+	    }
+	    holder.holderURL.unshift(options.domain);
+	    holder.holderURL = holder.holderURL.join('/');
+	    return render ? holder : false;
 	}
-	var cssregex = new RegExp(options.domain + "\/(.*?)\"?\\)");
-	for (var l = bgnodes.length, i = 0; i < l; i++) {
-		var src = window.getComputedStyle(bgnodes[i], null)
-			.getPropertyValue("background-image");
-		var flags = src.match(cssregex);
-		var bgsrc = bgnodes[i].getAttribute("data-background-src");
-		if (flags) {
-			var holder = parse_flags(flags[1].split("/"), options);
-			if (holder) {
-				render("background", bgnodes[i], holder, src);
-			}
-		} else if (bgsrc != null) {
-			var holder = parse_flags(bgsrc.substr(bgsrc.lastIndexOf(options.domain) + options.domain.length + 1)
-				.split("/"), options);
-			if (holder) {
-				render("background", bgnodes[i], holder, src);
-			}
-		}
+
+	/**
+	 * Modifies the DOM to fit placeholders and sets up resizable image callbacks (for fluid and automatically sized placeholders)
+	 *
+	 * @private
+	 * @param settings DOM prep settings
+	 */
+	function prepareDOMElement(prepSettings) {
+	    var mode = prepSettings.mode;
+	    var el = prepSettings.el;
+	    var flags = prepSettings.flags;
+	    var _engineSettings = prepSettings.engineSettings;
+	    var dimensions = flags.dimensions,
+	        theme = flags.theme;
+	    var dimensionsCaption = dimensions.width + 'x' + dimensions.height;
+	    mode = mode == null ? (flags.fluid ? 'fluid' : 'image') : mode;
+
+	    if (flags.text != null) {
+	        theme.text = flags.text;
+
+	        //<object> SVG embedding doesn't parse Unicode properly
+	        if (el.nodeName.toLowerCase() === 'object') {
+	            var textLines = theme.text.split('\\n');
+	            for (var k = 0; k < textLines.length; k++) {
+	                textLines[k] = utils.encodeHtmlEntity(textLines[k]);
+	            }
+	            theme.text = textLines.join('\\n');
+	        }
+	    }
+
+	    var holderURL = flags.holderURL;
+	    var engineSettings = extend(_engineSettings, null);
+
+	    if (flags.font) {
+	        theme.font = flags.font;
+	        //Only run the <canvas> webfont fallback if noFontFallback is false, if the node is not an image, and if canvas is supported
+	        if (!engineSettings.noFontFallback && el.nodeName.toLowerCase() === 'img' && App.setup.supportsCanvas && engineSettings.renderer === 'svg') {
+	            engineSettings = extend(engineSettings, {
+	                renderer: 'canvas'
+	            });
+	        }
+	    }
+
+	    //Chrome and Opera require a quick 10ms re-render if web fonts are used with canvas
+	    if (flags.font && engineSettings.renderer == 'canvas') {
+	        engineSettings.reRender = true;
+	    }
+
+	    if (mode == 'background') {
+	        if (el.getAttribute('data-background-src') == null) {
+	            setAttr(el, {
+	                'data-background-src': holderURL
+	            });
+	        }
+	    } else {
+	        var domProps = {};
+	        domProps[App.vars.dataAttr] = holderURL;
+	        setAttr(el, domProps);
+	    }
+
+	    flags.theme = theme;
+
+	    //todo consider using all renderSettings in holderData
+	    el.holderData = {
+	        flags: flags,
+	        engineSettings: engineSettings
+	    };
+
+	    if (mode == 'image' || mode == 'fluid') {
+	        setAttr(el, {
+	            'alt': (theme.text ? theme.text + ' [' + dimensionsCaption + ']' : dimensionsCaption)
+	        });
+	    }
+
+	    var renderSettings = {
+	        mode: mode,
+	        el: el,
+	        holderSettings: {
+	            dimensions: dimensions,
+	            theme: theme,
+	            flags: flags
+	        },
+	        engineSettings: engineSettings
+	    };
+
+	    if (mode == 'image') {
+	        if (engineSettings.renderer == 'html' || !flags.auto) {
+	            el.style.width = dimensions.width + 'px';
+	            el.style.height = dimensions.height + 'px';
+	        }
+	        if (engineSettings.renderer == 'html') {
+	            el.style.backgroundColor = theme.background;
+	        } else {
+	            render(renderSettings);
+
+	            if (flags.textmode == 'exact') {
+	                el.holderData.resizeUpdate = true;
+	                App.vars.resizableImages.push(el);
+	                updateResizableElements(el);
+	            }
+	        }
+	    } else if (mode == 'background' && engineSettings.renderer != 'html') {
+	        render(renderSettings);
+	    } else if (mode == 'fluid') {
+	        el.holderData.resizeUpdate = true;
+
+	        if (dimensions.height.slice(-1) == '%') {
+	            el.style.height = dimensions.height;
+	        } else if (flags.auto == null || !flags.auto) {
+	            el.style.height = dimensions.height + 'px';
+	        }
+	        if (dimensions.width.slice(-1) == '%') {
+	            el.style.width = dimensions.width;
+	        } else if (flags.auto == null || !flags.auto) {
+	            el.style.width = dimensions.width + 'px';
+	        }
+	        if (el.style.display == 'inline' || el.style.display === '' || el.style.display == 'none') {
+	            el.style.display = 'block';
+	        }
+
+	        setInitialDimensions(el);
+
+	        if (engineSettings.renderer == 'html') {
+	            el.style.backgroundColor = theme.background;
+	        } else {
+	            App.vars.resizableImages.push(el);
+	            updateResizableElements(el);
+	        }
+	    }
 	}
-	for (l = images.length, i = 0; i < l; i++) {
-		var attr_data_src, attr_src;
-		attr_src = attr_data_src = src = null;
-		try {
-			attr_src = images[i].getAttribute("src");
-			attr_datasrc = images[i].getAttribute("data-src");
-		} catch (e) {}
-		if (attr_datasrc == null && !! attr_src && attr_src.indexOf(options.domain) >= 0) {
-			src = attr_src;
-		} else if ( !! attr_datasrc && attr_datasrc.indexOf(options.domain) >= 0) {
-			src = attr_datasrc;
-		}
-		if (src) {
-			var holder = parse_flags(src.substr(src.lastIndexOf(options.domain) + options.domain.length + 1)
-				.split("/"), options);
-			if (holder) {
-				if (holder.fluid) {
-					render("fluid", images[i], holder, src)
-				} else {
-					render("image", images[i], holder, src);
-				}
-			}
-		}
+
+	/**
+	 * Core function that takes output from renderers and sets it as the source or background-image of the target element
+	 *
+	 * @private
+	 * @param renderSettings Renderer settings
+	 */
+	function render(renderSettings) {
+	    var image = null;
+	    var mode = renderSettings.mode;
+	    var holderSettings = renderSettings.holderSettings;
+	    var el = renderSettings.el;
+	    var engineSettings = renderSettings.engineSettings;
+
+	    switch (engineSettings.renderer) {
+	        case 'svg':
+	            if (!App.setup.supportsSVG) return;
+	            break;
+	        case 'canvas':
+	            if (!App.setup.supportsCanvas) return;
+	            break;
+	        default:
+	            return;
+	    }
+
+	    //todo: move generation of scene up to flag generation to reduce extra object creation
+	    var scene = {
+	        width: holderSettings.dimensions.width,
+	        height: holderSettings.dimensions.height,
+	        theme: holderSettings.theme,
+	        flags: holderSettings.flags
+	    };
+
+	    var sceneGraph = buildSceneGraph(scene);
+
+	    function getRenderedImage() {
+	        var image = null;
+	        switch (engineSettings.renderer) {
+	            case 'canvas':
+	                image = sgCanvasRenderer(sceneGraph, renderSettings);
+	                break;
+	            case 'svg':
+	                image = sgSVGRenderer(sceneGraph, renderSettings);
+	                break;
+	            default:
+	                throw 'Holder: invalid renderer: ' + engineSettings.renderer;
+	        }
+
+	        return image;
+	    }
+
+	    image = getRenderedImage();
+
+	    if (image == null) {
+	        throw 'Holder: couldn\'t render placeholder';
+	    }
+
+	    //todo: add <object> canvas rendering
+	    if (mode == 'background') {
+	        el.style.backgroundImage = 'url(' + image + ')';
+	        el.style.backgroundSize = scene.width + 'px ' + scene.height + 'px';
+	    } else {
+	        if (el.nodeName.toLowerCase() === 'img') {
+	            setAttr(el, {
+	                'src': image
+	            });
+	        } else if (el.nodeName.toLowerCase() === 'object') {
+	            setAttr(el, {
+	                'data': image
+	            });
+	            setAttr(el, {
+	                'type': 'image/svg+xml'
+	            });
+	        }
+	        if (engineSettings.reRender) {
+	            global.setTimeout(function() {
+	                var image = getRenderedImage();
+	                if (image == null) {
+	                    throw 'Holder: couldn\'t render placeholder';
+	                }
+	                //todo: refactor this code into a function
+	                if (el.nodeName.toLowerCase() === 'img') {
+	                    setAttr(el, {
+	                        'src': image
+	                    });
+	                } else if (el.nodeName.toLowerCase() === 'object') {
+	                    setAttr(el, {
+	                        'data': image
+	                    });
+	                    setAttr(el, {
+	                        'type': 'image/svg+xml'
+	                    });
+	                }
+	            }, 100);
+	        }
+	    }
+	    //todo: account for re-rendering
+	    setAttr(el, {
+	        'data-holder-rendered': true
+	    });
 	}
-	return app;
-};
-contentLoaded(win, function () {
-	if (window.addEventListener) {
-		window.addEventListener("resize", resizable_update, false);
-		window.addEventListener("orientationchange", resizable_update, false);
-	} else {
-		window.attachEvent("onresize", resizable_update)
+
+	/**
+	 * Core function that takes a Holder scene description and builds a scene graph
+	 *
+	 * @private
+	 * @param scene Holder scene object
+	 */
+	//todo: make this function reusable
+	//todo: merge app defaults and setup properties into the scene argument
+	function buildSceneGraph(scene) {
+	    var fontSize = App.defaults.size;
+	    if (parseFloat(scene.theme.size)) {
+	        fontSize = scene.theme.size;
+	    } else if (parseFloat(scene.flags.size)) {
+	        fontSize = scene.flags.size;
+	    }
+
+	    scene.font = {
+	        family: scene.theme.font ? scene.theme.font : 'Arial, Helvetica, Open Sans, sans-serif',
+	        size: textSize(scene.width, scene.height, fontSize),
+	        units: scene.theme.units ? scene.theme.units : App.defaults.units,
+	        weight: scene.theme.fontweight ? scene.theme.fontweight : 'bold'
+	    };
+
+	    scene.text = scene.theme.text || Math.floor(scene.width) + 'x' + Math.floor(scene.height);
+
+	    scene.noWrap = scene.theme.nowrap || scene.flags.nowrap;
+
+	    scene.align = scene.theme.align || scene.flags.align || 'center';
+
+	    switch (scene.flags.textmode) {
+	        case 'literal':
+	            scene.text = scene.flags.dimensions.width + 'x' + scene.flags.dimensions.height;
+	            break;
+	        case 'exact':
+	            if (!scene.flags.exactDimensions) break;
+	            scene.text = Math.floor(scene.flags.exactDimensions.width) + 'x' + Math.floor(scene.flags.exactDimensions.height);
+	            break;
+	    }
+
+	    var sceneGraph = new SceneGraph({
+	        width: scene.width,
+	        height: scene.height
+	    });
+
+	    var Shape = sceneGraph.Shape;
+
+	    var holderBg = new Shape.Rect('holderBg', {
+	        fill: scene.theme.background
+	    });
+
+	    holderBg.resize(scene.width, scene.height);
+	    sceneGraph.root.add(holderBg);
+
+	    var holderTextGroup = new Shape.Group('holderTextGroup', {
+	        text: scene.text,
+	        align: scene.align,
+	        font: scene.font,
+	        fill: scene.theme.foreground
+	    });
+
+	    holderTextGroup.moveTo(null, null, 1);
+	    sceneGraph.root.add(holderTextGroup);
+
+	    var tpdata = holderTextGroup.textPositionData = stagingRenderer(sceneGraph);
+	    if (!tpdata) {
+	        throw 'Holder: staging fallback not supported yet.';
+	    }
+	    holderTextGroup.properties.leading = tpdata.boundingBox.height;
+
+	    var textNode = null;
+	    var line = null;
+
+	    function finalizeLine(parent, line, width, height) {
+	        line.width = width;
+	        line.height = height;
+	        parent.width = Math.max(parent.width, line.width);
+	        parent.height += line.height;
+	    }
+
+	    var sceneMargin = scene.width * App.setup.lineWrapRatio;
+	    var maxLineWidth = sceneMargin;
+
+	    if (tpdata.lineCount > 1) {
+	        var offsetX = 0;
+	        var offsetY = 0;
+	        var lineIndex = 0;
+	        var lineKey;
+	        line = new Shape.Group('line' + lineIndex);
+
+	        //Double margin so that left/right-aligned next is not flush with edge of image
+	        if (scene.align === 'left' || scene.align === 'right') {
+	            maxLineWidth = scene.width * (1 - (1 - (App.setup.lineWrapRatio)) * 2);
+	        }
+
+	        for (var i = 0; i < tpdata.words.length; i++) {
+	            var word = tpdata.words[i];
+	            textNode = new Shape.Text(word.text);
+	            var newline = word.text == '\\n';
+	            if (!scene.noWrap && (offsetX + word.width >= maxLineWidth || newline === true)) {
+	                finalizeLine(holderTextGroup, line, offsetX, holderTextGroup.properties.leading);
+	                holderTextGroup.add(line);
+	                offsetX = 0;
+	                offsetY += holderTextGroup.properties.leading;
+	                lineIndex += 1;
+	                line = new Shape.Group('line' + lineIndex);
+	                line.y = offsetY;
+	            }
+	            if (newline === true) {
+	                continue;
+	            }
+	            textNode.moveTo(offsetX, 0);
+	            offsetX += tpdata.spaceWidth + word.width;
+	            line.add(textNode);
+	        }
+
+	        finalizeLine(holderTextGroup, line, offsetX, holderTextGroup.properties.leading);
+	        holderTextGroup.add(line);
+
+	        if (scene.align === 'left') {
+	            holderTextGroup.moveTo(scene.width - sceneMargin, null, null);
+	        } else if (scene.align === 'right') {
+	            for (lineKey in holderTextGroup.children) {
+	                line = holderTextGroup.children[lineKey];
+	                line.moveTo(scene.width - line.width, null, null);
+	            }
+
+	            holderTextGroup.moveTo(0 - (scene.width - sceneMargin), null, null);
+	        } else {
+	            for (lineKey in holderTextGroup.children) {
+	                line = holderTextGroup.children[lineKey];
+	                line.moveTo((holderTextGroup.width - line.width) / 2, null, null);
+	            }
+
+	            holderTextGroup.moveTo((scene.width - holderTextGroup.width) / 2, null, null);
+	        }
+
+	        holderTextGroup.moveTo(null, (scene.height - holderTextGroup.height) / 2, null);
+
+	        //If the text exceeds vertical space, move it down so the first line is visible
+	        if ((scene.height - holderTextGroup.height) / 2 < 0) {
+	            holderTextGroup.moveTo(null, 0, null);
+	        }
+	    } else {
+	        textNode = new Shape.Text(scene.text);
+	        line = new Shape.Group('line0');
+	        line.add(textNode);
+	        holderTextGroup.add(line);
+
+	        if (scene.align === 'left') {
+	            holderTextGroup.moveTo(scene.width - sceneMargin, null, null);
+	        } else if (scene.align === 'right') {
+	            holderTextGroup.moveTo(0 - (scene.width - sceneMargin), null, null);
+	        } else {
+	            holderTextGroup.moveTo((scene.width - tpdata.boundingBox.width) / 2, null, null);
+	        }
+
+	        holderTextGroup.moveTo(null, (scene.height - tpdata.boundingBox.height) / 2, null);
+	    }
+
+	    //todo: renderlist
+
+	    return sceneGraph;
 	}
-	preempted || app.run();
+
+	/**
+	 * Adaptive text sizing function
+	 *
+	 * @private
+	 * @param width Parent width
+	 * @param height Parent height
+	 * @param fontSize Requested text size
+	 */
+	function textSize(width, height, fontSize) {
+	    var stageWidth = parseInt(width, 10);
+	    var stageHeight = parseInt(height, 10);
+
+	    var bigSide = Math.max(stageWidth, stageHeight);
+	    var smallSide = Math.min(stageWidth, stageHeight);
+
+	    var newHeight = 0.8 * Math.min(smallSide, bigSide * App.defaults.scale);
+	    return Math.round(Math.max(fontSize, newHeight));
+	}
+
+	/**
+	 * Iterates over resizable (fluid or auto) placeholders and renders them
+	 *
+	 * @private
+	 * @param element Optional element selector, specified only if a specific element needs to be re-rendered
+	 */
+	function updateResizableElements(element) {
+	    var images;
+	    if (element == null || element.nodeType == null) {
+	        images = App.vars.resizableImages;
+	    } else {
+	        images = [element];
+	    }
+	    for (var i = 0, l = images.length; i < l; i++) {
+	        var el = images[i];
+	        if (el.holderData) {
+	            var flags = el.holderData.flags;
+	            var dimensions = dimensionCheck(el);
+	            if (dimensions) {
+	                if (!el.holderData.resizeUpdate) {
+	                    continue;
+	                }
+
+	                if (flags.fluid && flags.auto) {
+	                    var fluidConfig = el.holderData.fluidConfig;
+	                    switch (fluidConfig.mode) {
+	                        case 'width':
+	                            dimensions.height = dimensions.width / fluidConfig.ratio;
+	                            break;
+	                        case 'height':
+	                            dimensions.width = dimensions.height * fluidConfig.ratio;
+	                            break;
+	                    }
+	                }
+
+	                var settings = {
+	                    mode: 'image',
+	                    holderSettings: {
+	                        dimensions: dimensions,
+	                        theme: flags.theme,
+	                        flags: flags
+	                    },
+	                    el: el,
+	                    engineSettings: el.holderData.engineSettings
+	                };
+
+	                if (flags.textmode == 'exact') {
+	                    flags.exactDimensions = dimensions;
+	                    settings.holderSettings.dimensions = flags.dimensions;
+	                }
+
+	                render(settings);
+	            } else {
+	                setInvisible(el);
+	            }
+	        }
+	    }
+	}
+
+	/**
+	 * Sets up aspect ratio metadata for fluid placeholders, in order to preserve proportions when resizing
+	 *
+	 * @private
+	 * @param el Image DOM element
+	 */
+	function setInitialDimensions(el) {
+	    if (el.holderData) {
+	        var dimensions = dimensionCheck(el);
+	        if (dimensions) {
+	            var flags = el.holderData.flags;
+
+	            var fluidConfig = {
+	                fluidHeight: flags.dimensions.height.slice(-1) == '%',
+	                fluidWidth: flags.dimensions.width.slice(-1) == '%',
+	                mode: null,
+	                initialDimensions: dimensions
+	            };
+
+	            if (fluidConfig.fluidWidth && !fluidConfig.fluidHeight) {
+	                fluidConfig.mode = 'width';
+	                fluidConfig.ratio = fluidConfig.initialDimensions.width / parseFloat(flags.dimensions.height);
+	            } else if (!fluidConfig.fluidWidth && fluidConfig.fluidHeight) {
+	                fluidConfig.mode = 'height';
+	                fluidConfig.ratio = parseFloat(flags.dimensions.width) / fluidConfig.initialDimensions.height;
+	            }
+
+	            el.holderData.fluidConfig = fluidConfig;
+	        } else {
+	            setInvisible(el);
+	        }
+	    }
+	}
+
+	/**
+	 * Iterates through all current invisible images, and if they're visible, renders them and removes them from further checks. Runs every animation frame.
+	 *
+	 * @private
+	 */
+	function visibilityCheck() {
+	    var renderableImages = [];
+	    var keys = Object.keys(App.vars.invisibleImages);
+	    var el;
+	    for (var i = 0, l = keys.length; i < l; i++) {
+	        el = App.vars.invisibleImages[keys[i]];
+	        if (dimensionCheck(el) && el.nodeName.toLowerCase() == 'img') {
+	            renderableImages.push(el);
+	            delete App.vars.invisibleImages[keys[i]];
+	        }
+	    }
+
+	    if (renderableImages.length) {
+	        Holder.run({
+	            images: renderableImages
+	        });
+	    }
+
+	    global.requestAnimationFrame(visibilityCheck);
+	}
+
+	/**
+	 * Starts checking for invisible placeholders if not doing so yet. Does nothing otherwise.
+	 *
+	 * @private
+	 */
+	function startVisibilityCheck() {
+	    if (!App.vars.visibilityCheckStarted) {
+	        global.requestAnimationFrame(visibilityCheck);
+	        App.vars.visibilityCheckStarted = true;
+	    }
+	}
+
+	/**
+	 * Sets a unique ID for an image detected to be invisible and adds it to the map of invisible images checked by visibilityCheck
+	 *
+	 * @private
+	 * @param el Invisible DOM element
+	 */
+	function setInvisible(el) {
+	    if (!el.holderData.invisibleId) {
+	        App.vars.invisibleId += 1;
+	        App.vars.invisibleImages['i' + App.vars.invisibleId] = el;
+	        el.holderData.invisibleId = App.vars.invisibleId;
+	    }
+	}
+
+	//todo: see if possible to convert stagingRenderer to use HTML only
+	var stagingRenderer = (function() {
+	    var svg = null,
+	        stagingText = null,
+	        stagingTextNode = null;
+	    return function(graph) {
+	        var rootNode = graph.root;
+	        if (App.setup.supportsSVG) {
+	            var firstTimeSetup = false;
+	            var tnode = function(text) {
+	                return document.createTextNode(text);
+	            };
+	            if (svg == null || svg.parentNode !== document.body) {
+	                firstTimeSetup = true;
+	            }
+
+	            svg = initSVG(svg, rootNode.properties.width, rootNode.properties.height);
+	            //Show staging element before staging
+	            svg.style.display = 'block';
+
+	            if (firstTimeSetup) {
+	                stagingText = newEl('text', SVG_NS);
+	                stagingTextNode = tnode(null);
+	                setAttr(stagingText, {
+	                    x: 0
+	                });
+	                stagingText.appendChild(stagingTextNode);
+	                svg.appendChild(stagingText);
+	                document.body.appendChild(svg);
+	                svg.style.visibility = 'hidden';
+	                svg.style.position = 'absolute';
+	                svg.style.top = '-100%';
+	                svg.style.left = '-100%';
+	                //todo: workaround for zero-dimension <svg> tag in Opera 12
+	                //svg.setAttribute('width', 0);
+	                //svg.setAttribute('height', 0);
+	            }
+
+	            var holderTextGroup = rootNode.children.holderTextGroup;
+	            var htgProps = holderTextGroup.properties;
+	            setAttr(stagingText, {
+	                'y': htgProps.font.size,
+	                'style': utils.cssProps({
+	                    'font-weight': htgProps.font.weight,
+	                    'font-size': htgProps.font.size + htgProps.font.units,
+	                    'font-family': htgProps.font.family
+	                })
+	            });
+
+	            //Get bounding box for the whole string (total width and height)
+	            stagingTextNode.nodeValue = htgProps.text;
+	            var stagingTextBBox = stagingText.getBBox();
+
+	            //Get line count and split the string into words
+	            var lineCount = Math.ceil(stagingTextBBox.width / (rootNode.properties.width * App.setup.lineWrapRatio));
+	            var words = htgProps.text.split(' ');
+	            var newlines = htgProps.text.match(/\\n/g);
+	            lineCount += newlines == null ? 0 : newlines.length;
+
+	            //Get bounding box for the string with spaces removed
+	            stagingTextNode.nodeValue = htgProps.text.replace(/[ ]+/g, '');
+	            var computedNoSpaceLength = stagingText.getComputedTextLength();
+
+	            //Compute average space width
+	            var diffLength = stagingTextBBox.width - computedNoSpaceLength;
+	            var spaceWidth = Math.round(diffLength / Math.max(1, words.length - 1));
+
+	            //Get widths for every word with space only if there is more than one line
+	            var wordWidths = [];
+	            if (lineCount > 1) {
+	                stagingTextNode.nodeValue = '';
+	                for (var i = 0; i < words.length; i++) {
+	                    if (words[i].length === 0) continue;
+	                    stagingTextNode.nodeValue = utils.decodeHtmlEntity(words[i]);
+	                    var bbox = stagingText.getBBox();
+	                    wordWidths.push({
+	                        text: words[i],
+	                        width: bbox.width
+	                    });
+	                }
+	            }
+
+	            //Hide staging element after staging
+	            svg.style.display = 'none';
+
+	            return {
+	                spaceWidth: spaceWidth,
+	                lineCount: lineCount,
+	                boundingBox: stagingTextBBox,
+	                words: wordWidths
+	            };
+	        } else {
+	            //todo: canvas fallback for measuring text on android 2.3
+	            return false;
+	        }
+	    };
+	})();
+
+	var sgCanvasRenderer = (function() {
+	    var canvas = newEl('canvas');
+	    var ctx = null;
+
+	    return function(sceneGraph) {
+	        if (ctx == null) {
+	            ctx = canvas.getContext('2d');
+	        }
+	        var root = sceneGraph.root;
+	        canvas.width = App.dpr(root.properties.width);
+	        canvas.height = App.dpr(root.properties.height);
+	        ctx.textBaseline = 'middle';
+
+	        ctx.fillStyle = root.children.holderBg.properties.fill;
+	        ctx.fillRect(0, 0, App.dpr(root.children.holderBg.width), App.dpr(root.children.holderBg.height));
+
+	        var textGroup = root.children.holderTextGroup;
+	        var tgProps = textGroup.properties;
+	        ctx.font = textGroup.properties.font.weight + ' ' + App.dpr(textGroup.properties.font.size) + textGroup.properties.font.units + ' ' + textGroup.properties.font.family + ', monospace';
+	        ctx.fillStyle = textGroup.properties.fill;
+
+	        for (var lineKey in textGroup.children) {
+	            var line = textGroup.children[lineKey];
+	            for (var wordKey in line.children) {
+	                var word = line.children[wordKey];
+	                var x = App.dpr(textGroup.x + line.x + word.x);
+	                var y = App.dpr(textGroup.y + line.y + word.y + (textGroup.properties.leading / 2));
+
+	                ctx.fillText(word.properties.text, x, y);
+	            }
+	        }
+
+	        return canvas.toDataURL('image/png');
+	    };
+	})();
+
+	var sgSVGRenderer = (function() {
+	    //Prevent IE <9 from initializing SVG renderer
+	    if (!global.XMLSerializer) return;
+	    var xml = createXML();
+	    var svg = initSVG(null, 0, 0);
+	    var bgEl = newEl('rect', SVG_NS);
+	    svg.appendChild(bgEl);
+
+	    //todo: create a reusable pool for textNodes, resize if more words present
+
+	    return function(sceneGraph, renderSettings) {
+	        var root = sceneGraph.root;
+
+	        initSVG(svg, root.properties.width, root.properties.height);
+
+	        var groups = svg.querySelectorAll('g');
+
+	        for (var i = 0; i < groups.length; i++) {
+	            groups[i].parentNode.removeChild(groups[i]);
+	        }
+
+	        var holderURL = renderSettings.holderSettings.flags.holderURL;
+	        var holderId = 'holder_' + (Number(new Date()) + 32768 + (0 | Math.random() * 32768)).toString(16);
+	        var sceneGroupEl = newEl('g', SVG_NS);
+	        var textGroup = root.children.holderTextGroup;
+	        var tgProps = textGroup.properties;
+	        var textGroupEl = newEl('g', SVG_NS);
+	        var tpdata = textGroup.textPositionData;
+	        var textCSSRule = '#' + holderId + ' text { ' +
+	            utils.cssProps({
+	                'fill': tgProps.fill,
+	                'font-weight': tgProps.font.weight,
+	                'font-family': tgProps.font.family + ', monospace',
+	                'font-size': tgProps.font.size + tgProps.font.units
+	            }) + ' } ';
+	        var commentNode = xml.createComment('\n' + 'Source URL: ' + holderURL + generatorComment);
+	        var holderCSS = xml.createCDATASection(textCSSRule);
+	        var styleEl = svg.querySelector('style');
+
+	        setAttr(sceneGroupEl, {
+	            id: holderId
+	        });
+
+	        svg.insertBefore(commentNode, svg.firstChild);
+	        styleEl.appendChild(holderCSS);
+
+	        sceneGroupEl.appendChild(bgEl);
+	        sceneGroupEl.appendChild(textGroupEl);
+	        svg.appendChild(sceneGroupEl);
+
+	        setAttr(bgEl, {
+	            'width': root.children.holderBg.width,
+	            'height': root.children.holderBg.height,
+	            'fill': root.children.holderBg.properties.fill
+	        });
+
+	        textGroup.y += tpdata.boundingBox.height * 0.8;
+
+	        for (var lineKey in textGroup.children) {
+	            var line = textGroup.children[lineKey];
+	            for (var wordKey in line.children) {
+	                var word = line.children[wordKey];
+	                var x = textGroup.x + line.x + word.x;
+	                var y = textGroup.y + line.y + word.y;
+
+	                var textEl = newEl('text', SVG_NS);
+	                var textNode = document.createTextNode(null);
+
+	                setAttr(textEl, {
+	                    'x': x,
+	                    'y': y
+	                });
+
+	                textNode.nodeValue = word.properties.text;
+	                textEl.appendChild(textNode);
+	                textGroupEl.appendChild(textEl);
+	            }
+	        }
+
+	        //todo: factor the background check up the chain, perhaps only return reference
+	        var svgString = svgStringToDataURI(serializeSVG(svg, renderSettings.engineSettings), renderSettings.mode === 'background');
+	        return svgString;
+	    };
+	})();
+
+	//Helpers
+
+	//todo: move svg-related helpers to a dedicated file
+
+	/**
+	 * Converts serialized SVG to a string suitable for data URI use
+	 * @param svgString Serialized SVG string
+	 * @param [base64] Use base64 encoding for data URI
+	 */
+	var svgStringToDataURI = function() {
+	    var rawPrefix = 'data:image/svg+xml;charset=UTF-8,';
+	    var base64Prefix = 'data:image/svg+xml;charset=UTF-8;base64,';
+
+	    return function(svgString, base64) {
+	        if (base64) {
+	            return base64Prefix + btoa(unescape(encodeURIComponent(svgString)));
+	        } else {
+	            return rawPrefix + encodeURIComponent(svgString);
+	        }
+	    };
+	}();
+
+	/**
+	 * Generic new DOM element function
+	 *
+	 * @private
+	 * @param tag Tag to create
+	 * @param namespace Optional namespace value
+	 */
+	function newEl(tag, namespace) {
+	    if (namespace == null) {
+	        return document.createElement(tag);
+	    } else {
+	        return document.createElementNS(namespace, tag);
+	    }
+	}
+
+	/**
+	 * Generic setAttribute function
+	 *
+	 * @private
+	 * @param el Reference to DOM element
+	 * @param attrs Object with attribute keys and values
+	 */
+	function setAttr(el, attrs) {
+	    for (var a in attrs) {
+	        el.setAttribute(a, attrs[a]);
+	    }
+	}
+
+	/**
+	 * Generic SVG element creation function
+	 *
+	 * @private
+	 * @param svg SVG context, set to null if new
+	 * @param width Document width
+	 * @param height Document height
+	 */
+	function initSVG(svg, width, height) {
+	    var defs, style;
+
+	    if (svg == null) {
+	        svg = newEl('svg', SVG_NS);
+	        defs = newEl('defs', SVG_NS);
+	        style = newEl('style', SVG_NS);
+	        setAttr(style, {
+	            'type': 'text/css'
+	        });
+	        defs.appendChild(style);
+	        svg.appendChild(defs);
+	    } else {
+	        style = svg.querySelector('style');
+	    }
+
+	    //IE throws an exception if this is set and Chrome requires it to be set
+	    if (svg.webkitMatchesSelector) {
+	        svg.setAttribute('xmlns', SVG_NS);
+	    }
+
+	    //Remove comment nodes
+	    for (var i = 0; i < svg.childNodes.length; i++) {
+	        if (svg.childNodes[i].nodeType === NODE_TYPE_COMMENT) {
+	            svg.removeChild(svg.childNodes[i]);
+	        }
+	    }
+
+	    //Remove CSS
+	    while (style.childNodes.length) {
+	        style.removeChild(style.childNodes[0]);
+	    }
+
+	    setAttr(svg, {
+	        'width': width,
+	        'height': height,
+	        'viewBox': '0 0 ' + width + ' ' + height,
+	        'preserveAspectRatio': 'none'
+	    });
+
+	    return svg;
+	}
+
+	/**
+	 * Returns serialized SVG with XML processing instructions
+	 *
+	 * @private
+	 * @param svg SVG context
+	 * @param stylesheets CSS stylesheets to include
+	 */
+	function serializeSVG(svg, engineSettings) {
+	    if (!global.XMLSerializer) return;
+	    var serializer = new XMLSerializer();
+	    var svgCSS = '';
+	    var stylesheets = engineSettings.stylesheets;
+
+	    //External stylesheets: Processing Instruction method
+	    if (engineSettings.svgXMLStylesheet) {
+	        var xml = createXML();
+	        //Add <?xml-stylesheet ?> directives
+	        for (var i = stylesheets.length - 1; i >= 0; i--) {
+	            var csspi = xml.createProcessingInstruction('xml-stylesheet', 'href="' + stylesheets[i] + '" rel="stylesheet"');
+	            xml.insertBefore(csspi, xml.firstChild);
+	        }
+
+	        xml.removeChild(xml.documentElement);
+	        svgCSS = serializer.serializeToString(xml);
+	    }
+
+	    var svgText = serializer.serializeToString(svg);
+	    svgText = svgText.replace(/\&amp;(\#[0-9]{2,}\;)/g, '&$1');
+	    return svgCSS + svgText;
+	}
+
+	/**
+	 * Creates a XML document
+	 * @private
+	 */
+	function createXML() {
+	    if (!global.DOMParser) return;
+	    return new DOMParser().parseFromString('<xml />', 'application/xml');
+	}
+
+	/**
+	 * Prevents a function from being called too often, waits until a timer elapses to call it again
+	 *
+	 * @param fn Function to call
+	 */
+	function debounce(fn) {
+	    if (!App.vars.debounceTimer) fn.call(this);
+	    if (App.vars.debounceTimer) global.clearTimeout(App.vars.debounceTimer);
+	    App.vars.debounceTimer = global.setTimeout(function() {
+	        App.vars.debounceTimer = null;
+	        fn.call(this);
+	    }, App.setup.debounce);
+	}
+
+	/**
+	 * Holder-specific resize/orientation change callback, debounced to prevent excessive execution
+	 */
+	function resizeEvent() {
+	    debounce(function() {
+	        updateResizableElements(null);
+	    });
+	}
+
+	//Set up flags
+
+	for (var flag in App.flags) {
+	    if (!App.flags.hasOwnProperty(flag)) continue;
+	    App.flags[flag].match = function(val) {
+	        return val.match(this.regex);
+	    };
+	}
+
+	//Properties set once on setup
+
+	App.setup = {
+	    renderer: 'html',
+	    debounce: 100,
+	    ratio: 1,
+	    supportsCanvas: false,
+	    supportsSVG: false,
+	    lineWrapRatio: 0.9,
+	    renderers: ['html', 'canvas', 'svg']
+	};
+
+	App.dpr = function(val) {
+	    return val * App.setup.ratio;
+	};
+
+	//Properties modified during runtime
+
+	App.vars = {
+	    preempted: false,
+	    resizableImages: [],
+	    invisibleImages: {},
+	    invisibleId: 0,
+	    visibilityCheckStarted: false,
+	    debounceTimer: null,
+	    cache: {},
+	    dataAttr: 'data-src'
+	};
+
+	//Pre-flight
+
+	(function() {
+	    var devicePixelRatio = 1,
+	        backingStoreRatio = 1;
+
+	    var canvas = newEl('canvas');
+	    var ctx = null;
+
+	    if (canvas.getContext) {
+	        if (canvas.toDataURL('image/png').indexOf('data:image/png') != -1) {
+	            App.setup.renderer = 'canvas';
+	            ctx = canvas.getContext('2d');
+	            App.setup.supportsCanvas = true;
+	        }
+	    }
+
+	    if (App.setup.supportsCanvas) {
+	        devicePixelRatio = global.devicePixelRatio || 1;
+	        backingStoreRatio = ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio || ctx.msBackingStorePixelRatio || ctx.oBackingStorePixelRatio || ctx.backingStorePixelRatio || 1;
+	    }
+
+	    App.setup.ratio = devicePixelRatio / backingStoreRatio;
+
+	    if (!!document.createElementNS && !!document.createElementNS(SVG_NS, 'svg').createSVGRect) {
+	        App.setup.renderer = 'svg';
+	        App.setup.supportsSVG = true;
+	    }
+	})();
+
+	//Starts checking for invisible placeholders
+	startVisibilityCheck();
+
+	if (onDomReady) {
+	    onDomReady(function() {
+	        if (!App.vars.preempted) {
+	            Holder.run();
+	        }
+	        if (global.addEventListener) {
+	            global.addEventListener('resize', resizeEvent, false);
+	            global.addEventListener('orientationchange', resizeEvent, false);
+	        } else {
+	            global.attachEvent('onresize', resizeEvent);
+	        }
+
+	        if (typeof global.Turbolinks == 'object') {
+	            global.document.addEventListener('page:change', function() {
+	                Holder.run();
+	            });
+	        }
+	    });
+	}
+
+	module.exports = Holder;
+
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*!
+	 * onDomReady.js 1.4.0 (c) 2013 Tubal Martin - MIT license
+	 *
+	 * Specially modified to work with Holder.js
+	 */
+
+	function _onDomReady(win) {
+	    //Lazy loading fix for Firefox < 3.6
+	    //http://webreflection.blogspot.com/2009/11/195-chars-to-help-lazy-loading.html
+	    if (document.readyState == null && document.addEventListener) {
+	        document.addEventListener("DOMContentLoaded", function DOMContentLoaded() {
+	            document.removeEventListener("DOMContentLoaded", DOMContentLoaded, false);
+	            document.readyState = "complete";
+	        }, false);
+	        document.readyState = "loading";
+	    }
+
+	    var doc = win.document,
+	        docElem = doc.documentElement,
+
+	        LOAD = "load",
+	        FALSE = false,
+	        ONLOAD = "on"+LOAD,
+	        COMPLETE = "complete",
+	        READYSTATE = "readyState",
+	        ATTACHEVENT = "attachEvent",
+	        DETACHEVENT = "detachEvent",
+	        ADDEVENTLISTENER = "addEventListener",
+	        DOMCONTENTLOADED = "DOMContentLoaded",
+	        ONREADYSTATECHANGE = "onreadystatechange",
+	        REMOVEEVENTLISTENER = "removeEventListener",
+
+	        // W3C Event model
+	        w3c = ADDEVENTLISTENER in doc,
+	        _top = FALSE,
+
+	        // isReady: Is the DOM ready to be used? Set to true once it occurs.
+	        isReady = FALSE,
+
+	        // Callbacks pending execution until DOM is ready
+	        callbacks = [];
+
+	    // Handle when the DOM is ready
+	    function ready( fn ) {
+	        if ( !isReady ) {
+
+	            // Make sure body exists, at least, in case IE gets a little overzealous (ticket #5443).
+	            if ( !doc.body ) {
+	                return defer( ready );
+	            }
+
+	            // Remember that the DOM is ready
+	            isReady = true;
+
+	            // Execute all callbacks
+	            while ( fn = callbacks.shift() ) {
+	                defer( fn );
+	            }
+	        }
+	    }
+
+	    // The ready event handler
+	    function completed( event ) {
+	        // readyState === "complete" is good enough for us to call the dom ready in oldIE
+	        if ( w3c || event.type === LOAD || doc[READYSTATE] === COMPLETE ) {
+	            detach();
+	            ready();
+	        }
+	    }
+
+	    // Clean-up method for dom ready events
+	    function detach() {
+	        if ( w3c ) {
+	            doc[REMOVEEVENTLISTENER]( DOMCONTENTLOADED, completed, FALSE );
+	            win[REMOVEEVENTLISTENER]( LOAD, completed, FALSE );
+	        } else {
+	            doc[DETACHEVENT]( ONREADYSTATECHANGE, completed );
+	            win[DETACHEVENT]( ONLOAD, completed );
+	        }
+	    }
+
+	    // Defers a function, scheduling it to run after the current call stack has cleared.
+	    function defer( fn, wait ) {
+	        // Allow 0 to be passed
+	        setTimeout( fn, +wait >= 0 ? wait : 1 );
+	    }
+
+	    // Attach the listeners:
+
+	    // Catch cases where onDomReady is called after the browser event has already occurred.
+	    // we once tried to use readyState "interactive" here, but it caused issues like the one
+	    // discovered by ChrisS here: http://bugs.jquery.com/ticket/12282#comment:15
+	    if ( doc[READYSTATE] === COMPLETE ) {
+	        // Handle it asynchronously to allow scripts the opportunity to delay ready
+	        defer( ready );
+
+	    // Standards-based browsers support DOMContentLoaded
+	    } else if ( w3c ) {
+	        // Use the handy event callback
+	        doc[ADDEVENTLISTENER]( DOMCONTENTLOADED, completed, FALSE );
+
+	        // A fallback to window.onload, that will always work
+	        win[ADDEVENTLISTENER]( LOAD, completed, FALSE );
+
+	    // If IE event model is used
+	    } else {
+	        // Ensure firing before onload, maybe late but safe also for iframes
+	        doc[ATTACHEVENT]( ONREADYSTATECHANGE, completed );
+
+	        // A fallback to window.onload, that will always work
+	        win[ATTACHEVENT]( ONLOAD, completed );
+
+	        // If IE and not a frame
+	        // continually check to see if the document is ready
+	        try {
+	            _top = win.frameElement == null && docElem;
+	        } catch(e) {}
+
+	        if ( _top && _top.doScroll ) {
+	            (function doScrollCheck() {
+	                if ( !isReady ) {
+	                    try {
+	                        // Use the trick by Diego Perini
+	                        // http://javascript.nwbox.com/IEContentLoaded/
+	                        _top.doScroll("left");
+	                    } catch(e) {
+	                        return defer( doScrollCheck, 50 );
+	                    }
+
+	                    // detach all dom ready events
+	                    detach();
+
+	                    // and execute any waiting functions
+	                    ready();
+	                }
+	            })();
+	        }
+	    }
+
+	    function onDomReady( fn ) {
+	        // If DOM is ready, execute the function (async), otherwise wait
+	        isReady ? defer( fn ) : callbacks.push( fn );
+	    }
+
+	    // Add version
+	    onDomReady.version = "1.4.0";
+	    // Add method to check if DOM is ready
+	    onDomReady.isReady = function(){
+	        return isReady;
+	    };
+
+	    return onDomReady;
+	}
+
+	module.exports = typeof window !== "undefined" && _onDomReady(window);
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var augment = __webpack_require__(5);
+
+	var SceneGraph = function(sceneProperties) {
+	    var nodeCount = 1;
+
+	    //todo: move merge to helpers section
+	    function merge(parent, child) {
+	        for (var prop in child) {
+	            parent[prop] = child[prop];
+	        }
+	        return parent;
+	    }
+
+	    var SceneNode = augment.defclass({
+	        constructor: function(name) {
+	            nodeCount++;
+	            this.parent = null;
+	            this.children = {};
+	            this.id = nodeCount;
+	            this.name = 'n' + nodeCount;
+	            if (name != null) {
+	                this.name = name;
+	            }
+	            this.x = 0;
+	            this.y = 0;
+	            this.z = 0;
+	            this.width = 0;
+	            this.height = 0;
+	        },
+	        resize: function(width, height) {
+	            if (width != null) {
+	                this.width = width;
+	            }
+	            if (height != null) {
+	                this.height = height;
+	            }
+	        },
+	        moveTo: function(x, y, z) {
+	            this.x = x != null ? x : this.x;
+	            this.y = y != null ? y : this.y;
+	            this.z = z != null ? z : this.z;
+	        },
+	        add: function(child) {
+	            var name = child.name;
+	            if (this.children[name] == null) {
+	                this.children[name] = child;
+	                child.parent = this;
+	            } else {
+	                throw 'SceneGraph: child with that name already exists: ' + name;
+	            }
+	        }
+	    });
+
+	    var RootNode = augment(SceneNode, function(uber) {
+	        this.constructor = function() {
+	            uber.constructor.call(this, 'root');
+	            this.properties = sceneProperties;
+	        };
+	    });
+
+	    var Shape = augment(SceneNode, function(uber) {
+	        function constructor(name, props) {
+	            uber.constructor.call(this, name);
+	            this.properties = {
+	                fill: '#000'
+	            };
+	            if (props != null) {
+	                merge(this.properties, props);
+	            } else if (name != null && typeof name !== 'string') {
+	                throw 'SceneGraph: invalid node name';
+	            }
+	        }
+
+	        this.Group = augment.extend(this, {
+	            constructor: constructor,
+	            type: 'group'
+	        });
+
+	        this.Rect = augment.extend(this, {
+	            constructor: constructor,
+	            type: 'rect'
+	        });
+
+	        this.Text = augment.extend(this, {
+	            constructor: function(text) {
+	                constructor.call(this);
+	                this.properties.text = text;
+	            },
+	            type: 'text'
+	        });
+	    });
+
+	    var root = new RootNode();
+
+	    this.Shape = Shape;
+	    this.root = root;
+
+	    return this;
+	};
+
+	module.exports = SceneGraph;
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {/**
+	 * Shallow object clone and merge
+	 *
+	 * @param a Object A
+	 * @param b Object B
+	 * @returns {Object} New object with all of A's properties, and all of B's properties, overwriting A's properties
+	 */
+	exports.extend = function(a, b) {
+	    var c = {};
+	    for (var x in a) {
+	        if (a.hasOwnProperty(x)) {
+	            c[x] = a[x];
+	        }
+	    }
+	    if (b != null) {
+	        for (var y in b) {
+	            if (b.hasOwnProperty(y)) {
+	                c[y] = b[y];
+	            }
+	        }
+	    }
+	    return c;
+	};
+
+	/**
+	 * Takes a k/v list of CSS properties and returns a rule
+	 *
+	 * @param props CSS properties object
+	 */
+	exports.cssProps = function(props) {
+	    var ret = [];
+	    for (var p in props) {
+	        if (props.hasOwnProperty(p)) {
+	            ret.push(p + ':' + props[p]);
+	        }
+	    }
+	    return ret.join(';');
+	};
+
+	/**
+	 * Encodes HTML entities in a string
+	 *
+	 * @param str Input string
+	 */
+	exports.encodeHtmlEntity = function(str) {
+	    var buf = [];
+	    var charCode = 0;
+	    for (var i = str.length - 1; i >= 0; i--) {
+	        charCode = str.charCodeAt(i);
+	        if (charCode > 128) {
+	            buf.unshift(['&#', charCode, ';'].join(''));
+	        } else {
+	            buf.unshift(str[i]);
+	        }
+	    }
+	    return buf.join('');
+	};
+
+
+	/**
+	 * Converts a value into an array of DOM nodes
+	 *
+	 * @param val A string, a NodeList, a Node, or an HTMLCollection
+	 */
+	exports.getNodeArray = function(val) {
+	    var retval = null;
+	    if (typeof(val) == 'string') {
+	        retval = document.querySelectorAll(val);
+	    } else if (global.NodeList && val instanceof global.NodeList) {
+	        retval = val;
+	    } else if (global.Node && val instanceof global.Node) {
+	        retval = [val];
+	    } else if (global.HTMLCollection && val instanceof global.HTMLCollection) {
+	        retval = val;
+	    } else if (val instanceof Array) {
+	        retval = val;
+	    } else if (val === null) {
+	        retval = [];
+	    }
+	    return retval;
+	};
+
+	/**
+	 * Checks if an image exists
+	 *
+	 * @param src URL of image
+	 * @param callback Callback to call once image status has been found
+	 */
+	exports.imageExists = function(src, callback) {
+	    var image = new Image();
+	    image.onerror = function() {
+	        callback.call(this, false);
+	    };
+	    image.onload = function() {
+	        callback.call(this, true);
+	    };
+	    image.src = src;
+	};
+
+	/**
+	 * Decodes HTML entities in a string
+	 *
+	 * @param str Input string
+	 */
+	exports.decodeHtmlEntity = function(str) {
+	    return str.replace(/&#(\d+);/g, function(match, dec) {
+	        return String.fromCharCode(dec);
+	    });
+	};
+
+
+	/**
+	 * Returns an element's dimensions if it's visible, `false` otherwise.
+	 *
+	 * @param el DOM element
+	 */
+	exports.dimensionCheck = function(el) {
+	    var dimensions = {
+	        height: el.clientHeight,
+	        width: el.clientWidth
+	    };
+
+	    if (dimensions.height && dimensions.width) {
+	        return dimensions;
+	    } else {
+	        return false;
+	    }
+	};
+
+
+	/**
+	 * Returns true if value is truthy or if it is "semantically truthy"
+	 * @param val
+	 */
+	exports.truthy = function(val) {
+	    if (typeof val === 'string') {
+	        return val === 'true' || val === 'yes' || val === '1' || val === 'on' || val === '✓';
+	    }
+	    return !!val;
+	};
+
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	//Modified version of component/querystring
+	//Changes: updated dependencies, dot notation parsing, JSHint fixes
+	//Fork at https://github.com/imsky/querystring
+
+	/**
+	 * Module dependencies.
+	 */
+
+	var encode = encodeURIComponent;
+	var decode = decodeURIComponent;
+	var trim = __webpack_require__(6);
+	var type = __webpack_require__(7);
+
+	var arrayRegex = /(\w+)\[(\d+)\]/;
+	var objectRegex = /\w+\.\w+/;
+
+	/**
+	 * Parse the given query `str`.
+	 *
+	 * @param {String} str
+	 * @return {Object}
+	 * @api public
+	 */
+
+	exports.parse = function(str){
+	  if ('string' !== typeof str) return {};
+
+	  str = trim(str);
+	  if ('' === str) return {};
+	  if ('?' === str.charAt(0)) str = str.slice(1);
+
+	  var obj = {};
+	  var pairs = str.split('&');
+	  for (var i = 0; i < pairs.length; i++) {
+	    var parts = pairs[i].split('=');
+	    var key = decode(parts[0]);
+	    var m, ctx, prop;
+
+	    if (m = arrayRegex.exec(key)) {
+	      obj[m[1]] = obj[m[1]] || [];
+	      obj[m[1]][m[2]] = decode(parts[1]);
+	      continue;
+	    }
+
+	    if (m = objectRegex.test(key)) {
+	      m = key.split('.');
+	      ctx = obj;
+
+	      while (m.length) {
+	        prop = m.shift();
+
+	        if (!prop.length) continue;
+
+	        if (!ctx[prop]) {
+	          ctx[prop] = {};
+	        } else if (ctx[prop] && typeof ctx[prop] !== 'object') {
+	          break;
+	        }
+
+	        if (!m.length) {
+	          ctx[prop] = decode(parts[1]);
+	        }
+
+	        ctx = ctx[prop];
+	      }
+
+	      continue;
+	    }
+
+	    obj[parts[0]] = null == parts[1] ? '' : decode(parts[1]);
+	  }
+
+	  return obj;
+	};
+
+	/**
+	 * Stringify the given `obj`.
+	 *
+	 * @param {Object} obj
+	 * @return {String}
+	 * @api public
+	 */
+
+	exports.stringify = function(obj){
+	  if (!obj) return '';
+	  var pairs = [];
+
+	  for (var key in obj) {
+	    var value = obj[key];
+
+	    if ('array' == type(value)) {
+	      for (var i = 0; i < value.length; ++i) {
+	        pairs.push(encode(key + '[' + i + ']') + '=' + encode(value[i]));
+	      }
+	      continue;
+	    }
+
+	    pairs.push(encode(key) + '=' + encode(obj[key]));
+	  }
+
+	  return pairs.join('&');
+	};
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Factory = function () {};
+	var slice = Array.prototype.slice;
+
+	var augment = function (base, body) {
+		var uber = Factory.prototype = typeof base === "function" ? base.prototype : base;
+		var prototype = new Factory(), properties = body.apply(prototype, slice.call(arguments, 2).concat(uber));
+		if (typeof properties === "object") for (var key in properties) prototype[key] = properties[key];
+		if (!prototype.hasOwnProperty("constructor")) return prototype;
+		var constructor = prototype.constructor;
+		constructor.prototype = prototype;
+		return constructor;
+	};
+
+	augment.defclass = function (prototype) {
+		var constructor = prototype.constructor;
+		constructor.prototype = prototype;
+		return constructor;
+	};
+
+	augment.extend = function (base, body) {
+		return augment(base, function (uber) {
+			this.uber = uber;
+			return body;
+		});
+	};
+
+	module.exports = augment;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+
+	exports = module.exports = trim;
+
+	function trim(str){
+	  return str.replace(/^\s*|\s*$/g, '');
+	}
+
+	exports.left = function(str){
+	  return str.replace(/^\s*/, '');
+	};
+
+	exports.right = function(str){
+	  return str.replace(/\s*$/, '');
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * toString ref.
+	 */
+
+	var toString = Object.prototype.toString;
+
+	/**
+	 * Return the type of `val`.
+	 *
+	 * @param {Mixed} val
+	 * @return {String}
+	 * @api public
+	 */
+
+	module.exports = function(val){
+	  switch (toString.call(val)) {
+	    case '[object Date]': return 'date';
+	    case '[object RegExp]': return 'regexp';
+	    case '[object Arguments]': return 'arguments';
+	    case '[object Array]': return 'array';
+	    case '[object Error]': return 'error';
+	  }
+
+	  if (val === null) return 'null';
+	  if (val === undefined) return 'undefined';
+	  if (val !== val) return 'nan';
+	  if (val && val.nodeType === 1) return 'element';
+
+	  val = val.valueOf
+	    ? val.valueOf()
+	    : Object.prototype.valueOf.apply(val)
+
+	  return typeof val;
+	};
+
+
+/***/ }
+/******/ ])
 });
-if (typeof define === "function" && define.amd) {
-	define([], function () {
-		return app;
-	});
-}
-
-})(Holder, window);
+;
+(function(ctx, isMeteorPackage) {
+    if (isMeteorPackage) {
+        Holder = ctx.Holder;
+    }
+})(this, typeof Meteor !== 'undefined' && typeof Package !== 'undefined');
 
 /*
   Implement Github like autocomplete mentions
