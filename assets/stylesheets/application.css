@@ -13,6 +13,7 @@
 
 
 
+
 */
 body {
   padding-top: 100px;
@@ -13396,6 +13397,25 @@ li.list-group-header {
 .btn-yahoo .badge {
   color: rgba(0, 0, 0, 0.2);
   background-color: #fff;
+}
+.circle {
+  background-color: #e5e5e5;
+  color: #666666;
+  text-align: center;
+  height: 125px;
+  width: 125px;
+  border-radius: 50%;
+  padding: 45px 0;
+  margin: 10px auto;
+  cursor: pointer;
+}
+.circle:hover,
+.circle.droppable-hover {
+  background-color: #cccccc;
+  transition: all 0.3s ease-in-out 0s;
+}
+.circle a {
+  color: #666666;
 }
 .card {
   background-color: #F7F7F7;
