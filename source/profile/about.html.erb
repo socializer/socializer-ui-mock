@@ -1,12 +1,12 @@
 ---
-title: Profile - Socializer
+title: First Name - Socializer
 ---
 
 <p><strong>Example:</strong> this is an example of the Profile toolbar</p>
 <nav class="toolbar navbar navbar-toolbar navbar-default navbar-static-top" style="margin-bottom: 38px;">
   <ul class="nav navbar-nav">
-    <li><a href="profile/about.html">About</a></li>
-    <li class="active"><a href="#">Posts</a></li>
+    <li class="active"><a href="profile/about.html">About</a></li>
+    <li><a href="#">Posts</a></li>
     <li><a href="#">Collections</a></li>
     <li><a href="#">Photos</a></li>
     <li><a href="#">Videos</a></li>
@@ -14,12 +14,7 @@ title: Profile - Socializer
   </ul>
 </nav>
 
-<h1>Posts</h1>
-
-<h1>Collections</h1>
-
-<h1>Photos</h1>
-
-<h1>Videos</h1>
-
-<h1>Likes</h1>
+<div class="row">
+  <%= partial 'profile/about/people' %>
+  <%= partial 'profile/about/story' %>
+</div>
