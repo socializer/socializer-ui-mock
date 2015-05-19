@@ -3,10 +3,7 @@
 *= require bootstrap
 *= require todc-bootstrap
 *= require font-awesome
-*= require buttons
 *= require button-social
-*= require components/_circles
-*= require cards
 *= require jquery.atwho
 *= require select2
 *= require pikaday
@@ -15,7 +12,14 @@
 *= require jquery.qtip.overrides
 */
 @import "variables.less";
-@import "media.less";
+
+// Core CSS
+@import "buttons.less";
+
+// Components
+@import "components/_media.less";
+@import "components/_cards.less";
+@import "components/_circles.less";
 
 
 body {
