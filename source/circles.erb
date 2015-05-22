@@ -14,12 +14,21 @@ title: Circles - Socializer
   </ul>
 </nav>
 
-<h1>Find people</h1>
-<h2>Suggestions</h2>
-<%= partial 'circles/suggestions' %>
+<h2>
+  Suggestions
+  <p class="small">People you may know</p>
+</h2>
+
+<div class="row">
+  <%= partial 'circles/suggestions' %>
+</div>
 
 <h1>Have you in circles</h1>
-<%= partial 'circles/haveyou' %>
+<div class="row">
+  <%= partial 'circles/haveyou' %>
+</div>
 
 <h1>Your Circles</h1>
-<%= partial 'circles/circles' %>
+<div class="row">
+  <%= partial 'circles/circles' %>
+</div>
