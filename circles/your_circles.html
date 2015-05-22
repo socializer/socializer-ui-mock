@@ -9,7 +9,7 @@
     <!-- Use title if it's in the page YAML frontmatter -->
     <title>Circles - Socializer</title>
 
-    <link href="assets/stylesheets/application.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/stylesheets/application.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body>
@@ -372,66 +372,44 @@
           </div>
 
           <section class="activities">
-            <p><span><strong>Note: </strong></span>Find People, Suggestions, and Your circles should be separate pages</p>
-
-<p><strong>Example:</strong> this is an example of the Groups toolbar</p>
+            <p><strong>Example:</strong> this is an example of the Groups toolbar</p>
 <nav class="toolbar navbar navbar-toolbar navbar-default navbar-static-top" style="margin-bottom: 58px;">
   <ul class="nav navbar-nav">
-    <li class="active"><a href="/circles.html">Find people</a></li>
+    <li><a href="#">Find people</a></li>
     <li><a href="/circles/haveyou.html">Have you in circles</a></li>
-    <li><a href="/circles/your_circles.html">Your circles</a></li>
+    <li class="active"><a href="/circles/your_circles.html">Your circles</a></li>
     <li><a href="/circles/discover.html">Discover</a></li>
   </ul>
 </nav>
 
-<h2>
-  Suggestions
-  <p class="small">People you may know</p>
-</h2>
-
+<h2>Your Circles</h2>
 <div class="row">
-  <div class="col-sm-6 col-md-4">
-  <div class="panel panel-default">
-    <img alt="200x176" data-src="holder.js/200x176/acs" class='img-responsive'>
-    <div class="panel-body">
-      <h4>First Last</h4>
-      <p>
-        Tagline text ahould go here
-      </p>
-      <div class="text-center">
-        <a class="btn btn-default btn-block" href="#"><span class='fa fa-user-plus'></span> Add</a>
-      </div>
-    </div>
+  <div class="col-sm-6 col-md-3">
+  <div class="circle">
+    <a data-object-id="5" data-title="0 people in this circle" data-content="Your real friends, the ones you feel comfortable sharing private details with." href="/circles/5" data-hasqtip="102" aria-describedby="qtip-102">Friends</a>
+    <br>
+    <span class="circle-tie-count">0</span>
   </div>
 </div>
-
-  <div class="col-sm-6 col-md-4">
-  <div class="panel panel-default">
-    <img alt="200x176" data-src="holder.js/200x176/acs" class='img-responsive'>
-    <div class="panel-body">
-      <h4>First Last</h4>
-      <p>
-        Tagline text ahould go here
-      </p>
-      <div class="text-center">
-        <a class="btn btn-default btn-block" href="#"><span class='fa fa-user-plus'></span> Add</a>
-      </div>
-    </div>
+<div class="col-sm-6 col-md-3">
+  <div class="circle">
+    <a data-object-id="6" data-title="0 people in this circle" data-content="Your close and extended family, with as many or as few in-laws as you want." href="/circles/6" data-hasqtip="107">Family</a>
+    <br>
+    <span class="circle-tie-count">0</span>
   </div>
 </div>
-
-  <div class="col-sm-6 col-md-4">
-  <div class="panel panel-default">
-    <img alt="200x176" data-src="holder.js/200x176/acs" class='img-responsive'>
-    <div class="panel-body">
-      <h4>First Last</h4>
-      <p>
-        Tagline text ahould go here
-      </p>
-      <div class="text-center">
-        <a class="btn btn-default btn-block" href="#"><span class='fa fa-user-plus'></span> Add</a>
-      </div>
-    </div>
+<div class="col-sm-6 col-md-3">
+  <div class="circle">
+    <a data-object-id="7" data-title="0 people in this circle" data-content="A good place to stick people you've met but aren't particularly close to." href="/circles/7" data-hasqtip="112">Acquaintances</a>
+    <br>
+    <span class="circle-tie-count">0</span>
+  </div>
+</div>
+<div class="col-sm-6 col-md-3">
+  <div class="circle">
+    <a data-object-id="8" data-title="0 people in this circle" data-content="People you don't know personally, but whose posts you find interesting." href="/circles/8" data-hasqtip="117">Following</a>
+    <br>
+    <span class="circle-tie-count">0</span>
   </div>
 </div>
 
@@ -471,7 +449,7 @@
 
 
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
-    <script src="assets/javascripts/application.js" type="text/javascript"></script>
+    <script src="../assets/javascripts/application.js" type="text/javascript"></script>
     <script>
       Holder.addTheme('acs', { background: '#ccc', foreground: '#999', size: 12 })
       Holder.addTheme('dark', { background: '#000', foreground: '#aaa', size: 11, font: 'Monaco' })
