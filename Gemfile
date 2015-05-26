@@ -15,6 +15,3 @@ gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
 
 # Easy deployment of Middleman sites to Github Pages
 gem 'middleman-gh-pages', '~> 0.0.3'
-
-gem 'therubyracer', '~> 0.12.2'
-gem 'less', '~> 2.6.0'
