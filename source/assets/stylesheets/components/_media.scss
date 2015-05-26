@@ -2,19 +2,19 @@
 // Source: http://stubbornella.org/content/?p=497
 // --------------------------------------------------
 
-@media-color: @text-color;
-@media-image-width: 48px;
-@media-image-width-sm: 32px;
-@media-gutter: 10px;
-@media-font-size-h1: (@font-size-base + 2);
-@media-font-size-h2: @font-size-base;
+$media-color: $text-color;
+$media-image-width: 48px;
+$media-image-width-sm: 32px;
+$media-gutter: 10px;
+$media-font-size-h1: ($font-size-base + 2);
+$media-font-size-h2: $font-size-base;
 
 .media {
   display: table;
   width: 100%;
-  margin-bottom: @line-height-base;
+  margin-bottom: $line-height-base;
   padding-bottom: 5px;
-  // border-bottom: 1px solid transparentize(@media-color, .9);
+  // border-bottom: 1px solid transparentize($media-color, .9);
 
   &:last-child {
     padding-bottom: 0;
@@ -22,7 +22,7 @@
   }
 
   small {
-    font-size: @font-size-small;
+    font-size: $font-size-small;
   }
 
   &.panel {
@@ -37,19 +37,19 @@
 }
 
 .media-object {
-  padding-right: @media-gutter;
+  padding-right: $media-gutter;
 
   img {
-    width: @media-image-width;
+    width: $media-image-width;
     height: auto;
-    border-radius: @border-radius-base;
+    border-radius: $border-radius-base;
     display: block;
     max-width: none;
   }
 
   &.right-align {
     padding-right: 0;
-    padding-left: @media-gutter;
+    padding-left: $media-gutter;
   }
 }
 
@@ -58,23 +58,23 @@
 
   h1,
   h2 {
-    font-size: @media-font-size-h1;
+    font-size: $media-font-size-h1;
     margin-top: .2em;
     margin-bottom: .5em;
 
     a {
-      color: @gray-dark;
+      color: $gray-dark;
       &:hover {
-        color: lighten(@gray-dark, 20%);
+        color: lighten($gray-dark, 20%);
       }
       &.text-muted {
-        color: @text-muted;
+        color: $text-muted;
       }
     }
   }
 
   h2 {
-    font-size: @media-font-size-h2;
+    font-size: $media-font-size-h2;
     margin-top: 5px;
   }
 
@@ -87,13 +87,13 @@
 .media-sm {
   .media-object {
     img {
-      width: @media-image-width-sm;
+      width: $media-image-width-sm;
     }
   }
 
   .media-body {
     h1 {
-      font-size: @font-size-base;
+      font-size: $font-size-base;
     }
   }
 }

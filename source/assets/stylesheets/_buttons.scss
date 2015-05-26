@@ -14,9 +14,9 @@
   &:focus,
   &:active,
   &.active,
-  .open .dropdown-toggle& {
+  .open .dropdown-toggle & {
     color: #333;
-    // border: 1px solid darken(@border-color, 5%);
+    // border: 1px solid darken($border-color, 5%);
     background-image: none;
     background-color: #fafafa;
   }
