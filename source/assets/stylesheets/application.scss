@@ -11,15 +11,16 @@
 *= require jquery.qtip
 *= require jquery.qtip.overrides
 */
-@import "variables.less";
+
+@import "variables";
 
 // Core CSS
-@import "buttons.less";
+@import "buttons";
 
 // Components
-@import "components/_media.less";
-@import "components/_cards.less";
-@import "components/_circles.less";
+@import "components/_media";
+@import "components/_cards";
+@import "components/_circles";
 
 
 body {
