@@ -40,6 +40,7 @@ configure :development do
   activate :livereload
 end
 
+# middleman-deploy configuration
 head = `git log --pretty="%h" -n1`.strip
 commit_message = "Site updated to #{head}"
 
