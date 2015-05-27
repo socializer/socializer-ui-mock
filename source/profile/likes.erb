@@ -7,11 +7,11 @@ title: First Name - Socializer
 <p><strong>Example:</strong> this is an example of the Photos toolbar</p>
 <nav class="toolbar navbar navbar-toolbar navbar-default navbar-static-top" style="margin-bottom: 58px;">
   <ul class="nav navbar-nav">
-    <li><a href="/profile/about.html">About</a></li>
-    <li><a href="/profile.html">Posts</a></li>
-    <li><a href="/profile/collections.html">Collections</a></li>
-    <li><a href="/profile/photos.html">Photos</a></li>
-    <li><a href="/profile/videos.html">Videos</a></li>
-    <li class="active"><a href="/profile/likes.html">Likes</a></li>
+    <li><%= link_to('About', '/profile/about.html') %></li>
+    <li><%= link_to('Posts', '/profile.html') %></li>
+    <li><%= link_to('Collections', '/profile/collections.html') %></li>
+    <li><%= link_to('Photos', '/profile/photos.html') %></li>
+    <li><%= link_to('Videos', '/profile/videos.html') %></li>
+    <li class="active"><%= link_to('Likes', '/profile/likes.html') %></li>
   </ul>
 </nav>
