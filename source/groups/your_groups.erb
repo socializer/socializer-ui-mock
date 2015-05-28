@@ -1,12 +1,12 @@
 ---
-title: Groups - Socializer
+title: Circles - Socializer
 ---
 
 <p><strong>Example:</strong> this is an example of the Groups toolbar</p>
 <nav class="toolbar navbar navbar-toolbar navbar-default navbar-static-top" style="margin-bottom: 58px;">
   <ul class="nav navbar-nav">
-    <li class="active"><a href="#">All</a></li>
-    <li><%= link_to('Your groups', '/groups/your_groups.html') %></li>
+    <li><a href="#">All</a></li>
+    <li class="active"><%= link_to('Your groups', '/groups/your_groups.html') %></li>
     <li><a href="#">Memberships</a></li>
     <li><a href="#">Pending Invites</a></li>
     <li class='dropdown'>
@@ -20,9 +20,6 @@ title: Groups - Socializer
   </ul>
 </nav>
 
-<h2>Discover groups</h2>
-
 <div class="row">
-  <%= partial 'groups/joinable' %>
-  <%= partial 'groups/member' %>
+  <%= partial 'groups/group' %>
 </div>
