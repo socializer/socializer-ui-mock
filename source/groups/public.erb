@@ -1,0 +1,27 @@
+---
+title: Groups - Socializer
+---
+
+<p><strong>Example:</strong> this is an example of the Groups toolbar</p>
+<nav class="toolbar navbar navbar-toolbar navbar-default navbar-static-top" style="margin-bottom: 58px;">
+  <ul class="nav navbar-nav">
+    <li><%= link_to('All', '/groups.html') %></li>
+    <li><%= link_to('Your groups', '/groups/your_groups.html') %></li>
+    <li><%= link_to('Memberships', '/groups/memberships.html') %></li>
+    <li><%= link_to('Pending Invites', '/groups/pending_invites.html') %></li>
+    <li class='dropdown'>
+      <a href='#' class='dropdown-toggle' data-toggle='dropdown'>More <b class='fa fa-angle-down fa-fw'></b></a>
+      <ul class='dropdown-menu'>
+        <li class="active"><%= link_to('Public', '/groups/public.html') %></li>
+        <li><%= link_to('Restricted', '#') %></li>
+        <li><%= link_to('Joinable', '#') %></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<h2>Public groups</h2>
+
+<div class="row">
+  <%= partial 'groups/joinable' %>
+</div>
