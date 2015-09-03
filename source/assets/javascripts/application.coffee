@@ -2,7 +2,15 @@
 //= require tether
 //= require bootstrap-sprockets
 //= require _holder
-# //= require_tree .
+//= require _select2
+//= require _pikaday
+//= require _jquery.qtip
+//= require _jquery.datepair
+//= require _jquery.timepicker
+//= require _jquery.atwho
+//= require _jquery.caret
+//= require _event
+//= require _notes
 
 jQuery ->
   $("[title]").qtip
