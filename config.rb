@@ -79,6 +79,7 @@ configure :build do
   set :relative_links, true
 
   activate :sprockets
+  activate :autoprefixer
 
   # Or use a different image path
   # set :http_prefix, "/Content/images/"

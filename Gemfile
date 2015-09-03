@@ -16,7 +16,8 @@ gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
 # Easy deployment of Middleman sites to Github Pages
 gem 'middleman-deploy', '~> 1.0'
 
-gem "middleman-sprockets"
+gem 'middleman-sprockets'
+gem 'middleman-autoprefixer'
 
 # Bootstrap v4-dev
 gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
