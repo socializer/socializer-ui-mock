@@ -1,6 +1,7 @@
 //= require jquery
 //= require tether
 //= require bootstrap-sprockets
+//= require _holder
 # //= require_tree .
 
 jQuery ->
