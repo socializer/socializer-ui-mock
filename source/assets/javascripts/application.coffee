@@ -1,4 +1,7 @@
-//= require_tree .
+//= require jquery
+//= require tether
+//= require bootstrap-sprockets
+# //= require_tree .
 
 jQuery ->
   $("[title]").qtip

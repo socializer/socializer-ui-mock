@@ -15,3 +15,12 @@ gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
 
 # Easy deployment of Middleman sites to Github Pages
 gem 'middleman-deploy', '~> 1.0'
+
+gem "middleman-sprockets"
+
+# Bootstrap v4-dev
+gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.1.0'
+end
