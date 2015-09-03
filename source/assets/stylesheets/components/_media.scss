@@ -2,7 +2,7 @@
 // Source: http://stubbornella.org/content/?p=497
 // --------------------------------------------------
 
-$media-color: $text-color;
+$media-color: $body-color;
 $media-image-width: 48px;
 $media-image-width-sm: 32px;
 $media-gutter: 10px;
@@ -12,7 +12,7 @@ $media-font-size-h2: $font-size-base;
 .media {
   display: table;
   width: 100%;
-  margin-bottom: $line-height-base;
+  margin-bottom: $line-height;
   padding-bottom: 5px;
   // border-bottom: 1px solid transparentize($media-color, .9);
 
@@ -22,7 +22,7 @@ $media-font-size-h2: $font-size-base;
   }
 
   small {
-    font-size: $font-size-small;
+    font-size: $font-size-sm;
   }
 
   &.panel {
@@ -42,7 +42,7 @@ $media-font-size-h2: $font-size-base;
   img {
     width: $media-image-width;
     height: auto;
-    border-radius: $border-radius-base;
+    border-radius: $border-radius;
     display: block;
     max-width: none;
   }
