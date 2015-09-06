@@ -6,7 +6,7 @@ $media-color: $body-color;
 $media-image-width: 48px;
 $media-image-width-sm: 32px;
 $media-gutter: 10px;
-$media-font-size-h1: ($font-size-base + 2);
+$media-font-size-h1: ($font-size-base * 1.15);
 $media-font-size-h2: $font-size-base;
 
 .media {
