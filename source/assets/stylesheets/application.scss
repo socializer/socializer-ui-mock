@@ -20,6 +20,7 @@
 // @import "components/_cards";
 @import "components/_circles";
 @import "components/dropdown";
+@import "components/toolbar";
 
 
 
@@ -76,11 +77,6 @@ article footer {
   margin-right: 1px;
   margin-top: -6px;
   vertical-align: middle;
-}
-
-.toolbar {
-  top: 44px !important;
-  z-index: 1028 !important;
 }
 
 textarea.form-control.note-content-field {
