@@ -1,0 +1,6 @@
+.topbar {
+  @extend .navbar;
+  @extend .navbar-light;
+  @extend .bg-faded;
+  @extend .navbar-fixed-top;
+}
