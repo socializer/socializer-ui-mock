@@ -1,4 +1,8 @@
 .toolbar {
+  @extend .navbar;
+  @extend .navbar-light;
+  @extend .navbar-fixed-top;
+
   background-color: #fff;
   top: 54px !important;
   z-index: 1028 !important;
