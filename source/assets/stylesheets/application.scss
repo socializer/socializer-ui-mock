@@ -82,15 +82,19 @@ article footer {
 
 textarea.form-control.note-content-field {
   border: 1px solid #CCCCCC;
-  height: 30px;
+  height: 38px;
   margin-bottom: 5px;
-  padding: 5px;
+  padding: .375rem .75rem;
   resize: none;
 /*  width: 506px;*/
 }
 
 .select2-container-multi .select2-choices {
-  min-height: 30px !important;
+  min-height: 38px !important;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input {
+  height: 38px;
 }
 
 .comments-toggle {
