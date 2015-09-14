@@ -3,12 +3,12 @@ title: Circles - Socializer
 ---
 
 <p><strong>Example:</strong> this is an example of the Groups toolbar</p>
-<nav class="toolbar navbar navbar-toolbar navbar-default navbar-static-top" style="margin-bottom: 58px;">
+<nav class="navbar navbar-light bg-faded navbar-static-top" style="margin-bottom: 58px;">
   <ul class="nav navbar-nav">
-    <li><%= link_to('Find people', '/circles.html') %></li>
-    <li><%= link_to('Have you in circles', '/circles/haveyou.html') %></li>
-    <li><%= link_to('Your circles', '/circles/your_circles.html') %></li>
-    <li class="active"><%= link_to('Discover', '/circles/discover.html') %></li>
+    <li class="nav-item"><%= link_to('Find people', '/circles.html', class: "nav-link") %></li>
+    <li class="nav-item"><%= link_to('Have you in circles', '/circles/haveyou.html', class: "nav-link") %></li>
+    <li class="nav-item"><%= link_to('Your circles', '/circles/your_circles.html', class: "nav-link") %></li>
+    <li class="nav-item active"><%= link_to('Discover', '/circles/discover.html', class: "nav-link") %></li>
   </ul>
 </nav>
 
