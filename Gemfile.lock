@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/twbs/bootstrap-rubygem
-  revision: 5ef4dee608c93e6b3d7538500bbac4d05c79b94b
+  revision: f5594d59208f1c9b32954bef2f9e5f79bfc7e5c1
   specs:
     bootstrap (4.0.0.dev)
       autoprefixer-rails (>= 5.2.1.3)
@@ -16,10 +16,10 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
-    autoprefixer-rails (5.2.1.3)
+    autoprefixer-rails (6.0.2)
       execjs
       json
-    celluloid (0.16.1)
+    celluloid (0.16.0)
       timers (~> 4.0.0)
     chunky_png (1.3.4)
     coffee-script (2.4.1)
@@ -48,7 +48,7 @@ GEM
     haml (4.0.7)
       tilt
     hike (1.2.3)
-    hitimes (1.2.2)
+    hitimes (1.2.3)
     hooks (0.4.1)
       uber (~> 0.0.14)
     http_parser.rb (0.6.0)
@@ -70,8 +70,8 @@ GEM
       middleman-sprockets (>= 3.1.2)
       sass (>= 3.4.0, < 4.0)
       uglifier (~> 2.5)
-    middleman-autoprefixer (2.5.0)
-      autoprefixer-rails (~> 5.2.0)
+    middleman-autoprefixer (2.6.0)
+      autoprefixer-rails (~> 6.0.1)
       middleman-core (>= 3.3.3)
     middleman-core (3.3.12)
       activesupport (~> 4.1.0)
@@ -155,3 +155,6 @@ DEPENDENCIES
   rails-assets-tether (>= 1.1.0)!
   tzinfo-data
   wdm (~> 0.1.0)
+
+BUNDLED WITH
+   1.10.6
