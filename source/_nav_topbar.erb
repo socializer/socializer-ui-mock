@@ -1,80 +1,71 @@
-<nav class='navbar-masthead navbar-default navbar-fixed-top' role='navigation'>
+<nav class="top-bar" role='navigation'>
   <div class='container'>
-    <div class='row'>
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class='navbar-header col-sm-2'>
-        <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='#bs-example-navbar-collapse-1'>
-          <span class='sr-only'>Toggle navigation</span>
-          <span class='icon-bar'></span>
-          <span class='icon-bar'></span>
-          <span class='icon-bar'></span>
-        </button>
-        <a class='navbar-brand' href='#'>Socializer</a>
-      </div>
+    <div class="row">
+      <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#topbar">
+        &#9776;
+      </button>
+      <div class="collapse navbar-toggleable-xs" id="topbar">
+        <div class="col-sm-2">
+          <a class="navbar-brand" href="#">Socializer</a>
+        </div>
 
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
-        <div class='col-sm-6'>
-          <form class='navbar-form' role='search' style='margin-left: -30px;'>
-            <div class='input-group col-sm-12'>
-              <input class='form-control' type='search' placeholder='Search'>
-              <span class='input-group-btn'>
-                <button class='btn btn-primary' type='submit'><span class='fa fa-search'></span></button>
+        <div class="col-sm-7">
+          <form class="navbar-form">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search">
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">
+                  <span class='fa fa-search'></span>
+                </button>
               </span>
             </div>
           </form>
-
-          <!-- <form class='navbar-form' role='search' style='margin-left: -30px;'>
-            <div class='form-group'>
-              <input type='text' class='form-control' placeholder='Search'>
-            </div>
-            <button type='submit' class='btn btn-primary'><span class='fa fa-search'></span></button>
-          </form> -->
-
         </div>
-        <ul class='nav navbar-nav navbar-right'>
-          <li class='dropdown'>
-            <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-              <img class='navbar-avatar' alt='24x24' data-src='holder.js/24x24/acs'>
-              Joe User
-              <b class='fa fa-angle-down fa-fw'></b>
-            </a>
-            <ul class='dropdown-menu'>
-              <li><a href='#'>Action</a></li>
-              <li><a href='#'>Another action</a></li>
-              <li><a href='#'>Something else here</a></li>
-              <li class='divider'></li>
-              <li><a href='#'>Separated link</a></li>
-            </ul>
-          </li>
-          <li class='dropdown'>
-            <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-              <span style='font-size: 100%' class='label label-danger'>3</span>
-              <b class='fa fa-angle-down fa-fw'></b>
-            </a>
-            <ul class='dropdown-menu'>
-              <li><a href='#'>Action</a></li>
-              <li><a href='#'>Another action</a></li>
-              <li><a href='#'>Something else here</a></li>
-              <li class='divider'></li>
-              <li><a href='#'>Separated link</a></li>
-            </ul>
-          </li>
-          <li class='dropdown'>
-            <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-              <span class='fa fa-cog'></span>
-              <b class='fa fa-angle-down fa-fw'></b>
-            </a>
-            <ul class='dropdown-menu'>
-              <li><a href='#'>Action</a></li>
-              <li><a href='#'>Another action</a></li>
-              <li><a href='#'>Something else here</a></li>
-              <li class='divider'></li>
-              <li><a href='#'>Separated link</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.row -->
-  </div><!-- /.container-fluid -->
+
+        <div class="col-sm-3">
+          <ul class="nav navbar-nav pull-right">
+            <li class="nav-item dropdown">
+              <a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#" aria-haspopup="true" aria-expanded="false">
+                <img data-src="holder.js/24x24/acs" alt="24x24" class="navbar-avatar" style="width: 24px; height: 24px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20preserveAspectRatio%3D%22none%22%3E%3C!--%0ASource%20URL%3A%20holder.js%2F24x24%2Facs%0ACreated%20with%20Holder.js%202.7.1.%0ALearn%20more%20at%20http%3A%2F%2Fholderjs.com%0A(c)%202012-2015%20Ivan%20Malopinsky%20-%20http%3A%2F%2Fimsky.co%0A--%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%3C!%5BCDATA%5B%23holder_14f94177ee7%20text%20%7B%20fill%3A%23999%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A12pt%20%7D%20%5D%5D%3E%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_14f94177ee7%22%3E%3Crect%20width%3D%2224%22%20height%3D%2224%22%20fill%3D%22%23ccc%22%2F%3E%3Cg%3E%3Ctext%20x%3D%22-12.25%22%20y%3D%2234.2%22%3E24x24%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
+                Joe User
+                <b class="fa fa-angle-down fa-fw"></b>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#" aria-haspopup="true" aria-expanded="false">
+                <span class="label label-danger" style="font-size: 100%">3</span>
+                <b class="fa fa-angle-down fa-fw"></b>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#" aria-haspopup="true" aria-expanded="false">
+                <span class="fa fa-ellipsis-v fa-lg"></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </nav>

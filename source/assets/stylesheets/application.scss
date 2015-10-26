@@ -1,5 +1,5 @@
-@import "vendor/bootstrap";
-@import "vendor/todc-bootstrap";
+@import 'vendor/bootstrap-custom';
+// @import "vendor/todc-bootstrap";
 @import "vendor/font-awesome";
 @import "vendor/button-social";
 @import "vendor/jquery.atwho";
@@ -9,22 +9,31 @@
 @import "vendor/jquery.qtip";
 @import "jquery.qtip.overrides";
 
-// Configuration and helpers
-@import "utils/variables";
+// // Configuration and helpers
+// @import "utils/variables";
 
-// Core CSS
-@import "components/buttons";
+// // Core CSS
+// @import "components/buttons";
 
-// Components
+// // Components
 @import "components/_media";
-@import "components/_cards";
+// @import "components/_cards";
 @import "components/_circles";
+@import "components/dropdown";
+@import "components/side-nav";
+@import "components/top-bar";
+@import "components/toolbar";
+
 
 
 body {
-  padding-top: 100px;
+  padding-top: 125px;
 }
 
+
+.hidden {
+  display: none !important;
+}
 
 footer {
   border-top: 1px solid #CCCCCC;
@@ -72,22 +81,21 @@ article footer {
   vertical-align: middle;
 }
 
-.toolbar {
-  top: 44px !important;
-  z-index: 1028 !important;
-}
-
 textarea.form-control.note-content-field {
   border: 1px solid #CCCCCC;
-  height: 30px;
+  height: 38px;
   margin-bottom: 5px;
-  padding: 5px;
+  padding: .375rem .75rem;
   resize: none;
 /*  width: 506px;*/
 }
 
 .select2-container-multi .select2-choices {
-  min-height: 30px !important;
+  min-height: 38px !important;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input {
+  height: 38px;
 }
 
 .comments-toggle {

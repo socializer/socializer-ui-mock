@@ -3,19 +3,19 @@ title: Groups - Socializer
 ---
 
 <p><strong>Example:</strong> this is an example of the Groups toolbar</p>
-<nav class="toolbar navbar navbar-toolbar navbar-default navbar-static-top" style="margin-bottom: 58px;">
+<nav class="navbar navbar-light bg-faded navbar-static-top" style="margin-bottom: 58px;">
   <ul class="nav navbar-nav">
-    <li><%= link_to('All', '/groups.html') %></li>
-    <li><%= link_to('Your groups', '/groups/your_groups.html') %></li>
-    <li><%= link_to('Memberships', '/groups/memberships.html') %></li>
-    <li><%= link_to('Pending Invites', '/groups/pending_invites.html') %></li>
-    <li class='dropdown'>
-      <a href='#' class='dropdown-toggle' data-toggle='dropdown'>More <b class='fa fa-angle-down fa-fw'></b></a>
-      <ul class='dropdown-menu'>
-        <li><%= link_to('Public', '/groups/public.html') %></li>
-        <li class="active"><%= link_to('Restricted', '/groups/restricted.html') %></li>
-        <li><%= link_to('Joinable', '/groups/joinable.html') %></li>
-      </ul>
+    <li class="nav-item"><%= link_to('All', '/groups.html', class: "nav-link") %></li>
+    <li class="nav-item"><%= link_to('Your groups', '/groups/your_groups.html', class: "nav-link") %></li>
+    <li class="nav-item"><%= link_to('Memberships', '/groups/memberships.html', class: "nav-link") %></li>
+    <li class="nav-item"><%= link_to('Pending Invites', '/groups/pending_invites.html', class: "nav-link") %></li>
+    <li class='nav-item dropdown'>
+      <a href='#' class='nav-link dropdown-toggle active' data-toggle='dropdown'>More <b class='fa fa-angle-down fa-fw'></b></a>
+      <div class="dropdown-menu">
+        <%= link_to('Public', '/groups/public.html', class: "dropdown-item") %>
+        <%= link_to('Restricted', '/groups/restricted.html', class: "active dropdown-item") %>
+        <%= link_to('Joinable', '/groups/joinable.html', class: "dropdown-item") %>
+      </div>
     </li>
   </ul>
 </nav>
