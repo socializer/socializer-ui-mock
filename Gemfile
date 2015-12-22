@@ -1,22 +1,22 @@
-# If you do not have OpenSSL installed, update
-# the following line to use 'http://' instead
+# If you do not have OpenSSL installed, change
+# the following line to use 'http://'
 source 'https://rubygems.org'
 
-gem 'middleman', '~>3.4.1'
-
-# Live-reloading plugin
-gem 'middleman-livereload', '~> 3.4.5'
-
 # For faster file watcher updates on Windows:
-gem 'wdm', '~> 0.1.1', :platforms => [:mswin, :mingw]
+gem 'wdm', '~> 0.1.0', platforms: [:mswin, :mingw]
 
 # Windows does not come with time zone data
 gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
 
-# Easy deployment of Middleman sites to Github Pages
-gem 'middleman-deploy', '~> 1.0'
+# Middleman Gems
+gem 'middleman-sprockets', '>= 4.0.0.rc.1'
+gem 'middleman', '>= 4.0.0'
+gem 'middleman-livereload'
 
-gem 'middleman-sprockets'
+# Easy deployment of Middleman sites
+# gem 'middleman-deploy', '~> 2.0', '>= 2.0.0.pre.alpha'
+gem 'middleman-deploy', github: 'middleman-contrib/middleman-deploy'
+
 gem 'middleman-autoprefixer'
 
 # Bootstrap v4-dev
