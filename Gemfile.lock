@@ -149,7 +149,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap!
-  middleman (>= 4.0.0)
+  middleman (~> 4.0)
   middleman-autoprefixer
   middleman-deploy!
   middleman-livereload
