@@ -156,7 +156,7 @@ DEPENDENCIES
   middleman-sprockets (>= 4.0.0.rc.1)
   rails-assets-tether (>= 1.1.0)!
   tzinfo-data
-  wdm (~> 0.1.0)
+  wdm (~> 0.1.1)
 
 BUNDLED WITH
    1.11.2
