@@ -51,7 +51,16 @@ end
 activate :relative_assets
 
 activate :autoprefixer do |config|
-  config.browsers = ['last 2 versions', 'Explorer >= 9']
+  config.browsers = ['Chrome >= 35',
+                     'Firefox >= 31',
+                     'Edge >= 12',
+                     'Explorer >= 9',
+                     'iOS >= 8',
+                     'Safari >= 8',
+                     'Android 2.3',
+                     'Android >= 4',
+                     'Opera >= 12'
+                    ]
 end
 
 # middleman-deploy configuration
