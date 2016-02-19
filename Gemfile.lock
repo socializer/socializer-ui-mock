@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/twbs/bootstrap-rubygem
-  revision: 99b4f34210ade22ed22e9b009023c1b6799ec7e5
+  revision: 76dfa96d6a6f519abb00f27680fbafa2714900d5
   specs:
     bootstrap (4.0.0.alpha3)
       autoprefixer-rails (>= 6.0.3)
@@ -130,7 +130,7 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rails-assets-tether (1.1.1)
+    rails-assets-tether (1.2.0)
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
@@ -158,7 +158,7 @@ DEPENDENCIES
   middleman-deploy!
   middleman-livereload
   middleman-sprockets (>= 4.0.0.rc.1)
-  rails-assets-tether (>= 1.1.0)!
+  rails-assets-tether (>= 1.2.0)!
   tzinfo-data
   wdm (~> 0.1.1)
 
