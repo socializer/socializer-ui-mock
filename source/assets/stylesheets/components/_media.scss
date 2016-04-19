@@ -12,7 +12,7 @@ $media-font-size-h2: $font-size-base;
 .media {
   display: table;
   width: 100%;
-  margin-bottom: $line-height;
+  margin-bottom: $line-height-base;
   padding-bottom: 5px;
   // border-bottom: 1px solid transparentize($media-color, .9);
 
