@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/twbs/bootstrap-rubygem
-  revision: 66202d0d758b1b37036face7b9dc3400ad885243
+  revision: f6a7b7bf41ea628b61693597be299c4257f93079
   specs:
     bootstrap (4.0.0.alpha3)
       autoprefixer-rails (>= 6.0.3)
@@ -26,7 +26,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    autoprefixer-rails (6.3.6)
+    autoprefixer-rails (6.3.6.1)
       execjs
     backports (3.6.8)
     coffee-script (2.4.1)
@@ -42,7 +42,7 @@ GEM
       http_parser.rb (~> 0.6.0)
     erubis (2.7.0)
     eventmachine (1.2.0.1)
-    execjs (2.6.0)
+    execjs (2.7.0)
     fast_blank (1.0.0)
     fastimage (2.0.0)
       addressable (~> 2)
@@ -56,9 +56,9 @@ GEM
     i18n (0.7.0)
     json (1.8.3)
     kramdown (1.11.1)
-    listen (3.0.7)
-      rb-fsevent (>= 0.9.3)
-      rb-inotify (>= 0.9.7)
+    listen (3.0.8)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
     memoist (0.14.0)
     middleman (4.1.8)
       coffee-script (~> 2.2)
@@ -99,10 +99,10 @@ GEM
       em-websocket (~> 0.5.1)
       middleman-core (>= 3.3)
       rack-livereload (~> 0.3.15)
-    middleman-sprockets (4.0.0.rc.2)
+    middleman-sprockets (4.0.0.rc.3)
       middleman-core (~> 4.0)
       sprockets (>= 3.0)
-    minitest (5.8.4)
+    minitest (5.9.0)
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (3.1.1)
@@ -139,7 +139,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap!
-  middleman (~> 4.1.7)
+  middleman (~> 4.1.8)
   middleman-autoprefixer
   middleman-deploy!
   middleman-livereload
@@ -149,4 +149,4 @@ DEPENDENCIES
   wdm (~> 0.1.1)
 
 BUNDLED WITH
-   1.12.3
+   1.12.4
