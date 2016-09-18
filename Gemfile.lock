@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/middleman-contrib/middleman-deploy.git
+  remote: https://github.com/middleman-contrib/middleman-deploy.git
   revision: 243ab38b08896cd5a37d6845a01a5761b934a898
   specs:
     middleman-deploy (2.0.0.pre.alpha)
@@ -9,9 +9,9 @@ GIT
 
 GIT
   remote: https://github.com/twbs/bootstrap-rubygem
-  revision: 721b59662d029883cf08c377ab5b2f12ef41b3b3
+  revision: d527714693edb72688eb8c239228b2db66e56ded
   specs:
-    bootstrap (4.0.0.alpha3.1)
+    bootstrap (4.0.0.alpha4)
       autoprefixer-rails (>= 6.0.3)
       sass (>= 3.4.19)
 
@@ -26,7 +26,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    autoprefixer-rails (6.4.1)
+    autoprefixer-rails (6.4.1.1)
       execjs
     backports (3.6.8)
     coffee-script (2.4.1)
@@ -52,7 +52,7 @@ GEM
       tilt
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
-    hashie (3.4.4)
+    hashie (3.4.6)
     http_parser.rb (0.6.0)
     i18n (0.7.0)
     json (1.8.3)
@@ -151,4 +151,4 @@ DEPENDENCIES
   wdm (~> 0.1.1)
 
 BUNDLED WITH
-   1.12.5
+   1.13.1
