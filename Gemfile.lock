@@ -8,7 +8,7 @@ GIT
       ptools
 
 GIT
-  remote: https://github.com/twbs/bootstrap-rubygem
+  remote: https://github.com/twbs/bootstrap-rubygem.git
   revision: d527714693edb72688eb8c239228b2db66e56ded
   specs:
     bootstrap (4.0.0.alpha4)
