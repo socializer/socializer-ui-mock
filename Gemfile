@@ -28,5 +28,5 @@ gem 'middleman-autoprefixer'
 gem 'bootstrap', github: 'twbs/bootstrap-rubygem'
 
 source 'https://rails-assets.org' do
-  gem 'rails-assets-tether', '>= 1.3.7'
+  gem 'rails-assets-tether', '>= 1.3.8'
 end
