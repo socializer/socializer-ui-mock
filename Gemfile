@@ -25,7 +25,7 @@ gem 'middleman-deploy', github: 'middleman-contrib/middleman-deploy'
 gem 'middleman-autoprefixer'
 
 # Bootstrap v4-dev
-gem 'bootstrap', github: 'twbs/bootstrap-rubygem'
+gem 'bootstrap-sass'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.8'
