@@ -20,7 +20,8 @@ gem 'middleman-livereload'
 
 # Easy deployment of Middleman sites
 # gem 'middleman-deploy', '~> 2.0', '>= 2.0.0.pre.alpha'
-gem 'middleman-deploy', github: 'middleman-contrib/middleman-deploy'
+gem 'middleman-deploy', '~> 2.0.0.pre.alpha'
+# gem 'middleman-deploy', github: 'karlfreeman/middleman-deploy'
 
 gem 'middleman-autoprefixer'
 
