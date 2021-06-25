@@ -10,9 +10,9 @@ gem 'wdm', '~> 0.1.1', platforms: [:mswin, :mingw]
 gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
 
 # Middleman Gems
-gem 'middleman-sprockets', '>= 4.1.1'
-gem 'middleman', '~> 4.3.5'
+gem 'middleman', '~> 4.4.0'
 gem 'middleman-livereload'
+gem 'middleman-sprockets', '>= 4.1.1'
 
 # Easy deployment of Middleman sites
 # gem 'middleman-deploy', '~> 2.0', '>= 2.0.0.pre.alpha'
