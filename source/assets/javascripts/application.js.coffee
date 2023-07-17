@@ -1,4 +1,5 @@
 //= require jquery
+//= require jquery-migrate-3.4.0
 //= require tether
 //= require bootstrap-sprockets
 //= require _holder

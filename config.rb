@@ -72,3 +72,5 @@ activate :deploy do |deploy|
   deploy.deploy_method = :git
   deploy.commit_message = commit_message      # commit message (can be empty), default: Automated commit at `timestamp` by middleman-deploy `version`
 end
+
+activate :sprockets
