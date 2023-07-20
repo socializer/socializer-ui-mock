@@ -32,11 +32,11 @@ end
 #   end
 # end
 
-set :css_dir, 'assets/stylesheets'
-set :fonts_dir, 'assets/fonts'
-set :js_dir, 'assets/javascripts'
-set :images_dir, 'assets/images'
-set :relative_links, true
+config[:css_dir] = "assets/stylesheets"
+config[:fonts_dir] = "assets/fonts"
+config[:js_dir] = "assets/javascripts"
+config[:images_dir] = "assets/images"
+config[:relative_links] = true
 
 # Build-specific configuration
 configure :build do
@@ -51,16 +51,7 @@ end
 activate :relative_assets
 
 activate :autoprefixer do |config|
-  config.browsers = ['Chrome >= 35',
-                     'Firefox >= 31',
-                     'Edge >= 12',
-                     'Explorer >= 9',
-                     'iOS >= 8',
-                     'Safari >= 8',
-                     'Android 2.3',
-                     'Android >= 4',
-                     'Opera >= 12'
-                    ]
+  config.browsers = "last 2 versions"
 end
 
 # middleman-deploy configuration
