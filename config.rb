@@ -1,3 +1,8 @@
+activate :sprockets
+# activate :sprockets do |c|
+#   c.expose_middleman_helpers = true
+# end
+
 ###
 # Page options, layouts, aliases and proxies
 ###
@@ -20,11 +25,6 @@ page '/*.txt', layout: false
 # Helpers
 ###
 
-# Reload the browser automatically whenever files change
-configure :development do
-  activate :livereload, port: 35730
-end
-
 # Methods defined in the helpers block are available in templates
 # helpers do
 #   def some_helper
@@ -38,25 +38,15 @@ config[:js_dir] = "assets/javascripts"
 config[:images_dir] = "assets/images"
 config[:relative_links] = true
 
-# Build-specific configuration
-configure :build do
-  # Minify CSS on build
-  # activate :minify_css
-
-  # Minify Javascript on build
-  # activate :minify_javascript
-end
-
-# Use relative URLs
-activate :relative_assets
-
-activate :autoprefixer do |config|
-  config.browsers = "last 2 versions"
-end
+# activate :autoprefixer do |config|
+#   config.browsers = "last 2 versions"
+# end
 
 # middleman-deploy configuration
 head = `git log --pretty="%h" -n1`.strip
 commit_message = "Site updated to #{head}"
+
+# Build-specific configuration
 
 # github deploy
 activate :deploy do |deploy|
@@ -64,4 +54,13 @@ activate :deploy do |deploy|
   deploy.commit_message = commit_message      # commit message (can be empty), default: Automated commit at `timestamp` by middleman-deploy `version`
 end
 
-activate :sprockets
+configure :development do
+  activate :livereload, port: 35730
+end
+
+
+configure :build do
+#   activate :minify_css
+#   activate :minify_javascript
+    activate :relative_assets
+end
