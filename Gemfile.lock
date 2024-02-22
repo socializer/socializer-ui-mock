@@ -6,7 +6,7 @@ GEM
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.0.8)
+    activesupport (7.0.8.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -108,7 +108,7 @@ GEM
     parslet (2.0.0)
     ptools (1.5.0)
     public_suffix (5.0.4)
-    rack (2.2.8)
+    rack (2.2.8.1)
     rack-livereload (0.3.17)
       rack
     rb-fsevent (0.11.2)
