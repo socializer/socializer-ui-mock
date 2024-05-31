@@ -1,7 +1,8 @@
 # If you do not have OpenSSL installed, change
 # the following line to use 'http://'
 source "https://rubygems.org"
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
+ruby file: ".ruby-version"
 
 # Middleman Gems
 gem 'middleman', '~> 4.4'
@@ -9,8 +10,8 @@ gem 'middleman-livereload'
 gem "middleman-sprockets", "~> 4.0.0"
 
 # Easy deployment of Middleman sites
-# gem 'middleman-deploy', '~> 2.0', '>= 2.0.0.pre.alpha'
-gem 'middleman-deploy', '~> 2.0.0.pre.alpha'
+#  TODO: Middleman -deploy doesn't seem to work with Ruby 3.x
+# gem 'middleman-deploy', '~> 2.0.0.pre.alpha'
 # gem 'middleman-deploy', github: 'karlfreeman/middleman-deploy'
 
 # gem 'middleman-autoprefixer'

@@ -49,10 +49,10 @@ commit_message = "Site updated to #{head}"
 # Build-specific configuration
 
 # github deploy
-activate :deploy do |deploy|
-  deploy.deploy_method = :git
-  deploy.commit_message = commit_message      # commit message (can be empty), default: Automated commit at `timestamp` by middleman-deploy `version`
-end
+# activate :deploy do |deploy|
+#   deploy.deploy_method = :git
+#   deploy.commit_message = commit_message      # commit message (can be empty), default: Automated commit at `timestamp` by middleman-deploy `version`
+# end
 
 configure :development do
   activate :livereload, port: 35730
