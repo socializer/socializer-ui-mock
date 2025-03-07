@@ -5,9 +5,9 @@ source "https://rubygems.org"
 ruby file: ".ruby-version"
 
 # Middleman Gems
-gem 'middleman', '~> 4.4'
+gem 'middleman', '~> 4.6'
 gem 'middleman-livereload'
-gem "middleman-sprockets", "~> 4.0.0"
+gem "middleman-sprockets"
 
 # Easy deployment of Middleman sites
 #  TODO: Middleman -deploy doesn't seem to work with Ruby 3.x
