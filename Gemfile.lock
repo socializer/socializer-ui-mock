@@ -139,7 +139,7 @@ GEM
       concurrent-ruby (~> 1.0)
       logger
       rack (>= 2.2.4, < 4)
-    temple (0.10.3)
+    temple (0.10.4)
     thor (1.4.0)
     tilt (2.6.1)
     toml (0.3.0)
