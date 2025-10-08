@@ -1,10 +1,5 @@
 GEM
-  remote: https://rails-assets.org/
-  specs:
-    rails-assets-tether (2.0.0)
-
-GEM
-  remote: https://rubygems.org/
+  remote: https://gem.coop/
   specs:
     activesupport (7.2.2.2)
       base64
@@ -24,7 +19,7 @@ GEM
       execjs (~> 2)
     base64 (0.3.0)
     benchmark (0.4.1)
-    bigdecimal (3.2.3)
+    bigdecimal (3.3.0)
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
@@ -113,7 +108,7 @@ GEM
     middleman-sprockets (4.1.1)
       middleman-core (~> 4.0)
       sprockets (>= 3.0)
-    minitest (5.25.5)
+    minitest (5.26.0)
     padrino-helpers (0.15.3)
       i18n (>= 0.6.7, < 2)
       padrino-support (= 0.15.3)
@@ -122,7 +117,7 @@ GEM
     parallel (1.27.0)
     parslet (2.0.0)
     public_suffix (6.0.2)
-    rack (3.1.16)
+    rack (3.1.17)
     rack-livereload (0.6.1)
       rack (>= 3.0, < 3.2)
     rackup (2.2.1)
@@ -149,6 +144,11 @@ GEM
     uglifier (4.2.1)
       execjs (>= 0.3.0, < 3)
     webrick (1.9.1)
+
+GEM
+  remote: https://rails-assets.org/
+  specs:
+    rails-assets-tether (2.0.0)
 
 PLATFORMS
   aarch64-linux-gnu
