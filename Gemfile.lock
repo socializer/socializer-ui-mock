@@ -134,7 +134,7 @@ GEM
       ffi (~> 1.9)
     securerandom (0.4.1)
     servolux (0.13.0)
-    sprockets (4.4.0)
+    sprockets (4.4.1)
       concurrent-ruby (~> 1.1)
       logger
       rack (>= 2.2.4, < 4)
