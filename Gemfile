@@ -27,6 +27,6 @@ gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
 gem 'bootstrap-sass'
 # gem 'bootstrap', '~> 4.5.3'
 
-source 'https://rails-assets.org' do
-  gem 'rails-assets-tether', '>= 1.3.8'
-end
+# source 'https://rails-assets.org' do
+#   gem 'rails-assets-tether', '>= 1.3.8'
+# end
